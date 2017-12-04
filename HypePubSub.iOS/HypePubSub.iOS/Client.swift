@@ -2,12 +2,19 @@
 //  Client.swift
 //  HypePubSub.iOS
 //
-//  Created by Xavier Araújo on 04/12/2017.
-//  Copyright © 2017 Xavier Araújo. All rights reserved.
-//
 
 import Foundation
 
-class Client {
+
+class Client
+{
+    var instance: HYPInstance
+    var key: Data
     
+    init(instance: HYPInstance)
+    {
+        self.instance = instance
+        self.key = HpbGenericUtils.byteArrayHash(data: (instance.identifier))
+    }
 }
+

@@ -14,9 +14,23 @@
 		258EA7BB1FD54A8900656ECE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 258EA7B91FD54A8900656ECE /* LaunchScreen.storyboard */; };
 		258EA7C61FD54A8900656ECE /* HypePubSub_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA7C51FD54A8900656ECE /* HypePubSub_iOSTests.swift */; };
 		258EA7D11FD54A8900656ECE /* HypePubSub_iOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA7D01FD54A8900656ECE /* HypePubSub_iOSUITests.swift */; };
-		258EA7DF1FD54C0600656ECE /* Hype.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 258EA7DE1FD54C0600656ECE /* Hype.framework */; };
-		258EA7E01FD54C0600656ECE /* Hype.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 258EA7DE1FD54C0600656ECE /* Hype.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		258EA7E31FD54C2C00656ECE /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA7E21FD54C2C00656ECE /* Client.swift */; };
+		25C608DD1FD56343004758C3 /* Hype.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25C608DC1FD56343004758C3 /* Hype.framework */; };
+		25C608E01FD5634F004758C3 /* Hype.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 25C608DE1FD5634F004758C3 /* Hype.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		25C608E21FD56C6C004758C3 /* HpbGenericUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608E11FD56C6C004758C3 /* HpbGenericUtils.swift */; };
+		25C608E41FD57276004758C3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608E31FD57276004758C3 /* Constants.swift */; };
+		25C608E61FD5953A004758C3 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608E51FD5953A004758C3 /* Network.swift */; };
+		25C608E81FD59886004758C3 /* ClientsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608E71FD59886004758C3 /* ClientsList.swift */; };
+		25C608EA1FD59F36004758C3 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608E91FD59F36004758C3 /* ServiceManager.swift */; };
+		25C608EC1FD5A0F5004758C3 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608EB1FD5A0F5004758C3 /* Subscription.swift */; };
+		25C608EE1FD5A2B6004758C3 /* SubscriptionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608ED1FD5A2B6004758C3 /* SubscriptionsList.swift */; };
+		25C608F01FD5A2C5004758C3 /* ServiceManagersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608EF1FD5A2C5004758C3 /* ServiceManagersList.swift */; };
+		25C608F21FD5A42D004758C3 /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608F11FD5A42D004758C3 /* Protocol.swift */; };
+		25C608F41FD5AA64004758C3 /* HypePubSub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608F31FD5AA64004758C3 /* HypePubSub.swift */; };
+		25C608F61FD5AA77004758C3 /* HypeSdkInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608F51FD5AA77004758C3 /* HypeSdkInterface.swift */; };
+		25C608F81FD5AADE004758C3 /* HpbMessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608F71FD5AADE004758C3 /* HpbMessageType.swift */; };
+		25C608FA1FD5AB34004758C3 /* HpbMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608F91FD5AB34004758C3 /* HpbMessage.swift */; };
+		25C608FC1FD5AE2F004758C3 /* BinaryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608FB1FD5AE2F004758C3 /* BinaryUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,7 +57,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				258EA7E01FD54C0600656ECE /* Hype.framework in Embed Frameworks */,
+				25C608E01FD5634F004758C3 /* Hype.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -64,9 +78,24 @@
 		258EA7CC1FD54A8900656ECE /* HypePubSub.iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HypePubSub.iOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		258EA7D01FD54A8900656ECE /* HypePubSub_iOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypePubSub_iOSUITests.swift; sourceTree = "<group>"; };
 		258EA7D21FD54A8900656ECE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		258EA7DE1FD54C0600656ECE /* Hype.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Hype.framework; path = ../Hype.framework; sourceTree = "<group>"; };
 		258EA7E21FD54C2C00656ECE /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
 		258EA7E41FD5512600656ECE /* HypePubSub.iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HypePubSub.iOS-Bridging-Header.h"; sourceTree = "<group>"; };
+		25C608DC1FD56343004758C3 /* Hype.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Hype.framework; path = "../../../../Downloads/platform/ios/build/Build/Products/Debug-universal/Hype.framework"; sourceTree = "<group>"; };
+		25C608DE1FD5634F004758C3 /* Hype.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Hype.framework; sourceTree = "<group>"; };
+		25C608E11FD56C6C004758C3 /* HpbGenericUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HpbGenericUtils.swift; sourceTree = "<group>"; };
+		25C608E31FD57276004758C3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		25C608E51FD5953A004758C3 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		25C608E71FD59886004758C3 /* ClientsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientsList.swift; sourceTree = "<group>"; };
+		25C608E91FD59F36004758C3 /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
+		25C608EB1FD5A0F5004758C3 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
+		25C608ED1FD5A2B6004758C3 /* SubscriptionsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionsList.swift; sourceTree = "<group>"; };
+		25C608EF1FD5A2C5004758C3 /* ServiceManagersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManagersList.swift; sourceTree = "<group>"; };
+		25C608F11FD5A42D004758C3 /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
+		25C608F31FD5AA64004758C3 /* HypePubSub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypePubSub.swift; sourceTree = "<group>"; };
+		25C608F51FD5AA77004758C3 /* HypeSdkInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypeSdkInterface.swift; sourceTree = "<group>"; };
+		25C608F71FD5AADE004758C3 /* HpbMessageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HpbMessageType.swift; sourceTree = "<group>"; };
+		25C608F91FD5AB34004758C3 /* HpbMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HpbMessage.swift; sourceTree = "<group>"; };
+		25C608FB1FD5AE2F004758C3 /* BinaryUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				258EA7DF1FD54C0600656ECE /* Hype.framework in Frameworks */,
+				25C608DD1FD56343004758C3 /* Hype.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,11 +127,12 @@
 		258EA7A41FD54A8900656ECE = {
 			isa = PBXGroup;
 			children = (
-				258EA7DE1FD54C0600656ECE /* Hype.framework */,
+				25C608DE1FD5634F004758C3 /* Hype.framework */,
 				258EA7AF1FD54A8900656ECE /* HypePubSub.iOS */,
 				258EA7C41FD54A8900656ECE /* HypePubSub.iOSTests */,
 				258EA7CF1FD54A8900656ECE /* HypePubSub.iOSUITests */,
 				258EA7AE1FD54A8900656ECE /* Products */,
+				25C608DB1FD56343004758C3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -127,6 +157,20 @@
 				258EA7BC1FD54A8900656ECE /* Info.plist */,
 				258EA7E21FD54C2C00656ECE /* Client.swift */,
 				258EA7E41FD5512600656ECE /* HypePubSub.iOS-Bridging-Header.h */,
+				25C608E11FD56C6C004758C3 /* HpbGenericUtils.swift */,
+				25C608E31FD57276004758C3 /* Constants.swift */,
+				25C608E51FD5953A004758C3 /* Network.swift */,
+				25C608E71FD59886004758C3 /* ClientsList.swift */,
+				25C608E91FD59F36004758C3 /* ServiceManager.swift */,
+				25C608EB1FD5A0F5004758C3 /* Subscription.swift */,
+				25C608ED1FD5A2B6004758C3 /* SubscriptionsList.swift */,
+				25C608EF1FD5A2C5004758C3 /* ServiceManagersList.swift */,
+				25C608F11FD5A42D004758C3 /* Protocol.swift */,
+				25C608F31FD5AA64004758C3 /* HypePubSub.swift */,
+				25C608F51FD5AA77004758C3 /* HypeSdkInterface.swift */,
+				25C608F71FD5AADE004758C3 /* HpbMessageType.swift */,
+				25C608F91FD5AB34004758C3 /* HpbMessage.swift */,
+				25C608FB1FD5AE2F004758C3 /* BinaryUtils.swift */,
 			);
 			path = HypePubSub.iOS;
 			sourceTree = "<group>";
@@ -147,6 +191,14 @@
 				258EA7D21FD54A8900656ECE /* Info.plist */,
 			);
 			path = HypePubSub.iOSUITests;
+			sourceTree = "<group>";
+		};
+		25C608DB1FD56343004758C3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				25C608DC1FD56343004758C3 /* Hype.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -285,9 +337,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25C608F01FD5A2C5004758C3 /* ServiceManagersList.swift in Sources */,
+				25C608E41FD57276004758C3 /* Constants.swift in Sources */,
+				25C608E21FD56C6C004758C3 /* HpbGenericUtils.swift in Sources */,
+				25C608E61FD5953A004758C3 /* Network.swift in Sources */,
+				25C608EA1FD59F36004758C3 /* ServiceManager.swift in Sources */,
+				25C608F81FD5AADE004758C3 /* HpbMessageType.swift in Sources */,
 				258EA7B31FD54A8900656ECE /* ViewController.swift in Sources */,
+				25C608F61FD5AA77004758C3 /* HypeSdkInterface.swift in Sources */,
 				258EA7B11FD54A8900656ECE /* AppDelegate.swift in Sources */,
+				25C608EE1FD5A2B6004758C3 /* SubscriptionsList.swift in Sources */,
+				25C608FA1FD5AB34004758C3 /* HpbMessage.swift in Sources */,
+				25C608EC1FD5A0F5004758C3 /* Subscription.swift in Sources */,
+				25C608E81FD59886004758C3 /* ClientsList.swift in Sources */,
 				258EA7E31FD54C2C00656ECE /* Client.swift in Sources */,
+				25C608F21FD5A42D004758C3 /* Protocol.swift in Sources */,
+				25C608F41FD5AA64004758C3 /* HypePubSub.swift in Sources */,
+				25C608FC1FD5AE2F004758C3 /* BinaryUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,6 +522,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QTJVAFR6MR;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "$(PROJECT_DIR)/**";
 				INFOPLIST_FILE = HypePubSub.iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "hypelabs.HypePubSub-iOS";
@@ -474,6 +545,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QTJVAFR6MR;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "$(PROJECT_DIR)/**";
 				INFOPLIST_FILE = HypePubSub.iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "hypelabs.HypePubSub-iOS";
