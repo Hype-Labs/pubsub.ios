@@ -9,7 +9,7 @@ import os
 
 class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessageObserver
 {
-    let HYPE_SDK_INTERFACE_LOG_PREFIX = HpbConstants.LOG_PREFIX + "<HypeSdkInterface> ";
+    let HYPE_SDK_INTERFACE_LOG_PREFIX = HpsConstants.LOG_PREFIX + "<HypeSdkInterface> ";
     let network:Network = Network.getInstance()
     
     static private let hypeSdk = HypeSdkInterface() // Early loading to avoid thread-safety issues
@@ -25,8 +25,8 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     internal func requestHypeToStart()
     {
         HYP.setUserIdentifier(0);
-        HYP.setAppIdentifier(HpbConstants.APP_IDENTIFIER);
-        HYP.setAnnouncement(UIDevice.current.name.data(using: HpbConstants.ENCODING_STANDARD))
+        HYP.setAppIdentifier(HpsConstants.APP_IDENTIFIER);
+        HYP.setAnnouncement(UIDevice.current.name.data(using: HpsConstants.ENCODING_STANDARD))
         HYP.add(self as HYPStateObserver)
         HYP.add(self as HYPNetworkObserver)
         HYP.add(self as HYPMessageObserver)
@@ -49,7 +49,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     {
         os_log("%@ Hype SDK started! Host Instance: %@", log: OSLog.default, type: .info,
                HYPE_SDK_INTERFACE_LOG_PREFIX,
-               HpbGenericUtils.getInstanceLogIdStr(HYP.hostInstance()))
+               HpsGenericUtils.getInstanceLogIdStr(HYP.hostInstance()))
         
         network.setOwnClient(ownInstance: HYP.hostInstance())
     }
@@ -90,7 +90,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     
     func hypeDidFind(_ instance: HYPInstance)
     {
-        let instanceLogIdStr = HpbGenericUtils.getInstanceLogIdStr(instance)
+        let instanceLogIdStr = HpsGenericUtils.getInstanceLogIdStr(instance)
         
         if(!instance.isResolved)
         {
@@ -123,7 +123,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     func hypeDidLose(_ instance: HYPInstance, error: HYPError)
     {
         os_log("%@ Hype SDK instance lost: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, HpbGenericUtils.getInstanceLogIdStr(instance))
+               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getInstanceLogIdStr(instance))
         
         /*
         // Remove the instance lost in a separate thread to release the lock of the
@@ -151,7 +151,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     func hypeDidResolve(_ instance: HYPInstance)
     {
         os_log("%@ Hype SDK instance resolved: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, HpbGenericUtils.getInstanceLogIdStr(instance))
+               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getInstanceLogIdStr(instance))
         /*
         // Add instance in a separate thread to prevent deadlock
         final Instance instanceFound = var1;
@@ -168,7 +168,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     func hypeDidFailResolving(_ instance: HYPInstance, error: HYPError)
     {
         os_log("%@ Hype SDK instance fail resolving: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, HpbGenericUtils.getInstanceLogIdStr(instance))
+               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getInstanceLogIdStr(instance))
     }
     
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -183,7 +183,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     func hypeDidFailSendingMessage(_ messageInfo: HYPMessageInfo, to toInstance: HYPInstance, error: HYPError)
     {
         os_log("%@ Hype SDK message failed sending to: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, HpbGenericUtils.getInstanceLogIdStr(toInstance))
+               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getInstanceLogIdStr(toInstance))
         os_log("%@ Hype SDK message failed sending error. Suggestion: %@", log: OSLog.default, type: .info,
                HYPE_SDK_INTERFACE_LOG_PREFIX, error.suggestion)
         os_log("%@ Hype SDK message failed sending error. Description: %@", log: OSLog.default, type: .info,

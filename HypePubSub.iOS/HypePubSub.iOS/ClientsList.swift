@@ -38,7 +38,7 @@ class ClientsList
     while(it.hasNext())
     {
     Client currentClient = it.next();
-    if(HpbGenericUtils.areInstancesEqual(currentClient.instance, instance)) {
+    if(HpsGenericUtils.areInstancesEqual(currentClient.instance, instance)) {
     return currentClient;
     }
     }

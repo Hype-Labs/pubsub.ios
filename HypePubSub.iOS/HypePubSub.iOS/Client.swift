@@ -14,7 +14,7 @@ class Client
     init(instance: HYPInstance)
     {
         self.instance = instance
-        self.key = HpbGenericUtils.byteArrayHash(data: (instance.identifier))
+        self.key = HpsGenericUtils.byteArrayHash(data: (instance.identifier))
     }
 }
 

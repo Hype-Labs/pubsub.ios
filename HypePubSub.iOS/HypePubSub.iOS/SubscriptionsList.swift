@@ -14,7 +14,7 @@ class SubscriptionsList
     
     public synchronized int add(String serviceName, Instance managerInstance) throws NoSuchAlgorithmException
 {
-    MessageDigest md = MessageDigest.getInstance(HpbConstants.HASH_ALGORITHM);
+    MessageDigest md = MessageDigest.getInstance(HpsConstants.HASH_ALGORITHM);
     byte serviceKey[] = md.digest(serviceName.getBytes());
     
     if(find(serviceKey) != null) {
@@ -27,7 +27,7 @@ class SubscriptionsList
     
     public synchronized int remove(String serviceName) throws NoSuchAlgorithmException
 {
-    MessageDigest md = MessageDigest.getInstance(HpbConstants.HASH_ALGORITHM);
+    MessageDigest md = MessageDigest.getInstance(HpsConstants.HASH_ALGORITHM);
     byte serviceKey[] = md.digest(serviceName.getBytes());
     
     Subscription subscription = find(serviceKey);

@@ -6,52 +6,51 @@
 import Foundation
 
 
-class HpbMessage
+class HpsMessage
 {
-    private var type: HpbMessageType
+    private var type: HpsMessageType
     private var serviceKey: Data
     private var info: String?
     
-    public init(type: HpbMessageType, serviceKey: Data, info: String)
+    public init(type: HpsMessageType, serviceKey: Data, info: String)
     {
         self.type = type
         self.serviceKey = serviceKey
         self.info = info;
     }
     
-    public init(type: HpbMessageType, serviceKey: Data)
+    public init(type: HpsMessageType, serviceKey: Data)
     {
         self.type = type
         self.serviceKey = serviceKey
         self.info = nil
     }
     
-    /*
     public func toByteArray() -> Data
     {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
-        outputStream.write((byte) type.ordinal());
-        outputStream.write(serviceKey);
-        if(info != null)
-        {
-            outputStream.write(info.getBytes(HpbConstants.ENCODING_STANDARD));
+        var msgData = Data()
+        msgData.append(type.toOrdinal())
+        msgData.append(serviceKey)
+        
+        if(info != nil){
+            msgData.append(info!.data(using: HpsConstants.ENCODING_STANDARD)!)
         }
-        return outputStream.toByteArray();
+
+        return msgData
     }
-    */
     
-    /*
     public func toLogString() -> String
     {
         var logString: String = type.toString() + " message for service 0x"
         + BinaryUtils.byteArrayToHexString(serviceKey) + ".";
         if(info != nil) {
-            logString += " Info: " + info + ".";
+            logString += " Info: " + info! + ".";
         }
+        
+        return logString
     }
-     */
     
-    public func getType() -> HpbMessageType
+    public func getType() -> HpsMessageType
     {
         return type;
     }
