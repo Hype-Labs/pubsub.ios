@@ -9,72 +9,80 @@ class SubscriptionsList
 {
     var subscriptions = [Subscription]()
     
-    /*
-    private SubscriptionsAdapter subscriptionsAdapter = null;
+    private let subscriptionsListSyncQueue = DispatchQueue(label: "com.hypelabs.hypepubsub.clientslist.subscriptionslistsyncqueue")
     
-    public synchronized int add(String serviceName, Instance managerInstance) throws NoSuchAlgorithmException
-{
-    MessageDigest md = MessageDigest.getInstance(HpsConstants.HASH_ALGORITHM);
-    byte serviceKey[] = md.digest(serviceName.getBytes());
-    
-    if(find(serviceKey) != null) {
-    return -1;
-    }
-    
-    subscriptions.add(new Subscription(serviceName, managerInstance));
-    return 0;
-    }
-    
-    public synchronized int remove(String serviceName) throws NoSuchAlgorithmException
-{
-    MessageDigest md = MessageDigest.getInstance(HpsConstants.HASH_ALGORITHM);
-    byte serviceKey[] = md.digest(serviceName.getBytes());
-    
-    Subscription subscription = find(serviceKey);
-    if(subscription == null) {
-    return -1;
-    }
-    
-    subscriptions.remove(subscription);
-    return 0;
-    }
-    
-    public synchronized Subscription find(byte serviceKey[])
-{
-    ListIterator<Subscription> it = listIterator();
-    while(it.hasNext())
+    public func add(serviceName: String, managerInstance: HYPInstance)
     {
-    Subscription currentSubs = it.next();
-    if(Arrays.equals(currentSubs.serviceKey, serviceKey)) {
-    return currentSubs;
-    }
-    }
-    return null;
-    }
-    
-    // Methods from LinkedList that we want to enable.
-    public synchronized ListIterator<Subscription> listIterator()
-{
-    return subscriptions.listIterator();
+        let serviceKey = HpsGenericUtils.stringHash(serviceName)
+        subscriptionsListSyncQueue.sync
+        {
+            let (subscription, _) = find(serviceKey)
+            if(subscription != nil){ // do not add the client if it is already present
+                return ;
+            }
+            
+            subscriptions.append(Subscription(serviceName, managerInstance));
+        }
     }
     
-    public synchronized int size()
-{
-    return subscriptions.size();
+    public func remove(serviceName: String)
+    {
+        let serviceKey = HpsGenericUtils.stringHash(serviceName)
+        subscriptionsListSyncQueue.sync
+        {
+            let (subscription, subscriptionArrayPosition) = find(serviceKey);
+            if(subscription == nil){
+                return;
+            }
+        
+            subscriptions.remove(at: subscriptionArrayPosition);
+        }
     }
     
-    public synchronized Subscription get(int index)
-{
-    return subscriptions.get(index);
+    public func find(_ serviceKey: Data) -> (Subscription?, Int)
+    {
+        var subscription:Subscription?
+        var subscriptionArrayPosition = -1;
+        
+        subscriptionsListSyncQueue.sync
+        {
+            for i in 0..<subscriptions.count
+            {
+                let currentSubscription = subscriptions[i]
+                if(currentSubscription.serviceKey == serviceKey)
+                {
+                    subscription = currentSubscription
+                    subscriptionArrayPosition = i
+                    return
+                }
+            }
+            subscription = nil
+        }
+        return (subscription, subscriptionArrayPosition)
     }
     
-    public synchronized SubscriptionsAdapter getSubscriptionsAdapter(Context context)
-{
-    if(subscriptionsAdapter == null){
-    subscriptionsAdapter = new SubscriptionsAdapter(context, subscriptions);
+    // Methods from Array that we want to enable.
+    
+    public func size() -> Int
+    {
+        var subscriptionsCount:Int = 0
+        subscriptionsListSyncQueue.sync{
+            subscriptionsCount = subscriptions.count;
+        }
+        return subscriptionsCount
     }
     
-    return  subscriptionsAdapter;
+    public func get(_ index: Int) -> Subscription?
+    {
+        var subscriptionAtIndex:Subscription? = nil
+        
+        subscriptionsListSyncQueue.sync{
+            if (index < subscriptions.count){
+                subscriptionAtIndex = subscriptions[index]
+            }
+        }
+        
+        return subscriptionAtIndex
     }
-    */
+    
 }

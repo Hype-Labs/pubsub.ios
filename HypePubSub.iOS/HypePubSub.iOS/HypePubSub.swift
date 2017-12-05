@@ -18,6 +18,8 @@ class HypePubSub
     
     private let network = Network.getInstance()
     
+    private let hpsSyncQueue = DispatchQueue(label: "com.hypelabs.hypepubsub.hypepubsub.hpssyncqueue")
+    
     public static func getInstance() -> HypePubSub
     {
         return hps
@@ -29,12 +31,11 @@ class HypePubSub
         self.managedServices = ServiceManagersList()
     }
     
-    
     func issueSubscribeReq(_ serviceName: String) -> Int
     {
         /*
-        byte serviceKey[] = HpsGenericUtils.getStrHash(serviceName)
-        Instance managerInstance = network.determineInstanceResponsibleForService(serviceKey)
+        let serviceKey = HpsGenericUtils.stringHash(serviceName)
+        let managerInstance = network.determineInstanceResponsibleForService(serviceKey)
     
         // Add subscription to the list of own subscriptions. Only adds if it doesn't exist yet.
         ownSubscriptions.add(serviceName, managerInstance)
@@ -105,111 +106,114 @@ class HypePubSub
         return 0
     }
     
-    // synchronized
     func processSubscribeReq(_ serviceKey: Data, _ requesterInstance: HYPInstance)
     {
-        /*
-        Instance managerInstance = network.determineInstanceResponsibleForService(serviceKey)
-        if( ! HpsGenericUtils.areInstancesEqual(managerInstance, network.ownClient.instance))
-        {
-            Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
-            + "Another instance should be responsible for the service 0x"
-            + BinaryUtils.byteArrayToHexString(serviceKey) + ": "
-            + HpsGenericUtils.getInstanceLogIdStr(managerInstance))
-            return
-        }
-    
-        ServiceManager serviceManager = this.managedServices.find(serviceKey)
-        if(serviceManager == null ) // If the service does not exist we create it.
-        {
-            Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
-            + "Processing Subscribe request for non-existent ServiceManager 0x"
-            + BinaryUtils.byteArrayToHexString(serviceKey)
-            + ". ServiceManager will be created.")
-    
-            this.managedServices.add(serviceKey)
-            serviceManager = this.managedServices.getLast()
-            updateManagedServicesUI() // Updated UI after adding a new managed
-        }
-    
-        Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
-        + "Adding instance " + HpsGenericUtils.getInstanceLogIdStr(requesterInstance)
-        + " to the list of subscribers of the service 0x" + BinaryUtils.byteArrayToHexString(serviceKey))
-    
-        serviceManager.subscribers.add(requesterInstance)
-        */
-    }
-    
-    // synchronized
-    func processUnsubscribeReq(_ serviceKey: Data, _ requesterInstance: HYPInstance)
-    {
-        /*
-        ServiceManager serviceManager = this.managedServices.find(serviceKey)
-        
-        if(serviceManager == null) // If the service does not exist nothing is done
-        {
-            Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
-            + "Processing Unsubscribe request for non-existent ServiceManager 0x"
-            + BinaryUtils.byteArrayToHexString(serviceKey)
-            + ". Nothing will be done.")
-            
-            return
-        }
-        
-        Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
-        + "Removing instance " + HpsGenericUtils.getInstanceLogIdStr(requesterInstance)
-        + " from the list of subscribers of the service 0x" + BinaryUtils.byteArrayToHexString(serviceKey))
-        
-        serviceManager.subscribers.remove(requesterInstance)
-        
-        if(serviceManager.subscribers.size() == 0)
-        { // Remove the service if there is no subscribers
-            this.managedServices.remove(serviceKey)
-            updateManagedServicesUI() // Updated UI after removing a managed service
-        }
-        */
-    }
-    
-    // synchronized
-    func processPublishReq(_ serviceKey: Data, _ msg: String)
-    {
-        /*
-        ServiceManager serviceManager = this.managedServices.find(serviceKey)
-        if(serviceManager == null)
-        {
-            Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
-            + "Processing Publish request for non-existent ServiceManager 0x"
-            + BinaryUtils.byteArrayToHexString(serviceKey)
-            + ". Nothing will be done.")
-            
-            return
-        }
-        
-        ListIterator<Client> it = serviceManager.subscribers.listIterator()
-        while(it.hasNext())
-        {
-            Client client = it.next()
-            if(client == null)
-            continue
-            
-            if(HpsGenericUtils.areInstancesEqual(network.ownClient.instance, client.instance))
+        hpsSyncQueue.sync {
+            /*
+            Instance managerInstance = network.determineInstanceResponsibleForService(serviceKey)
+            if( ! HpsGenericUtils.areInstancesEqual(managerInstance, network.ownClient.instance))
             {
                 Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
-                + "Publishing info from service 0x" + BinaryUtils.byteArrayToHexString(serviceKey)
-                + " to Host instance")
-                
-                this.processInfoMsg(serviceKey, msg)
+                + "Another instance should be responsible for the service 0x"
+                + BinaryUtils.byteArrayToHexString(serviceKey) + ": "
+                + HpsGenericUtils.getInstanceLogIdStr(managerInstance))
+                return
             }
-            else{
-                
+        
+            ServiceManager serviceManager = this.managedServices.find(serviceKey)
+            if(serviceManager == null ) // If the service does not exist we create it.
+            {
                 Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
-                + "Publishing info from service 0x" + BinaryUtils.byteArrayToHexString(serviceKey)
-                + " to " + HpsGenericUtils.getInstanceLogIdStr(client.instance))
-                
-                Protocol.sendInfoMsg(serviceKey, client.instance, msg)
+                + "Processing Subscribe request for non-existent ServiceManager 0x"
+                + BinaryUtils.byteArrayToHexString(serviceKey)
+                + ". ServiceManager will be created.")
+        
+                this.managedServices.add(serviceKey)
+                serviceManager = this.managedServices.getLast()
+                updateManagedServicesUI() // Updated UI after adding a new managed
             }
+        
+            Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
+            + "Adding instance " + HpsGenericUtils.getInstanceLogIdStr(requesterInstance)
+            + " to the list of subscribers of the service 0x" + BinaryUtils.byteArrayToHexString(serviceKey))
+        
+            serviceManager.subscribers.add(requesterInstance)
+            */
         }
-         */
+    }
+    
+    func processUnsubscribeReq(_ serviceKey: Data, _ requesterInstance: HYPInstance)
+    {
+        hpsSyncQueue.sync {
+            /*
+            ServiceManager serviceManager = this.managedServices.find(serviceKey)
+            
+            if(serviceManager == null) // If the service does not exist nothing is done
+            {
+                Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
+                + "Processing Unsubscribe request for non-existent ServiceManager 0x"
+                + BinaryUtils.byteArrayToHexString(serviceKey)
+                + ". Nothing will be done.")
+             
+                return
+            }
+            
+            Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
+            + "Removing instance " + HpsGenericUtils.getInstanceLogIdStr(requesterInstance)
+            + " from the list of subscribers of the service 0x" + BinaryUtils.byteArrayToHexString(serviceKey))
+            
+            serviceManager.subscribers.remove(requesterInstance)
+            
+            if(serviceManager.subscribers.size() == 0)
+            { // Remove the service if there is no subscribers
+                this.managedServices.remove(serviceKey)
+                updateManagedServicesUI() // Updated UI after removing a managed service
+            }
+            */
+        }
+    }
+    
+    func processPublishReq(_ serviceKey: Data, _ msg: String)
+    {
+        hpsSyncQueue.sync {
+            /*
+            ServiceManager serviceManager = this.managedServices.find(serviceKey)
+            if(serviceManager == null)
+            {
+                Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
+                + "Processing Publish request for non-existent ServiceManager 0x"
+                + BinaryUtils.byteArrayToHexString(serviceKey)
+                + ". Nothing will be done.")
+             
+                return
+            }
+            
+            ListIterator<Client> it = serviceManager.subscribers.listIterator()
+            while(it.hasNext())
+            {
+                Client client = it.next()
+                if(client == null)
+                continue
+             
+                if(HpsGenericUtils.areInstancesEqual(network.ownClient.instance, client.instance))
+                {
+                    Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
+                    + "Publishing info from service 0x" + BinaryUtils.byteArrayToHexString(serviceKey)
+                    + " to Host instance")
+             
+                    this.processInfoMsg(serviceKey, msg)
+                }
+                else{
+             
+                    Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
+                    + "Publishing info from service 0x" + BinaryUtils.byteArrayToHexString(serviceKey)
+                    + " to " + HpsGenericUtils.getInstanceLogIdStr(client.instance))
+             
+                    Protocol.sendInfoMsg(serviceKey, client.instance, msg)
+                }
+            }
+            */
+        }
     }
     
     func processInfoMsg(_ serviceKey: Data, _ msg: String)
@@ -241,69 +245,71 @@ class HypePubSub
         */
     }
     
-    // synchronized
     func updateManagedServices()
     {
-        /*
-        Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX + "Executing updateManagedServices ("
-        + this.managedServices.size() + " services managed)")
-    
-        ListIterator<ServiceManager> it = this.managedServices.listIterator()
-    
-        while(it.hasNext())
-        {
-            ServiceManager managedService = it.next()
+        hpsSyncQueue.sync {
+            /*
+            Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX + "Executing updateManagedServices ("
+            + this.managedServices.size() + " services managed)")
         
-            // Check if a new Hype client with a closer key to this service key has appeared. If this happens
-            // we remove the service from the list of managed services of this Hype client.
-            Instance newManagerInstance = network.determineInstanceResponsibleForService(managedService.serviceKey)
+            ListIterator<ServiceManager> it = this.managedServices.listIterator()
         
-            Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX + "Analyzing ServiceManager from service 0x"
-            + BinaryUtils.byteArrayToHexString(managedService.serviceKey))
-        
-            if( ! HpsGenericUtils.areInstancesEqual(newManagerInstance, network.ownClient.instance))
+            while(it.hasNext())
             {
-                Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
-                + "The service 0x" + BinaryUtils.byteArrayToHexString(managedService.serviceKey)
-                + " will be managed by: " + HpsGenericUtils.getInstanceLogIdStr(newManagerInstance)
-                + ". ServiceManager will be removed")
+                ServiceManager managedService = it.next()
             
-                it.remove()
+                // Check if a new Hype client with a closer key to this service key has appeared. If this happens
+                // we remove the service from the list of managed services of this Hype client.
+                Instance newManagerInstance = network.determineInstanceResponsibleForService(managedService.serviceKey)
+            
+                Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX + "Analyzing ServiceManager from service 0x"
+                + BinaryUtils.byteArrayToHexString(managedService.serviceKey))
+            
+                if( ! HpsGenericUtils.areInstancesEqual(newManagerInstance, network.ownClient.instance))
+                {
+                    Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
+                    + "The service 0x" + BinaryUtils.byteArrayToHexString(managedService.serviceKey)
+                    + " will be managed by: " + HpsGenericUtils.getInstanceLogIdStr(newManagerInstance)
+                    + ". ServiceManager will be removed")
+             
+                    it.remove()
+                }
             }
+            */
         }
-        */
     }
     
-    // synchronized
     func updateOwnSubscriptions()
     {
-        /*
-        Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX + "Executing updateOwnSubscriptions ("
-        + this.ownSubscriptions.size() + " subscriptions)")
-    
-        ListIterator<Subscription> it = this.ownSubscriptions.listIterator()
-        while(it.hasNext())
-        {
-            Subscription subscription = it.next()
-    
-            Instance newManagerInstance = network.determineInstanceResponsibleForService(subscription.serviceKey)
-    
-            Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
-            + "Analyzing subscription " + HpsGenericUtils.getSubscriptionLogStr(subscription))
-    
-            // If there is a node with a closer key to the service key we change the manager
-            if( ! HpsGenericUtils.areInstancesEqual(newManagerInstance, subscription.manager))
+        hpsSyncQueue.sync {
+            /*
+            Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX + "Executing updateOwnSubscriptions ("
+            + this.ownSubscriptions.size() + " subscriptions)")
+        
+            ListIterator<Subscription> it = this.ownSubscriptions.listIterator()
+            while(it.hasNext())
             {
+                Subscription subscription = it.next()
+        
+                Instance newManagerInstance = network.determineInstanceResponsibleForService(subscription.serviceKey)
+        
                 Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
-                + "The manager of the subscribed service " + subscription.serviceName
-                + " has changed: " + HpsGenericUtils.getInstanceLogIdStr(newManagerInstance)
-                + ". A new Subscribe message will be issued")
-    
-                subscription.manager = newManagerInstance
-                this.issueSubscribeReq(subscription.serviceName) // re-send the subscribe request to the new manager
+                + "Analyzing subscription " + HpsGenericUtils.getSubscriptionLogStr(subscription))
+        
+                // If there is a node with a closer key to the service key we change the manager
+                if( ! HpsGenericUtils.areInstancesEqual(newManagerInstance, subscription.manager))
+                {
+                    Log.i(TAG, HYPE_PUB_SUB_LOG_PREFIX
+                    + "The manager of the subscribed service " + subscription.serviceName
+                    + " has changed: " + HpsGenericUtils.getInstanceLogIdStr(newManagerInstance)
+                    + ". A new Subscribe message will be issued")
+        
+                    subscription.manager = newManagerInstance
+                    this.issueSubscribeReq(subscription.serviceName) // re-send the subscribe request to the new manager
+                }
             }
+            */
         }
-        */
     }
     
     

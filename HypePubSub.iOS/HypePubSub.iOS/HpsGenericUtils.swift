@@ -7,7 +7,7 @@ import Foundation
 
 class HpsGenericUtils
 {
-    static func byteArrayHash(data: Data) -> Data
+    static func byteArrayHash(_ data: Data) -> Data
     {
         var hashData = Data(count: Int(HpsConstants.HASH_ALGORITHM_DIGEST_LENGTH))
         
@@ -19,7 +19,7 @@ class HpsGenericUtils
         return hashData
     }
     
-    static func stringHash(str: String) -> Data
+    static func stringHash(_ str: String) -> Data
     {
         var data: Data = str.data(using: .utf8)!
         var hashData = Data(count: Int(HpsConstants.HASH_ALGORITHM_DIGEST_LENGTH))
@@ -30,6 +30,11 @@ class HpsGenericUtils
             }
         }
         return hashData
+    }
+    
+    static func areInstancesEqual(_ instance1: HYPInstance, _ instance2: HYPInstance) -> Bool
+    {
+        return (instance1.identifier == instance2.identifier)
     }
     
     static func getInstanceLogIdStr(_ instance: HYPInstance) -> String

@@ -11,7 +11,7 @@ class ServiceManager
     var serviceKey: Data
     var subscribers: ClientsList
     
-    init(serviceKey: Data)
+    init(_ serviceKey: Data)
     {
         self.serviceKey = serviceKey;
         self.subscribers = ClientsList()

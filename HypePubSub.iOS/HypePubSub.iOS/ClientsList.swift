@@ -2,72 +2,83 @@
 //  ClientsList.swift
 //  HypePubSub.iOS
 //
-//  Created by Xavier Araújo on 04/12/2017.
-//  Copyright © 2017 Xavier Araújo. All rights reserved.
-//
 
 import Foundation
 
+
 class ClientsList
 {
-    var clients = [Client]()
-    /*
-    public synchronized int add(Instance instance) throws NoSuchAlgorithmException
-{
-    if(find(instance) != null) // do not add the client if it is already present
-    return -1;
+    private var clients = [Client]()
     
-    clients.add(new Client(instance));
-    return 0;
-    }
+    private let clientsListSyncQueue = DispatchQueue(label: "com.hypelabs.hypepubsub.clientslist.clientslistsyncqueue")
     
-    public synchronized int remove(Instance instance)
-{
-    Client client = find(instance);
-    if(client == null)
-    return -1;
-    
-    clients.remove(client);
-    return 0;
-    }
-    
-    
-    public synchronized Client find(Instance instance)
-{
-    ListIterator<Client> it = listIterator();
-    while(it.hasNext())
+    public func add(_ instance: HYPInstance)
     {
-    Client currentClient = it.next();
-    if(HpsGenericUtils.areInstancesEqual(currentClient.instance, instance)) {
-    return currentClient;
-    }
-    }
-    return null;
+        clientsListSyncQueue.sync
+        {
+            let (client, _) = find(instance)
+            if(client != nil){ // do not add the client if it is already present
+                return ;
+            }
+    
+            clients.append(Client(instance));
+        }
     }
     
-    // Methods from LinkedList that we want to enable.
-    public synchronized ListIterator<Client> listIterator()
-{
-    return clients.listIterator();
+    public func remove(_ instance: HYPInstance)
+    {
+        clientsListSyncQueue.sync{
+            let (client, clientArrayPosition) = find(instance);
+            if(client == nil){
+                return;
+            }
+    
+            clients.remove(at: clientArrayPosition);
+        }
     }
     
-    public synchronized int size()
-{
-    return clients.size();
+    public func find(_ instance: HYPInstance) -> (Client?, Int)
+    {
+        var client:Client?
+        var clientArrayPosition = -1;
+        
+        clientsListSyncQueue.sync{
+            
+            for i in 0..<clients.count
+            {
+                let currentClient = clients[i]
+                if(HpsGenericUtils.areInstancesEqual(currentClient.instance, instance)) {
+                    client = currentClient
+                    clientArrayPosition = i
+                    return
+                }
+            }
+            client = nil
+        }
+        return (client, clientArrayPosition)
     }
     
-    public synchronized Client get(int index)
-{
-    return clients.get(index);
+    // Methods from Array that we want to enable.
+    public func count() -> Int
+    {
+        var clientsCount:Int = 0
+        clientsListSyncQueue.sync{
+            clientsCount = clients.count;
+        }
+        return clientsCount
     }
     
-    public synchronized ClientsAdapter getClientsAdapter(Context context)
-{
-    if(clientsAdapter == null){
-    clientsAdapter = new ClientsAdapter(context, clients);
+    public func get(_ index: Int) -> Client?
+    {
+        var clientAtIndex:Client? = nil
+        
+        clientsListSyncQueue.sync{
+            if (index < clients.count){
+                clientAtIndex = clients[index]
+            }
+        }
+        
+        return clientAtIndex
     }
-    return clientsAdapter;
-    }
-}
- */
+
 }

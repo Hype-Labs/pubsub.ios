@@ -23,7 +23,7 @@ class Network
         self.networkClients = ClientsList()
     }
     
-    internal func determineInstanceResponsibleForService(serviceKey: Data) -> HYPInstance?
+    internal func determineInstanceResponsibleForService(_ serviceKey: Data) -> HYPInstance?
     {
         let managerInstance = ownClient?.instance
         
@@ -51,6 +51,6 @@ class Network
     
     internal func setOwnClient(ownInstance: HYPInstance)
     {
-        self.ownClient = Client(instance: ownInstance)
+        self.ownClient = Client(ownInstance)
     }
 }
