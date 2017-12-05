@@ -7,7 +7,7 @@ import Foundation
 
 class Network
 {
-    static private let network = Network() // Early loading to avoid thread-safety issues
+    private static let network = Network() // Early loading to avoid thread-safety issues
     
     var ownClient: Client?
     var networkClients: ClientsList

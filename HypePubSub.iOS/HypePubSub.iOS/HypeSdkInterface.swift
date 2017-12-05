@@ -9,8 +9,8 @@ import os
 
 class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessageObserver
 {
-    let HYPE_SDK_INTERFACE_LOG_PREFIX = HpsConstants.LOG_PREFIX + "<HypeSdkInterface> ";
-    let network:Network = Network.getInstance()
+    private let HYPE_SDK_INTERFACE_LOG_PREFIX = HpsConstants.LOG_PREFIX + "<HypeSdkInterface> ";
+    private let network:Network = Network.getInstance()
     
     static private let hypeSdk = HypeSdkInterface() // Early loading to avoid thread-safety issues
     
@@ -214,5 +214,30 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
             os_log("%@ Hype SDK message %@ fully delivered", log: OSLog.default, type: .info,
                    HYPE_SDK_INTERFACE_LOG_PREFIX, messageInfo.identifier)
         }
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    // Add and Remove Instances on Founds, Resolved and Losts
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    
+    func addInstanceAlreadyResolved(instance: HYPInstance)
+    {
+
+    }
+    
+    func removeInstance(instance: HYPInstance)
+    {
+
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    // Calls to Hype Send
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    
+    func sendMsg(_ hpsMsg: HpsMessage, _ destInstance: HYPInstance)
+    {
+        let sdkMsg = HYP.send(hpsMsg.toByteArray(), to: destInstance, trackProgress: true);
+        os_log("%@ Hype SDK sent message with ID: ", log: OSLog.default, type: .info,
+               HYPE_SDK_INTERFACE_LOG_PREFIX, sdkMsg!.identifier)
     }
 }

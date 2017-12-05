@@ -12,14 +12,14 @@ class HpsMessage
     private var serviceKey: Data
     private var info: String?
     
-    public init(type: HpsMessageType, serviceKey: Data, info: String)
+    public init(_ type: HpsMessageType, _ serviceKey: Data, _ info: String)
     {
         self.type = type
         self.serviceKey = serviceKey
         self.info = info;
     }
     
-    public init(type: HpsMessageType, serviceKey: Data)
+    public init(_ type: HpsMessageType, _ serviceKey: Data)
     {
         self.type = type
         self.serviceKey = serviceKey

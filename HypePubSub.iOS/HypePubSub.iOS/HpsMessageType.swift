@@ -14,6 +14,12 @@ enum HpsMessageType
     case INFO
     case INVALID
     
+    static let SUBSCRIBE_SERVICE_ORDINAL:UInt8 = 0
+    static let UNSUBSCRIBE_SERVICE_ORDINAL:UInt8 = 1
+    static let PUBLISH_ORDINAL:UInt8 = 2
+    static let INFO_ORDINAL:UInt8 = 3
+    static let INVALID_ORDINAL:UInt8 = 4
+    
     func toString() -> String
     {
         switch self {
@@ -34,15 +40,15 @@ enum HpsMessageType
     {
         switch self {
         case .SUBSCRIBE_SERVICE:
-            return 0
+            return HpsMessageType.SUBSCRIBE_SERVICE_ORDINAL
         case .UNSUBSCRIBE_SERVICE:
-            return 1
+            return HpsMessageType.UNSUBSCRIBE_SERVICE_ORDINAL
         case .PUBLISH:
-            return 2
+            return HpsMessageType.PUBLISH_ORDINAL
         case .INFO:
-            return 3
+            return HpsMessageType.INFO_ORDINAL
         default:
-            return 4
+            return HpsMessageType.INVALID_ORDINAL
         }
     }
     
