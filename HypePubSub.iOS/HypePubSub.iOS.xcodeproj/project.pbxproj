@@ -18,7 +18,7 @@
 		25C608DD1FD56343004758C3 /* Hype.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25C608DC1FD56343004758C3 /* Hype.framework */; };
 		25C608E01FD5634F004758C3 /* Hype.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 25C608DE1FD5634F004758C3 /* Hype.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		25C608E21FD56C6C004758C3 /* HpbGenericUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608E11FD56C6C004758C3 /* HpbGenericUtils.swift */; };
-		25C608E41FD57276004758C3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608E31FD57276004758C3 /* Constants.swift */; };
+		25C608E41FD57276004758C3 /* HpbConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608E31FD57276004758C3 /* HpbConstants.swift */; };
 		25C608E61FD5953A004758C3 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608E51FD5953A004758C3 /* Network.swift */; };
 		25C608E81FD59886004758C3 /* ClientsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608E71FD59886004758C3 /* ClientsList.swift */; };
 		25C608EA1FD59F36004758C3 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608E91FD59F36004758C3 /* ServiceManager.swift */; };
@@ -83,7 +83,7 @@
 		25C608DC1FD56343004758C3 /* Hype.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Hype.framework; path = "../../../../Downloads/platform/ios/build/Build/Products/Debug-universal/Hype.framework"; sourceTree = "<group>"; };
 		25C608DE1FD5634F004758C3 /* Hype.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Hype.framework; sourceTree = "<group>"; };
 		25C608E11FD56C6C004758C3 /* HpbGenericUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HpbGenericUtils.swift; sourceTree = "<group>"; };
-		25C608E31FD57276004758C3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		25C608E31FD57276004758C3 /* HpbConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HpbConstants.swift; sourceTree = "<group>"; };
 		25C608E51FD5953A004758C3 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		25C608E71FD59886004758C3 /* ClientsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientsList.swift; sourceTree = "<group>"; };
 		25C608E91FD59F36004758C3 /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
@@ -158,7 +158,7 @@
 				258EA7E21FD54C2C00656ECE /* Client.swift */,
 				258EA7E41FD5512600656ECE /* HypePubSub.iOS-Bridging-Header.h */,
 				25C608E11FD56C6C004758C3 /* HpbGenericUtils.swift */,
-				25C608E31FD57276004758C3 /* Constants.swift */,
+				25C608E31FD57276004758C3 /* HpbConstants.swift */,
 				25C608E51FD5953A004758C3 /* Network.swift */,
 				25C608E71FD59886004758C3 /* ClientsList.swift */,
 				25C608E91FD59F36004758C3 /* ServiceManager.swift */,
@@ -338,7 +338,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				25C608F01FD5A2C5004758C3 /* ServiceManagersList.swift in Sources */,
-				25C608E41FD57276004758C3 /* Constants.swift in Sources */,
+				25C608E41FD57276004758C3 /* HpbConstants.swift in Sources */,
 				25C608E21FD56C6C004758C3 /* HpbGenericUtils.swift in Sources */,
 				25C608E61FD5953A004758C3 /* Network.swift in Sources */,
 				25C608EA1FD59F36004758C3 /* ServiceManager.swift in Sources */,
@@ -533,6 +533,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "HypePubSub.iOS/HypePubSub.iOS-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				"SWIFT_SWIFT3_OBJC_INFERENCE[arch=*]" = Default;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

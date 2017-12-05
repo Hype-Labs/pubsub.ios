@@ -49,12 +49,12 @@ class BinaryUtils
         return  0;
     }
     
-    public static func byteArrayToHexString(array: Data) -> String
+    public static func byteArrayToHexString(_ array: Data) -> String
     {
         let hexStr: String = String()
 
         for i in 0..<array.count{
-            let _ = hexStr.appendingFormat("%02x", array[i])
+            _ = hexStr.appendingFormat("%02x", array[i])
         }
         return hexStr
     }

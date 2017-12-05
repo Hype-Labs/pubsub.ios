@@ -5,4 +5,3 @@
 #import <CommonCrypto/CommonCrypto.h>
 
 #import <Hype/Hype.h>
-#import <Hype/HYPInstance.h>
