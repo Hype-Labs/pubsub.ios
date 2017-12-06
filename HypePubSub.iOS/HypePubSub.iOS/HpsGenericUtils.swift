@@ -7,7 +7,7 @@ import Foundation
 
 class HpsGenericUtils
 {
-    static func byteArrayHash(_ data: Data) -> Data
+    static func hash(ofData data: Data) -> Data
     {
         var hashData = Data(count: Int(HpsConstants.HASH_ALGORITHM_DIGEST_LENGTH))
         
@@ -19,17 +19,10 @@ class HpsGenericUtils
         return hashData
     }
     
-    static func stringHash(_ str: String) -> Data
+    static func hash(ofString str: String) -> Data
     {
-        var data: Data = str.data(using: .utf8)!
-        var hashData = Data(count: Int(HpsConstants.HASH_ALGORITHM_DIGEST_LENGTH))
-        
-        _ = hashData.withUnsafeMutableBytes {digestBytes in
-            data.withUnsafeBytes {messageBytes in
-                HpsConstants.HASH_ALGORITHM(messageBytes, CC_LONG(data.count), digestBytes)
-            }
-        }
-        return hashData
+        let data: Data = str.data(using: .utf8)!
+        return hash(ofData: data)
     }
     
     static func areInstancesEqual(_ instance1: HYPInstance, _ instance2: HYPInstance) -> Bool
@@ -37,14 +30,13 @@ class HpsGenericUtils
         return (instance1.identifier == instance2.identifier)
     }
     
-    static func getInstanceLogIdStr(_ instance: HYPInstance) -> String
+    static func getLogStr(fromHYPInstance instance: HYPInstance) -> String
     {
-        let logStr = String(data: instance.announcement, encoding: HpsConstants.ENCODING_STANDARD)!
+        return String(data: instance.announcement, encoding: HpsConstants.ENCODING_STANDARD)!
             + " (0x" + BinaryUtils.byteArrayToHexString(instance.identifier) + ")"
-        return logStr
     }
     
-    static func getSubscriptionLogStr(_ subscription: Subscription) -> String
+    static func getLogStr(fromSubscription subscription: Subscription) -> String
     {
         return subscription.serviceName + " (0x" + BinaryUtils.byteArrayToHexString(subscription.serviceKey) + ")";
     }

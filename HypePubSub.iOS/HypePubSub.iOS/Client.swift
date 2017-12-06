@@ -11,10 +11,10 @@ class Client
     var instance: HYPInstance
     var key: Data
     
-    init(_ instance: HYPInstance)
+    init(fromHYPInstance instance: HYPInstance)
     {
         self.instance = instance
-        self.key = HpsGenericUtils.byteArrayHash(instance.identifier)
+        self.key = HpsGenericUtils.hash(ofData: instance.identifier)
     }
 }
 

@@ -21,7 +21,8 @@ class ClientsList
                 return ;
             }
     
-            clients.append(Client(instance));
+            let newClient = Client(fromHYPInstance: instance)
+            clients.append(newClient);
         }
     }
     

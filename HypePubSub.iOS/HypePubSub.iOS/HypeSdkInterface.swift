@@ -50,7 +50,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     {
         os_log("%@ Hype SDK started! Host Instance: %@", log: OSLog.default, type: .info,
                HYPE_SDK_INTERFACE_LOG_PREFIX,
-               HpsGenericUtils.getInstanceLogIdStr(HYP.hostInstance()))
+               HpsGenericUtils.getLogStr(fromHYPInstance: HYP.hostInstance()))
         
         network.setOwnClient(ownInstance: HYP.hostInstance())
     }
@@ -91,7 +91,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     
     func hypeDidFind(_ instance: HYPInstance)
     {
-        let instanceLogIdStr = HpsGenericUtils.getInstanceLogIdStr(instance)
+        let instanceLogIdStr = HpsGenericUtils.getLogStr(fromHYPInstance: instance)
         
         if(!instance.isResolved)
         {
@@ -117,7 +117,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     func hypeDidLose(_ instance: HYPInstance, error: HYPError)
     {
         os_log("%@ Hype SDK instance lost: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getInstanceLogIdStr(instance))
+               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getLogStr(fromHYPInstance: instance))
         
         // Remove the instance lost in a separate thread to release the lock of the
         // Hype instance object preventing possible deadlock
@@ -129,7 +129,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     func hypeDidResolve(_ instance: HYPInstance)
     {
         os_log("%@ Hype SDK instance resolved: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getInstanceLogIdStr(instance))
+               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getLogStr(fromHYPInstance: instance))
         
         // Add instance in a separate thread to prevent deadlock
          DispatchQueue.global().async {
@@ -140,7 +140,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     func hypeDidFailResolving(_ instance: HYPInstance, error: HYPError)
     {
         os_log("%@ Hype SDK instance fail resolving: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getInstanceLogIdStr(instance))
+               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getLogStr(fromHYPInstance: instance))
     }
     
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -155,7 +155,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     func hypeDidFailSendingMessage(_ messageInfo: HYPMessageInfo, to toInstance: HYPInstance, error: HYPError)
     {
         os_log("%@ Hype SDK message failed sending to: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getInstanceLogIdStr(toInstance))
+               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getLogStr(fromHYPInstance: toInstance))
         os_log("%@ Hype SDK message failed sending error. Suggestion: %@", log: OSLog.default, type: .info,
                HYPE_SDK_INTERFACE_LOG_PREFIX, error.suggestion)
         os_log("%@ Hype SDK message failed sending error. Description: %@", log: OSLog.default, type: .info,
@@ -195,7 +195,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     func addInstanceAlreadyResolved(instance: HYPInstance)
     {
         os_log("%@ Adding Hype SDK instance already resolved: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getInstanceLogIdStr(instance))
+               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getLogStr(fromHYPInstance: instance))
         
         network.networkSyncQueue.sync // Add thread safety to adding procedure
         {
@@ -208,7 +208,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     func removeInstanceLost(instance: HYPInstance)
     {
         os_log("%@ Removing Hype SDK instance already lost: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getInstanceLogIdStr(instance))
+               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getLogStr(fromHYPInstance: instance))
 
         network.networkSyncQueue.sync // Add thread safety to removal procedure
         {

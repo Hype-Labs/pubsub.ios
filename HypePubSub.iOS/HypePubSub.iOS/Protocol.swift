@@ -194,12 +194,12 @@ class Protocol
     static func printMsgSendLog(_ hpsMsg: HpsMessage, _ destination: HYPInstance)
     {
         os_log("%@ Sending %@ Destination %@", log: OSLog.default, type: .info,
-               PROTOCOL_LOG_PREFIX, hpsMsg.toLogString(), HpsGenericUtils.getInstanceLogIdStr(destination))
+               PROTOCOL_LOG_PREFIX, hpsMsg.toLogString(), HpsGenericUtils.getLogStr(fromHYPInstance: destination))
     }
     
     static func printMsgReceivedLog(_ hpsMsg: HpsMessage, _ originator: HYPInstance)
     {
         os_log("%@ Received %@ Originator %@", log: OSLog.default, type: .info,
-               PROTOCOL_LOG_PREFIX, hpsMsg.toLogString(), HpsGenericUtils.getInstanceLogIdStr(originator))
+               PROTOCOL_LOG_PREFIX, hpsMsg.toLogString(), HpsGenericUtils.getLogStr(fromHYPInstance: originator))
     }
 }

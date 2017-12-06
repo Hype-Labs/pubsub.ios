@@ -33,7 +33,7 @@ class HypePubSub
     
     func issueSubscribeReq(_ serviceName: String) -> Int
     {
-        let serviceKey = HpsGenericUtils.stringHash(serviceName)
+        let serviceKey = HpsGenericUtils.hash(ofString: serviceName)
         let managerInstance = network.determineInstanceResponsibleForService(serviceKey)
     
         // Add subscription to the list of own subscriptions. Only adds if it doesn't exist yet.
@@ -57,7 +57,7 @@ class HypePubSub
     
     func issueUnsubscribeReq(_ serviceName: String) -> Int
     {
-         let serviceKey = HpsGenericUtils.stringHash(serviceName)
+         let serviceKey = HpsGenericUtils.hash(ofString: serviceName)
          let managerInstance = network.determineInstanceResponsibleForService(serviceKey)
     
         let (subscription, _) = ownSubscriptions.find(serviceKey)
@@ -84,7 +84,7 @@ class HypePubSub
     
     func issuePublishReq(_ serviceName: String, _ msg: String) -> Int
     {
-        let serviceKey = HpsGenericUtils.stringHash(serviceName)
+        let serviceKey = HpsGenericUtils.hash(ofString: serviceName)
         let managerInstance = network.determineInstanceResponsibleForService(serviceKey)
         
         // if this client is the manager of the service we don't need to send the publish message
@@ -114,7 +114,7 @@ class HypePubSub
                 os_log("%@ Another instance should be responsible for the service 0x%@: %@", log: OSLog.default, type: .info,
                        HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
                        BinaryUtils.byteArrayToHexString(serviceKey),
-                       HpsGenericUtils.getInstanceLogIdStr(managerInstance!))
+                       HpsGenericUtils.getLogStr(fromHYPInstance: managerInstance!))
                 
                 return
             }
@@ -133,7 +133,7 @@ class HypePubSub
         
             os_log("Adding instance %@ to the list of subscribers of the service 0x%@",
                    log: OSLog.default, type: .info,
-                   HpsGenericUtils.getInstanceLogIdStr(requesterInstance),
+                   HpsGenericUtils.getLogStr(fromHYPInstance: requesterInstance),
                    BinaryUtils.byteArrayToHexString(serviceKey))
 
             serviceManager!.subscribers.add(requesterInstance)
@@ -159,7 +159,7 @@ class HypePubSub
             os_log("%@ Removing instance %@ from the list of subscribers of the service 0x%@",
                    log: OSLog.default, type: .info,
                    HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                   HpsGenericUtils.getInstanceLogIdStr(requesterInstance),
+                   HpsGenericUtils.getLogStr(fromHYPInstance: requesterInstance),
                    BinaryUtils.byteArrayToHexString(serviceKey))
             
             serviceManager!.subscribers.remove(requesterInstance)
@@ -208,7 +208,7 @@ class HypePubSub
                            log: OSLog.default, type: .info,
                            HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
                            BinaryUtils.byteArrayToHexString(serviceKey),
-                           HpsGenericUtils.getInstanceLogIdStr(client!.instance))
+                           HpsGenericUtils.getLogStr(fromHYPInstance: client!.instance))
              
                     _ = Protocol.sendInfoMsg(serviceKey, client!.instance, msg)
                 }
@@ -279,7 +279,7 @@ class HypePubSub
                            log: OSLog.default, type: .info,
                            HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
                            BinaryUtils.byteArrayToHexString(managedService!.serviceKey),
-                           HpsGenericUtils.getInstanceLogIdStr(newManagerInstance!))
+                           HpsGenericUtils.getLogStr(fromHYPInstance: newManagerInstance!))
                     
                     toRemove.append((managedService?.serviceKey)!)
                 }
@@ -310,7 +310,7 @@ class HypePubSub
                 os_log("%@ Analyzing subscription ",
                        log: OSLog.default, type: .info,
                        HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                       HpsGenericUtils.getSubscriptionLogStr(subscription!))
+                       HpsGenericUtils.getLogStr(fromSubscription: subscription!))
         
                 // If there is a node with a closer key to the service key we change the manager
                 if( !HpsGenericUtils.areInstancesEqual(newManagerInstance!, subscription!.manager))
@@ -320,7 +320,7 @@ class HypePubSub
                            log: OSLog.default, type: .info,
                            HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
                            subscription!.serviceName,
-                           HpsGenericUtils.getInstanceLogIdStr(newManagerInstance!))
+                           HpsGenericUtils.getLogStr(fromHYPInstance: newManagerInstance!))
                     
                     subscription!.manager = newManagerInstance!
                     _ = self.issueSubscribeReq(subscription!.serviceName) // re-send the subscribe request to the new manager

@@ -13,7 +13,7 @@ class SubscriptionsList
     
     public func add(_ serviceName: String, _ managerInstance: HYPInstance)
     {
-        let serviceKey = HpsGenericUtils.stringHash(serviceName)
+        let serviceKey = HpsGenericUtils.hash(ofString: serviceName)
         subscriptionsListSyncQueue.sync
         {
             let (subscription, _) = find(serviceKey)
@@ -27,7 +27,7 @@ class SubscriptionsList
     
     public func remove(_ serviceName: String)
     {
-        let serviceKey = HpsGenericUtils.stringHash(serviceName)
+        let serviceKey = HpsGenericUtils.hash(ofString: serviceName)
         subscriptionsListSyncQueue.sync
         {
             let (subscription, subscriptionArrayPosition) = find(serviceKey);

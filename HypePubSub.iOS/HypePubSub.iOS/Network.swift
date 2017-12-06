@@ -50,6 +50,6 @@ class Network
     
     internal func setOwnClient(ownInstance: HYPInstance)
     {
-        self.ownClient = Client(ownInstance)
+        self.ownClient = Client(fromHYPInstance: ownInstance)
     }
 }
