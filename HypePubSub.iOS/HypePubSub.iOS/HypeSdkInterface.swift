@@ -11,6 +11,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
 {
     private let HYPE_SDK_INTERFACE_LOG_PREFIX = HpsConstants.LOG_PREFIX + "<HypeSdkInterface> ";
     private let network:Network = Network.getInstance()
+    private let hps:HypePubSub = HypePubSub.getInstance()
     
     static private let hypeSdk = HypeSdkInterface() // Early loading to avoid thread-safety issues
     
@@ -105,18 +106,11 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
             os_log("%@ Hype SDK resolved instance found: %@", log: OSLog.default, type: .info,
                    HYPE_SDK_INTERFACE_LOG_PREFIX, instanceLogIdStr)
             
-            /*
             // Add the instance found in a separate thread to release the lock of the
             // Hype instance object preventing possible deadlock
-            final Instance instanceFound = var1;
-            Thread t = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    addInstanceAlreadyResolved(instanceFound);
-                }
-            });
-            t.start();
-             */
+            DispatchQueue.global().async {
+                self.addInstanceAlreadyResolved(instance: instance);
+            }
         }
     }
     
@@ -125,44 +119,22 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
         os_log("%@ Hype SDK instance lost: %@", log: OSLog.default, type: .info,
                HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getInstanceLogIdStr(instance))
         
-        /*
         // Remove the instance lost in a separate thread to release the lock of the
         // Hype instance object preventing possible deadlock
-        final Instance instanceToRemove = var1;
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try
-            {
-                removeInstance(instanceToRemove);
-                } catch (IOException e)
-                {
-                e.printStackTrace();
-                } catch (NoSuchAlgorithmException e)
-                {
-                e.printStackTrace();
-                }
-            }
-        });
-        t.start();
-         */
+        DispatchQueue.global().async {
+            self.removeInstanceLost(instance: instance);
+        }
     }
     
     func hypeDidResolve(_ instance: HYPInstance)
     {
         os_log("%@ Hype SDK instance resolved: %@", log: OSLog.default, type: .info,
                HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getInstanceLogIdStr(instance))
-        /*
+        
         // Add instance in a separate thread to prevent deadlock
-        final Instance instanceFound = var1;
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                addInstanceAlreadyResolved(instanceFound);
-            }
-        });
-        t.start();
-         */
+         DispatchQueue.global().async {
+            self.addInstanceAlreadyResolved(instance: instance);
+         }
     }
     
     func hypeDidFailResolving(_ instance: HYPInstance, error: HYPError)
@@ -222,12 +194,27 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     
     func addInstanceAlreadyResolved(instance: HYPInstance)
     {
-
+        os_log("%@ Adding Hype SDK instance already resolved: %@", log: OSLog.default, type: .info,
+               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getInstanceLogIdStr(instance))
+        
+        network.networkSyncQueue.sync // Add thread safety to adding procedure
+        {
+            network.networkClients.add(instance);
+            hps.updateManagedServices();
+            hps.updateOwnSubscriptions();
+        }
     }
     
-    func removeInstance(instance: HYPInstance)
+    func removeInstanceLost(instance: HYPInstance)
     {
+        os_log("%@ Removing Hype SDK instance already lost: %@", log: OSLog.default, type: .info,
+               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getInstanceLogIdStr(instance))
 
+        network.networkSyncQueue.sync // Add thread safety to removal procedure
+        {
+            network.networkClients.remove(instance);
+            hps.updateOwnSubscriptions();
+        }
     }
     
     ///////////////////////////////////////////////////////////////////////////////////////////
