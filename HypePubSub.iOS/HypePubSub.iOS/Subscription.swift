@@ -8,13 +8,12 @@ import Foundation
 
 class Subscription
 {
-    
     var serviceName: String
     var serviceKey: Data
-    var manager: HYPInstance
+    var manager: Client
     var receivedMsg: [String]
     
-    init(_ serviceName: String, _ manager: HYPInstance)
+    init(withName serviceName: String, withManager manager: Client)
     {
         self.serviceName = serviceName;
         self.serviceKey = HpsGenericUtils.hash(ofString: serviceName)

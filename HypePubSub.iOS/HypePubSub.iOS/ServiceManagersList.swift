@@ -11,52 +11,41 @@ public class ServiceManagersList
     
     private let serviceManagersListSyncQueue = DispatchQueue(label: "com.hypelabs.hypepubsub.clientslist.servicemanagerslistsyncqueue")
     
-    public func add(_ serviceKey: Data)
+    func add(serviceManager: ServiceManager)
     {
         serviceManagersListSyncQueue.sync
         {
-            let (managedService, _) = find(serviceKey)
-            if(managedService != nil){ // do not add the client if it is already present
-                return ;
+            if(find(withKey: serviceManager.serviceKey) != nil){
+                return ; // ServiceManager already added
             }
             
-            serviceManagers.append(ServiceManager(serviceKey));
+            serviceManagers.append(serviceManager);
         }
     }
     
-    func remove(_ serviceKey: Data)
+    func remove(withKey serviceKey: Data)
     {
         serviceManagersListSyncQueue.sync
         {
-            let (managedService, managedServiceArrayPosition) = find(serviceKey);
-            if(managedService == nil){
-                return;
+            if let index = serviceManagers.index(where: {$0.serviceKey == serviceKey}) {
+                serviceManagers.remove(at: index);
             }
-            
-            serviceManagers.remove(at: managedServiceArrayPosition);
         }
     }
     
-    func find(_ serviceKey: Data)-> (ServiceManager?, Int)
+    func find(withKey serviceKey: Data)-> ServiceManager?
     {
         var managedService:ServiceManager?
-        var managedServiceArrayPosition = -1;
+        managedService = nil
         
         serviceManagersListSyncQueue.sync
         {
-            for i in 0..<serviceManagers.count
-            {
-                let currentManagedService = serviceManagers[i]
-                if(currentManagedService.serviceKey == serviceKey)
-                {
-                    managedService = currentManagedService
-                    managedServiceArrayPosition = i
-                    return
-                }
+            if let index = serviceManagers.index(where: {$0.serviceKey == serviceKey}) {
+                managedService = serviceManagers[index]
             }
-            managedService = nil
         }
-        return (managedService, managedServiceArrayPosition)
+        
+        return managedService
     }
     
     // Methods from Array that we want to enable.

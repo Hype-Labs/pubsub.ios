@@ -11,54 +11,41 @@ class SubscriptionsList
     
     private let subscriptionsListSyncQueue = DispatchQueue(label: "com.hypelabs.hypepubsub.clientslist.subscriptionslistsyncqueue")
     
-    public func add(_ serviceName: String, _ managerInstance: HYPInstance)
+    public func add(subscription: Subscription)
     {
-        let serviceKey = HpsGenericUtils.hash(ofString: serviceName)
         subscriptionsListSyncQueue.sync
         {
-            let (subscription, _) = find(serviceKey)
-            if(subscription != nil){ // do not add the client if it is already present
-                return ;
+            if(find(withKey: subscription.serviceKey) != nil){
+                return ; // subscription already added
             }
             
-            subscriptions.append(Subscription(serviceName, managerInstance));
+            subscriptions.append(subscription);
         }
     }
     
-    public func remove(_ serviceName: String)
+    public func remove(subscription: Subscription)
     {
-        let serviceKey = HpsGenericUtils.hash(ofString: serviceName)
         subscriptionsListSyncQueue.sync
         {
-            let (subscription, subscriptionArrayPosition) = find(serviceKey);
-            if(subscription == nil){
-                return;
+            if let index = subscriptions.index(where: {$0.serviceKey == subscription.serviceKey}) {
+                subscriptions.remove(at: index);
             }
-        
-            subscriptions.remove(at: subscriptionArrayPosition);
         }
     }
     
-    public func find(_ serviceKey: Data) -> (Subscription?, Int)
+    public func find(withKey serviceKey: Data) -> Subscription?
     {
-        var subscription:Subscription?
-        var subscriptionArrayPosition = -1;
+        var subscription : Subscription?
+        subscription = nil
         
         subscriptionsListSyncQueue.sync
         {
-            for i in 0..<subscriptions.count
-            {
-                let currentSubscription = subscriptions[i]
-                if(currentSubscription.serviceKey == serviceKey)
-                {
-                    subscription = currentSubscription
-                    subscriptionArrayPosition = i
-                    return
-                }
+            if let index = subscriptions.index(where: {$0.serviceKey == serviceKey}) {
+                subscription = subscriptions[index]
             }
-            subscription = nil
         }
-        return (subscription, subscriptionArrayPosition)
+        
+        return subscription
     }
     
     // Methods from Array that we want to enable.

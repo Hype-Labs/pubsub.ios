@@ -42,7 +42,7 @@ class HpsMessage
     public func toLogString() -> String
     {
         var logString: String = type.toString() + " message for service 0x"
-        + BinaryUtils.byteArrayToHexString(serviceKey) + ".";
+            + BinaryUtils.toHexString(data: serviceKey) + ".";
         if(info != nil) {
             logString += " Info: " + info! + ".";
         }

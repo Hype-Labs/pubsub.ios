@@ -25,20 +25,25 @@ class HpsGenericUtils
         return hash(ofData: data)
     }
     
-    static func areInstancesEqual(_ instance1: HYPInstance, _ instance2: HYPInstance) -> Bool
+    static func areClientsEqual(_ client1: Client, _ client2: Client) -> Bool
     {
-        return (instance1.identifier == instance2.identifier)
+        return (client1.instance.identifier == client2.instance.identifier)
+    }
+    
+    static func getLogStr(fromClient client: Client) -> String
+    {
+        return getLogStr(fromHYPInstance: client.instance)
     }
     
     static func getLogStr(fromHYPInstance instance: HYPInstance) -> String
     {
         return String(data: instance.announcement, encoding: HpsConstants.ENCODING_STANDARD)!
-            + " (0x" + BinaryUtils.byteArrayToHexString(instance.identifier) + ")"
+            + " (0x" + BinaryUtils.toHexString(data: instance.identifier) + ")"
     }
     
     static func getLogStr(fromSubscription subscription: Subscription) -> String
     {
-        return subscription.serviceName + " (0x" + BinaryUtils.byteArrayToHexString(subscription.serviceKey) + ")";
+        return subscription.serviceName + " (0x" + BinaryUtils.toHexString(data: subscription.serviceKey) + ")";
     }
     
 }

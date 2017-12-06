@@ -52,7 +52,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
                HYPE_SDK_INTERFACE_LOG_PREFIX,
                HpsGenericUtils.getLogStr(fromHYPInstance: HYP.hostInstance()))
         
-        network.setOwnClient(ownInstance: HYP.hostInstance())
+        network.setOwnClient(hostInstance: HYP.hostInstance())
     }
     
     func hypeDidStopWithError(_ error: HYPError)
@@ -199,7 +199,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
         
         network.networkSyncQueue.sync // Add thread safety to adding procedure
         {
-            network.networkClients.add(instance);
+            network.networkClients.add(client: Client(fromHYPInstance: instance));
             hps.updateManagedServices();
             hps.updateOwnSubscriptions();
         }
@@ -212,7 +212,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
 
         network.networkSyncQueue.sync // Add thread safety to removal procedure
         {
-            network.networkClients.remove(instance);
+            network.networkClients.remove(client: Client(fromHYPInstance: instance));
             hps.updateOwnSubscriptions();
         }
     }

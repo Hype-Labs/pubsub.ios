@@ -12,51 +12,41 @@ class ClientsList
     
     private let clientsListSyncQueue = DispatchQueue(label: "com.hypelabs.hypepubsub.clientslist.clientslistsyncqueue")
     
-    public func add(_ instance: HYPInstance)
+    public func add(client: Client)
     {
         clientsListSyncQueue.sync
         {
-            let (client, _) = find(instance)
-            if(client != nil){ // do not add the client if it is already present
-                return ;
+            if(find(client: client) != nil){
+                return ; // Client already added
             }
     
-            let newClient = Client(fromHYPInstance: instance)
-            clients.append(newClient);
+            clients.append(client);
         }
     }
     
-    public func remove(_ instance: HYPInstance)
+    public func remove(client: Client)
     {
-        clientsListSyncQueue.sync{
-            let (client, clientArrayPosition) = find(instance);
-            if(client == nil){
-                return;
+        clientsListSyncQueue.sync
+        {
+            if let index = clients.index(where: {$0.key == client.key}) {
+                clients.remove(at: index);
             }
-    
-            clients.remove(at: clientArrayPosition);
         }
     }
     
-    public func find(_ instance: HYPInstance) -> (Client?, Int)
+    public func find(client: Client) -> Client?
     {
-        var client:Client?
-        var clientArrayPosition = -1;
+        var clientFound : Client?
+        clientFound = nil
         
-        clientsListSyncQueue.sync{
-            
-            for i in 0..<clients.count
-            {
-                let currentClient = clients[i]
-                if(HpsGenericUtils.areInstancesEqual(currentClient.instance, instance)) {
-                    client = currentClient
-                    clientArrayPosition = i
-                    return
-                }
+        clientsListSyncQueue.sync
+        {
+            if let index = clients.index(where: {$0.key == client.key}) {
+                clientFound = clients[index]
             }
-            client = nil
         }
-        return (client, clientArrayPosition)
+        
+        return clientFound
     }
     
     // Methods from Array that we want to enable.

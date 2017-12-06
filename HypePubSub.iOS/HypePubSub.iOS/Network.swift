@@ -25,31 +25,31 @@ class Network
         self.networkClients = ClientsList()
     }
     
-    internal func determineInstanceResponsibleForService(_ serviceKey: Data) -> HYPInstance?
+    internal func determineManagerClientOfService(withKey serviceKey: Data) -> Client!
     {
-        var managerInstance = ownClient?.instance
-        var lowestDist = BinaryUtils.xor(serviceKey, ownClient!.key);
+        var managerClient = ownClient // if no clients were found in the network, the own client if the one responsible for that service
+        var lowestDist = BinaryUtils.xor(data1: serviceKey, data2: ownClient!.key);
 
         networkSyncQueue.sync // Add thread safety to iteration procedure
         {
             for i in 0..<networkClients.count()
             {
-                let client = networkClients.get(i);
-
-                let dist = BinaryUtils.xor(serviceKey, client!.key);
-                if (BinaryUtils.getHigherByteArray(lowestDist!, dist!) == 1)
+                let currentClient = networkClients.get(i)!;
+                let dist = BinaryUtils.xor(data1: serviceKey, data2: currentClient.key);
+                
+                if (BinaryUtils.determineHigherBigEndianData(data1: lowestDist!, data2: dist!) == 1)
                 {
                     lowestDist = dist;
-                    managerInstance = client!.instance;
+                    managerClient = currentClient;
                 }
             }
         }
 
-        return managerInstance
+        return managerClient
     }
     
-    internal func setOwnClient(ownInstance: HYPInstance)
+    internal func setOwnClient(hostInstance: HYPInstance)
     {
-        self.ownClient = Client(fromHYPInstance: ownInstance)
+        self.ownClient = Client(fromHYPInstance: hostInstance)
     }
 }
