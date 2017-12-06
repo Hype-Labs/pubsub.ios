@@ -11,7 +11,7 @@ class SubscriptionsList
     
     private let subscriptionsListSyncQueue = DispatchQueue(label: "com.hypelabs.hypepubsub.clientslist.subscriptionslistsyncqueue")
     
-    public func add(serviceName: String, managerInstance: HYPInstance)
+    public func add(_ serviceName: String, _ managerInstance: HYPInstance)
     {
         let serviceKey = HpsGenericUtils.stringHash(serviceName)
         subscriptionsListSyncQueue.sync
@@ -25,7 +25,7 @@ class SubscriptionsList
         }
     }
     
-    public func remove(serviceName: String)
+    public func remove(_ serviceName: String)
     {
         let serviceKey = HpsGenericUtils.stringHash(serviceName)
         subscriptionsListSyncQueue.sync
@@ -63,7 +63,7 @@ class SubscriptionsList
     
     // Methods from Array that we want to enable.
     
-    public func size() -> Int
+    public func count() -> Int
     {
         var subscriptionsCount:Int = 0
         subscriptionsListSyncQueue.sync{

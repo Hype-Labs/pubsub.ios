@@ -44,4 +44,9 @@ class HpsGenericUtils
         return logStr
     }
     
+    static func getSubscriptionLogStr(_ subscription: Subscription) -> String
+    {
+        return subscription.serviceName + " (0x" + BinaryUtils.byteArrayToHexString(subscription.serviceKey) + ")";
+    }
+    
 }

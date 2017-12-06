@@ -11,7 +11,7 @@ public class ServiceManagersList
     
     private let serviceManagersListSyncQueue = DispatchQueue(label: "com.hypelabs.hypepubsub.clientslist.servicemanagerslistsyncqueue")
     
-    public func add(serviceKey: Data)
+    public func add(_ serviceKey: Data)
     {
         serviceManagersListSyncQueue.sync
         {
@@ -24,7 +24,7 @@ public class ServiceManagersList
         }
     }
     
-    func remove(serviceKey: Data)
+    func remove(_ serviceKey: Data)
     {
         serviceManagersListSyncQueue.sync
         {
@@ -61,7 +61,16 @@ public class ServiceManagersList
     
     // Methods from Array that we want to enable.
     
-    func get(index: Int) -> ServiceManager?
+    func count() -> Int!
+    {
+        var serviceManagersCount:Int = 0
+        serviceManagersListSyncQueue.sync{
+            serviceManagersCount = serviceManagers.count;
+        }
+        return serviceManagersCount
+    }
+    
+    func get(_ index: Int) -> ServiceManager?
     {
         var managedServiceAtIndex:ServiceManager? = nil
         

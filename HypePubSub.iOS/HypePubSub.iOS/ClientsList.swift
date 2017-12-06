@@ -59,7 +59,7 @@ class ClientsList
     }
     
     // Methods from Array that we want to enable.
-    public func count() -> Int
+    public func count() -> Int!
     {
         var clientsCount:Int = 0
         clientsListSyncQueue.sync{
