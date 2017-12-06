@@ -8,7 +8,7 @@ import Foundation
 
 class BinaryUtils
 {
-    public static func xor(array1: Data, array2: Data) -> Data?
+    public static func xor(_ array1: Data, _ array2: Data) -> Data?
     {
         if((array1.count == 0) || (array1.count != array2.count)){
             return nil
@@ -22,7 +22,7 @@ class BinaryUtils
         return xorArray
     }
     
-    public static func getHigherByteArray(array1: Data, array2: Data) -> Int
+    public static func getHigherByteArray(_ array1: Data, _ array2: Data) -> Int
     {
         if((array1.count == 0) || (array1.count != array2.count)){
             return -1

@@ -12,6 +12,8 @@ class Network
     var ownClient: Client?
     var networkClients: ClientsList
     
+    let networkSyncQueue = DispatchQueue(label: "com.hypelabs.hypepubsub.clientslist.networksyncqueue")
+    
     static func getInstance() -> Network
     {
         return network;
@@ -25,27 +27,24 @@ class Network
     
     internal func determineInstanceResponsibleForService(_ serviceKey: Data) -> HYPInstance?
     {
-        let managerInstance = ownClient?.instance
-        
-        /*
-        Data lowestDist = BinaryUtils.xor(serviceKey, ownClient.key);
+        var managerInstance = ownClient?.instance
+        var lowestDist = BinaryUtils.xor(serviceKey, ownClient!.key);
 
-        synchronized (network) // Add thread safety to iteration procedure
+        networkSyncQueue.sync // Add thread safety to iteration procedure
         {
-            ListIterator<Client> it = networkClients.listIterator();
-            while (it.hasNext())
+            for i in 0..<networkClients.count()
             {
-                Client client = it.next();
+                let client = networkClients.get(i);
 
-                byte dist[] = BinaryUtils.xor(serviceKey, client.key);
-                if (BinaryUtils.getHigherByteArray(lowestDist, dist) == 1)
+                let dist = BinaryUtils.xor(serviceKey, client!.key);
+                if (BinaryUtils.getHigherByteArray(lowestDist!, dist!) == 1)
                 {
                     lowestDist = dist;
-                    managerInstance = client.instance;
+                    managerInstance = client!.instance;
                 }
             }
         }
-        */
+
         return managerInstance
     }
     
