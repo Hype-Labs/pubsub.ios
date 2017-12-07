@@ -9,11 +9,9 @@ class SubscriptionsList
 {
     var subscriptions = [Subscription]()
     
-    private let subscriptionsListSyncQueue = DispatchQueue(label: "com.hypelabs.hypepubsub.clientslist.subscriptionslistsyncqueue")
-    
     public func add(subscription: Subscription)
     {
-        subscriptionsListSyncQueue.sync
+        SyncUtils.lock(obj: self)
         {
             if(find(withKey: subscription.serviceKey) != nil){
                 return ; // subscription already added
@@ -25,7 +23,7 @@ class SubscriptionsList
     
     public func remove(subscription: Subscription)
     {
-        subscriptionsListSyncQueue.sync
+        SyncUtils.lock(obj: self)
         {
             if let index = subscriptions.index(where: {$0.serviceKey == subscription.serviceKey}) {
                 subscriptions.remove(at: index);
@@ -38,13 +36,13 @@ class SubscriptionsList
         var subscription : Subscription?
         subscription = nil
         
-        subscriptionsListSyncQueue.sync
+        SyncUtils.lock(obj: self)
         {
             if let index = subscriptions.index(where: {$0.serviceKey == serviceKey}) {
                 subscription = subscriptions[index]
             }
         }
-        
+    
         return subscription
     }
     
@@ -53,9 +51,12 @@ class SubscriptionsList
     public func count() -> Int
     {
         var subscriptionsCount:Int = 0
-        subscriptionsListSyncQueue.sync{
+        
+        SyncUtils.lock(obj: self)
+        {
             subscriptionsCount = subscriptions.count;
         }
+        
         return subscriptionsCount
     }
     
@@ -63,7 +64,8 @@ class SubscriptionsList
     {
         var subscriptionAtIndex:Subscription? = nil
         
-        subscriptionsListSyncQueue.sync{
+        SyncUtils.lock(obj: self)
+        {
             if (index < subscriptions.count){
                 subscriptionAtIndex = subscriptions[index]
             }
@@ -71,5 +73,4 @@ class SubscriptionsList
         
         return subscriptionAtIndex
     }
-    
 }

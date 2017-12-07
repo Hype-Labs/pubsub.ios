@@ -197,7 +197,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
         os_log("%@ Adding Hype SDK instance already resolved: %@", log: OSLog.default, type: .info,
                HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getLogStr(fromHYPInstance: instance))
         
-        network.networkSyncQueue.sync // Add thread safety to adding procedure
+        SyncUtils.lock(obj: network.networkClients) // Add thread safety to adding procedure
         {
             network.networkClients.add(client: Client(fromHYPInstance: instance));
             hps.updateManagedServices();
@@ -210,7 +210,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
         os_log("%@ Removing Hype SDK instance already lost: %@", log: OSLog.default, type: .info,
                HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getLogStr(fromHYPInstance: instance))
 
-        network.networkSyncQueue.sync // Add thread safety to removal procedure
+        SyncUtils.lock(obj: network.networkClients) // Add thread safety to removal procedure
         {
             network.networkClients.remove(client: Client(fromHYPInstance: instance));
             hps.updateOwnSubscriptions();

@@ -9,11 +9,9 @@ public class ServiceManagersList
 {
     private var serviceManagers = [ServiceManager]()
     
-    private let serviceManagersListSyncQueue = DispatchQueue(label: "com.hypelabs.hypepubsub.clientslist.servicemanagerslistsyncqueue")
-    
     func add(serviceManager: ServiceManager)
     {
-        serviceManagersListSyncQueue.sync
+        SyncUtils.lock(obj: self)
         {
             if(find(withKey: serviceManager.serviceKey) != nil){
                 return ; // ServiceManager already added
@@ -25,7 +23,7 @@ public class ServiceManagersList
     
     func remove(withKey serviceKey: Data)
     {
-        serviceManagersListSyncQueue.sync
+        SyncUtils.lock(obj: self)
         {
             if let index = serviceManagers.index(where: {$0.serviceKey == serviceKey}) {
                 serviceManagers.remove(at: index);
@@ -38,7 +36,7 @@ public class ServiceManagersList
         var managedService:ServiceManager?
         managedService = nil
         
-        serviceManagersListSyncQueue.sync
+        SyncUtils.lock(obj: self)
         {
             if let index = serviceManagers.index(where: {$0.serviceKey == serviceKey}) {
                 managedService = serviceManagers[index]
@@ -53,9 +51,11 @@ public class ServiceManagersList
     func count() -> Int!
     {
         var serviceManagersCount:Int = 0
-        serviceManagersListSyncQueue.sync{
+        
+        SyncUtils.lock(obj: self){
             serviceManagersCount = serviceManagers.count;
         }
+        
         return serviceManagersCount
     }
     
@@ -63,7 +63,7 @@ public class ServiceManagersList
     {
         var managedServiceAtIndex:ServiceManager? = nil
         
-        serviceManagersListSyncQueue.sync
+        SyncUtils.lock(obj: self)
         {
             if (index < serviceManagers.count){
                 managedServiceAtIndex = serviceManagers[index]

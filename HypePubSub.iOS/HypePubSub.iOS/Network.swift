@@ -12,8 +12,6 @@ class Network
     var ownClient: Client?
     var networkClients: ClientsList
     
-    let networkSyncQueue = DispatchQueue(label: "com.hypelabs.hypepubsub.clientslist.networksyncqueue")
-    
     static func getInstance() -> Network
     {
         return network;
@@ -30,7 +28,7 @@ class Network
         var managerClient = ownClient // if no clients were found in the network, the own client if the one responsible for that service
         var lowestDist = BinaryUtils.xor(data1: serviceKey, data2: ownClient!.key);
 
-        networkSyncQueue.sync // Add thread safety to iteration procedure
+        SyncUtils.lock(obj: self) // Add thread safety to iteration procedure
         {
             for i in 0..<networkClients.count()
             {

@@ -18,8 +18,6 @@ class HypePubSub
     
     private let network = Network.getInstance()
     
-    private let hpsSyncQueue = DispatchQueue(label: "com.hypelabs.hypepubsub.hypepubsub.hpssyncqueue")
-    
     public static func getInstance() -> HypePubSub
     {
         return hps
@@ -105,7 +103,7 @@ class HypePubSub
     
     func processSubscribeReq(_ serviceKey: Data, _ requesterInstance: HYPInstance)
     {
-        hpsSyncQueue.sync
+        SyncUtils.lock(obj: self)
         {
             let managerClient = network.determineManagerClientOfService(withKey: serviceKey)
             if( !HpsGenericUtils.areClientsEqual(managerClient!, network.ownClient!))
@@ -141,7 +139,7 @@ class HypePubSub
     
     func processUnsubscribeReq(_ serviceKey: Data, _ requesterInstance: HYPInstance)
     {
-        hpsSyncQueue.sync
+        SyncUtils.lock(obj: self)
         {
             let serviceManager = self.managedServices.find(withKey: serviceKey)
             
@@ -172,7 +170,7 @@ class HypePubSub
     
     func processPublishReq(_ serviceKey: Data, _ msg: String)
     {
-        hpsSyncQueue.sync
+        SyncUtils.lock(obj: self)
         {
             let serviceManager = self.managedServices.find(withKey: serviceKey)
             
@@ -252,7 +250,7 @@ class HypePubSub
     
     func updateManagedServices()
     {
-        hpsSyncQueue.sync
+        SyncUtils.lock(obj: self)
         {
             var toRemove = [Data]()
             os_log("%@ Executing updateManagedServices (%@ services managed)",
@@ -293,7 +291,7 @@ class HypePubSub
     
     func updateOwnSubscriptions()
     {
-        hpsSyncQueue.sync
+        SyncUtils.lock(obj: self)
         {
              os_log("%@ Executing updateOwnSubscriptions (%@ subscriptions)",
              log: OSLog.default, type: .info,

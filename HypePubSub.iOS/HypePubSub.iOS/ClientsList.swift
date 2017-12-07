@@ -10,11 +10,9 @@ class ClientsList
 {
     private var clients = [Client]()
     
-    private let clientsListSyncQueue = DispatchQueue(label: "com.hypelabs.hypepubsub.clientslist.clientslistsyncqueue")
-    
     public func add(client: Client)
     {
-        clientsListSyncQueue.sync
+        SyncUtils.lock(obj: self)
         {
             if(find(client: client) != nil){
                 return ; // Client already added
@@ -26,7 +24,7 @@ class ClientsList
     
     public func remove(client: Client)
     {
-        clientsListSyncQueue.sync
+        SyncUtils.lock(obj: self)
         {
             if let index = clients.index(where: {$0.key == client.key}) {
                 clients.remove(at: index);
@@ -39,7 +37,7 @@ class ClientsList
         var clientFound : Client?
         clientFound = nil
         
-        clientsListSyncQueue.sync
+        SyncUtils.lock(obj: self)
         {
             if let index = clients.index(where: {$0.key == client.key}) {
                 clientFound = clients[index]
@@ -53,7 +51,7 @@ class ClientsList
     public func count() -> Int!
     {
         var clientsCount:Int = 0
-        clientsListSyncQueue.sync{
+        SyncUtils.lock(obj: self){
             clientsCount = clients.count;
         }
         return clientsCount
@@ -63,7 +61,7 @@ class ClientsList
     {
         var clientAtIndex:Client? = nil
         
-        clientsListSyncQueue.sync{
+        SyncUtils.lock(obj: self){
             if (index < clients.count){
                 clientAtIndex = clients[index]
             }
