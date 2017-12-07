@@ -5,7 +5,6 @@
 
 import Foundation
 
-
 class BinaryUtils
 {
     public static func xor(data1: Data, data2: Data) -> Data?
@@ -51,10 +50,9 @@ class BinaryUtils
     
     public static func toHexString(data: Data) -> String
     {
-        let hexStr: String = String()
-
+        var hexStr: String = String()
         for i in 0..<data.count{
-            _ = hexStr.appendingFormat("%02x", data[i])
+            hexStr.append(String(format:"%02x", data[i]))
         }
         return hexStr
     }

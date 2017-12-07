@@ -10,9 +10,16 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    let hpsSdk = HypeSdkInterface.getInstance()
+    
+    @IBAction func SubscribeButton(_ sender: UIButton) {
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        hpsSdk.requestHypeToStart()
     }
 
     override func didReceiveMemoryWarning() {

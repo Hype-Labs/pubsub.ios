@@ -80,9 +80,9 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     
     func hypeDidChangeState()
     {
-        os_log("%@ Hype SDK state has changed to %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX,
-               HYP.state().rawValue)
+       // os_log("%@ Hype SDK state has changed to %@", log: OSLog.default, type: .info,
+       //        HYPE_SDK_INTERFACE_LOG_PREFIX,
+       //        HYP.state().rawValue)
     }
     
     ///////////////////////////////////////////////////////////////////////////////////////////
