@@ -17,6 +17,7 @@
 		258EA7E31FD54C2C00656ECE /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA7E21FD54C2C00656ECE /* Client.swift */; };
 		259849EF1FD94DA9005CB656 /* AlertDialogUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259849EE1FD94DA9005CB656 /* AlertDialogUtils.swift */; };
 		259849F11FD969F7005CB656 /* SyncUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259849F01FD969F7005CB656 /* SyncUtils.swift */; };
+		259849F31FD9AB69005CB656 /* LogUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259849F21FD9AB69005CB656 /* LogUtils.swift */; };
 		25C608DD1FD56343004758C3 /* Hype.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25C608DC1FD56343004758C3 /* Hype.framework */; };
 		25C608E01FD5634F004758C3 /* Hype.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 25C608DE1FD5634F004758C3 /* Hype.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		25C608E21FD56C6C004758C3 /* HpsGenericUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608E11FD56C6C004758C3 /* HpsGenericUtils.swift */; };
@@ -84,6 +85,7 @@
 		258EA7E41FD5512600656ECE /* HypePubSub.iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HypePubSub.iOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		259849EE1FD94DA9005CB656 /* AlertDialogUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDialogUtils.swift; sourceTree = "<group>"; };
 		259849F01FD969F7005CB656 /* SyncUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncUtils.swift; sourceTree = "<group>"; };
+		259849F21FD9AB69005CB656 /* LogUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogUtils.swift; sourceTree = "<group>"; };
 		25C608DC1FD56343004758C3 /* Hype.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Hype.framework; path = "../../../../Downloads/platform/ios/build/Build/Products/Debug-universal/Hype.framework"; sourceTree = "<group>"; };
 		25C608DE1FD5634F004758C3 /* Hype.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Hype.framework; sourceTree = "<group>"; };
 		25C608E11FD56C6C004758C3 /* HpsGenericUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HpsGenericUtils.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				25C608FB1FD5AE2F004758C3 /* BinaryUtils.swift */,
 				259849EE1FD94DA9005CB656 /* AlertDialogUtils.swift */,
 				259849F01FD969F7005CB656 /* SyncUtils.swift */,
+				259849F21FD9AB69005CB656 /* LogUtils.swift */,
 			);
 			path = HypePubSub.iOS;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				259849F31FD9AB69005CB656 /* LogUtils.swift in Sources */,
 				25C608F01FD5A2C5004758C3 /* ServiceManagersList.swift in Sources */,
 				25C608E41FD57276004758C3 /* HpsConstants.swift in Sources */,
 				25C608E21FD56C6C004758C3 /* HpsGenericUtils.swift in Sources */,

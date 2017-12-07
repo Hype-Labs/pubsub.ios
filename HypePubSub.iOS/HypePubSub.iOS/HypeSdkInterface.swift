@@ -5,7 +5,6 @@
 
 import Foundation
 import UIKit
-import os
 
 class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessageObserver
 {
@@ -32,14 +31,14 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
         HYP.add(self as HYPNetworkObserver)
         HYP.add(self as HYPMessageObserver)
         HYP.start();
-        
-        os_log("%@ Requested Hype SDK start.", log: OSLog.default, type: .info, HYPE_SDK_INTERFACE_LOG_PREFIX)
+
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX, logMsg: "Requested Hype SDK start.")
     }
     
     internal func requestHypeToStop()
     {
         HYP.stop();
-        os_log("%@ Requested Hype SDK stop.", log: OSLog.default, type: .info, HYPE_SDK_INTERFACE_LOG_PREFIX)
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX, logMsg: "Requested Hype SDK stop.")
     }
     
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -48,41 +47,39 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     
     func hypeDidStart()
     {
-        os_log("%@ Hype SDK started! Host Instance: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX,
-               HpsGenericUtils.getLogStr(fromHYPInstance: HYP.hostInstance()))
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                     logMsg: String(format: "Hype SDK started! Host Instance: %@",
+                                    HpsGenericUtils.getLogStr(fromHYPInstance: HYP.hostInstance())))
         
         network.setOwnClient(hostInstance: HYP.hostInstance())
     }
     
     func hypeDidStopWithError(_ error: HYPError)
     {
-        os_log("%@ Hype SDK stopped with error. Error description: %@", log: OSLog.default, type: .error,
-               HYPE_SDK_INTERFACE_LOG_PREFIX,
-               error.description)
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                     logMsg: String(format: "Hype SDK stopped with error. Error description: %@", error.description))
     }
     
     func hypeDidFailStartingWithError(_ error: HYPError)
     {
-        os_log("%@ Hype SDK start failed. Suggestion %@", log: OSLog.default, type: .error,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, error.suggestion)
-        os_log("%@ Hype SDK start failed. Description %@", log: OSLog.default, type: .error,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, error.description)
-        os_log("%@ Hype SDK start failed. Reason %@", log: OSLog.default, type: .error,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, error.reason)
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                     logMsg: String(format: "Hype SDK start failed. Suggestion: %@", error.suggestion))
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                     logMsg: String(format: "Hype SDK start failed. Description: %@", error.description))
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                     logMsg: String(format: "Hype SDK start failed. Reason: %@", error.reason))
     }
     
     func hypeDidBecomeReady()
     {
-        os_log("%@ Hype SDK is ready", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX)
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                     logMsg: "Hype SDK is ready")
     }
     
     func hypeDidChangeState()
     {
-       // os_log("%@ Hype SDK state has changed to %@", log: OSLog.default, type: .info,
-       //        HYPE_SDK_INTERFACE_LOG_PREFIX,
-       //        HYP.state().rawValue)
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                     logMsg: String(format: "Hype SDK state has changed to %i", HYP.state().rawValue))
     }
     
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -95,16 +92,16 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
         
         if(!instance.isResolved)
         {
-            os_log("%@ Hype SDK unresolved instance found: %@", log: OSLog.default, type: .info,
-                   HYPE_SDK_INTERFACE_LOG_PREFIX, instanceLogIdStr)
-            os_log("%@ Resolving Hype SDK instance: %@", log: OSLog.default, type: .info,
-                   HYPE_SDK_INTERFACE_LOG_PREFIX, instanceLogIdStr)
+            LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                         logMsg: String(format: "Hype SDK unresolved instance found: %@", instanceLogIdStr))
+            LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                         logMsg: String(format: "Resolving Hype SDK instance: %@", instanceLogIdStr))
             HYP.resolve(instance);
         }
         else
         {
-            os_log("%@ Hype SDK resolved instance found: %@", log: OSLog.default, type: .info,
-                   HYPE_SDK_INTERFACE_LOG_PREFIX, instanceLogIdStr)
+            LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                         logMsg: String(format: "Hype SDK resolved instance found: %@", instanceLogIdStr))
             
             // Add the instance found in a separate thread to release the lock of the
             // Hype instance object preventing possible deadlock
@@ -116,8 +113,8 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     
     func hypeDidLose(_ instance: HYPInstance, error: HYPError)
     {
-        os_log("%@ Hype SDK instance lost: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getLogStr(fromHYPInstance: instance))
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                     logMsg: String(format: "Hype SDK instance lost: %@", HpsGenericUtils.getLogStr(fromHYPInstance: instance)))
         
         // Remove the instance lost in a separate thread to release the lock of the
         // Hype instance object preventing possible deadlock
@@ -128,19 +125,19 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     
     func hypeDidResolve(_ instance: HYPInstance)
     {
-        os_log("%@ Hype SDK instance resolved: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getLogStr(fromHYPInstance: instance))
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                     logMsg: String(format: "Hype SDK instance resolved: %@", HpsGenericUtils.getLogStr(fromHYPInstance: instance)))
         
         // Add instance in a separate thread to prevent deadlock
-         DispatchQueue.global().async {
+        DispatchQueue.global().async {
             self.addInstanceAlreadyResolved(instance: instance);
-         }
+        }
     }
     
     func hypeDidFailResolving(_ instance: HYPInstance, error: HYPError)
     {
-        os_log("%@ Hype SDK instance fail resolving: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getLogStr(fromHYPInstance: instance))
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                     logMsg: String(format: "Hype SDK instance fail resolving: %@", HpsGenericUtils.getLogStr(fromHYPInstance: instance)))
     }
     
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -154,37 +151,37 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     
     func hypeDidFailSendingMessage(_ messageInfo: HYPMessageInfo, to toInstance: HYPInstance, error: HYPError)
     {
-        os_log("%@ Hype SDK message failed sending to: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getLogStr(fromHYPInstance: toInstance))
-        os_log("%@ Hype SDK message failed sending error. Suggestion: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, error.suggestion)
-        os_log("%@ Hype SDK message failed sending error. Description: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, error.description)
-        os_log("%@ Hype SDK message failed sending error. Reason: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, error.reason)
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                     logMsg: String(format: "Hype SDK message failed sending to: %@", HpsGenericUtils.getLogStr(fromHYPInstance: toInstance)))
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                     logMsg: String(format: "Hype SDK message failed sending error. Suggestion: %@", error.suggestion))
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                     logMsg: String(format: "Hype SDK message failed sending error. Description: %@", error.description))
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                     logMsg: String(format: "Hype SDK message failed sending error. Reason: %@", error.reason))
     }
     
     func hypeDidSendMessage(_ messageInfo: HYPMessageInfo, to toInstance: HYPInstance, progress: Float, complete: Bool)
     {
         if(!complete) {
-            os_log("%@ Hype SDK message %@ sendinf percentage %@", log: OSLog.default, type: .info,
-                   HYPE_SDK_INTERFACE_LOG_PREFIX, messageInfo.identifier, (progress*100))
+            LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                         logMsg: String(format: "Hype SDK message %i sending percentage: %i%", messageInfo.identifier, progress*100))
         }
         else {
-            os_log("%@ Hype SDK message %@ fully sent", log: OSLog.default, type: .info,
-                   HYPE_SDK_INTERFACE_LOG_PREFIX, messageInfo.identifier)
+            LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                         logMsg: String(format: "Hype SDK message %i fully sent", messageInfo.identifier))
         }
     }
     
     func hypeDidDeliverMessage(_ messageInfo: HYPMessageInfo, to toInstance: HYPInstance, progress: Float, complete: Bool)
     {
         if(!complete) {
-            os_log("%@ Hype SDK message %@ delivered percentage %@", log: OSLog.default, type: .info,
-                   HYPE_SDK_INTERFACE_LOG_PREFIX, messageInfo.identifier, (progress*100))
+            LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                         logMsg: String(format: "Hype SDK message %i delivered percentage: %i%", messageInfo.identifier, progress*100))
         }
         else {
-            os_log("%@ Hype SDK message %@ fully delivered", log: OSLog.default, type: .info,
-                   HYPE_SDK_INTERFACE_LOG_PREFIX, messageInfo.identifier)
+            LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                         logMsg: String(format: "Hype SDK message %i fully delivered", messageInfo.identifier))
         }
     }
     
@@ -194,8 +191,8 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     
     func addInstanceAlreadyResolved(instance: HYPInstance)
     {
-        os_log("%@ Adding Hype SDK instance already resolved: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getLogStr(fromHYPInstance: instance))
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                     logMsg: String(format: "Adding Hype SDK instance already resolved: %@", HpsGenericUtils.getLogStr(fromHYPInstance: instance)))
         
         SyncUtils.lock(obj: network.networkClients) // Add thread safety to adding procedure
         {
@@ -207,8 +204,8 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     
     func removeInstanceLost(instance: HYPInstance)
     {
-        os_log("%@ Removing Hype SDK instance already lost: %@", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, HpsGenericUtils.getLogStr(fromHYPInstance: instance))
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                     logMsg: String(format: "Removing Hype SDK instance already lost: %@", HpsGenericUtils.getLogStr(fromHYPInstance: instance)))
 
         SyncUtils.lock(obj: network.networkClients) // Add thread safety to removal procedure
         {
@@ -224,7 +221,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     func sendMsg(_ hpsMsg: HpsMessage, _ destInstance: HYPInstance)
     {
         let sdkMsg = HYP.send(hpsMsg.toByteArray(), to: destInstance, trackProgress: true);
-        os_log("%@ Hype SDK sent message with ID: ", log: OSLog.default, type: .info,
-               HYPE_SDK_INTERFACE_LOG_PREFIX, sdkMsg!.identifier)
+        LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
+                     logMsg: String(format: "Hype SDK sent message with ID: %@" + String(sdkMsg!.identifier)))
     }
 }

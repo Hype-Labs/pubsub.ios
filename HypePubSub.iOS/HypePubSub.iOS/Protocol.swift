@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import os
 
 
 class Protocol
@@ -56,8 +55,7 @@ class Protocol
     static func receiveMsg(originInstance: HYPInstance, packet: Data) -> Int
     {
         if(packet.count <= 0) {
-            os_log("%@ Received message has an invalid length", log: OSLog.default, type: .error,
-                   PROTOCOL_LOG_PREFIX)
+            LogUtils.log(prefix: PROTOCOL_LOG_PREFIX, logMsg: "Received message has an invalid length")
             return -1
         }
     
@@ -76,8 +74,7 @@ class Protocol
                 _ = receiveInfoMsg(originInstance, packet)
                 break
             case HpsMessageType.INVALID:
-                os_log("%@ Received message has an invalid MessageType", log: OSLog.default, type: .error,
-                       PROTOCOL_LOG_PREFIX)
+                LogUtils.log(prefix: PROTOCOL_LOG_PREFIX, logMsg: "Received message has an invalid MessageType")
             return -2 // HpsMessage type not recognized. Discard
         }
     
@@ -87,8 +84,7 @@ class Protocol
     private static func receiveSubscribeMsg(_ originInstance: HYPInstance, _ packet: Data) -> Int
     {
         if(packet.count != (MESSAGE_TYPE_BYTE_SIZE + Int(HpsConstants.HASH_ALGORITHM_DIGEST_LENGTH))) {
-            os_log("%@ Received Subscribe message has an invalid length", log: OSLog.default, type: .error,
-                   PROTOCOL_LOG_PREFIX)
+            LogUtils.log(prefix: PROTOCOL_LOG_PREFIX, logMsg: "Received Subscribe message has an invalid length")
             return -1
         }
     
@@ -102,8 +98,7 @@ class Protocol
     private static func receiveUnsubscribeMsg(_ originInstance: HYPInstance, _ packet: Data) -> Int
     {
         if(packet.count != (MESSAGE_TYPE_BYTE_SIZE + Int(HpsConstants.HASH_ALGORITHM_DIGEST_LENGTH))) {
-            os_log("%@ Received Unsubscribe message has an invalid length", log: OSLog.default, type: .error,
-                   PROTOCOL_LOG_PREFIX)
+            LogUtils.log(prefix: PROTOCOL_LOG_PREFIX, logMsg: "Received Unsubscribe message has an invalid length")
             return -1
         }
     
@@ -117,8 +112,7 @@ class Protocol
     private static func receivePublishMsg(_ originInstance: HYPInstance, _ packet: Data) -> Int
     {
         if(packet.count <= (MESSAGE_TYPE_BYTE_SIZE + Int(HpsConstants.HASH_ALGORITHM_DIGEST_LENGTH))) {
-            os_log("%@ Received Publish message has an invalid length", log: OSLog.default, type: .error,
-                   PROTOCOL_LOG_PREFIX)
+            LogUtils.log(prefix: PROTOCOL_LOG_PREFIX, logMsg: "Received Publish message has an invalid length")
             return -1
         }
     
@@ -132,8 +126,7 @@ class Protocol
     private static func receiveInfoMsg(_ originInstance: HYPInstance, _ packet: Data) -> Int
     {
         if(packet.count <= (MESSAGE_TYPE_BYTE_SIZE + Int(HpsConstants.HASH_ALGORITHM_DIGEST_LENGTH))) {
-            os_log("%@ Received Info message has an invalid length", log: OSLog.default, type: .error,
-                   PROTOCOL_LOG_PREFIX)
+            LogUtils.log(prefix: PROTOCOL_LOG_PREFIX, logMsg: "Received Info message has an invalid length")
             return -1
         }
     
@@ -193,13 +186,13 @@ class Protocol
     
     static func printMsgSendLog(_ hpsMsg: HpsMessage, _ destination: HYPInstance)
     {
-        os_log("%@ Sending %@ Destination %@", log: OSLog.default, type: .info,
-               PROTOCOL_LOG_PREFIX, hpsMsg.toLogString(), HpsGenericUtils.getLogStr(fromHYPInstance: destination))
+        LogUtils.log(prefix: PROTOCOL_LOG_PREFIX,
+                     logMsg: String(format: "Sending %@ Destination %@", hpsMsg.toLogString(), HpsGenericUtils.getLogStr(fromHYPInstance: destination)))
     }
     
     static func printMsgReceivedLog(_ hpsMsg: HpsMessage, _ originator: HYPInstance)
     {
-        os_log("%@ Received %@ Originator %@", log: OSLog.default, type: .info,
-               PROTOCOL_LOG_PREFIX, hpsMsg.toLogString(), HpsGenericUtils.getLogStr(fromHYPInstance: originator))
+        LogUtils.log(prefix: PROTOCOL_LOG_PREFIX,
+                     logMsg: String(format: "Received %@ Originator %@", hpsMsg.toLogString(), HpsGenericUtils.getLogStr(fromHYPInstance: originator)))
     }
 }

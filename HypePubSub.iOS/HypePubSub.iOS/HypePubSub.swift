@@ -6,7 +6,6 @@
 import Foundation
 import os
 
-
 class HypePubSub
 {
     private static let HYPE_PUB_SUB_LOG_PREFIX = HpsConstants.LOG_PREFIX + "<HypePubSub> "
@@ -108,10 +107,11 @@ class HypePubSub
             let managerClient = network.determineManagerClientOfService(withKey: serviceKey)
             if( !HpsGenericUtils.areClientsEqual(managerClient!, network.ownClient!))
             {
-                os_log("%@ Another instance should be responsible for the service 0x%@: %@", log: OSLog.default, type: .info,
-                       HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                       BinaryUtils.toHexString(data: serviceKey),
-                       HpsGenericUtils.getLogStr(fromClient: managerClient!))
+                
+                LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
+                             logMsg: String(format: "Another instance should be responsible for the service 0x%@: %@",
+                                               BinaryUtils.toHexString(data: serviceKey),
+                                               HpsGenericUtils.getLogStr(fromClient: managerClient!)))
                 
                 return
             }
@@ -119,19 +119,18 @@ class HypePubSub
             var serviceManager = self.managedServices.find(withKey: serviceKey)
             if(serviceManager == nil ) // If the service does not exist we create it.
             {
-                os_log("%@ Processing Subscribe request for non-existent ServiceManager 0x%@ ServiceManager will be created.",
-                       log: OSLog.default, type: .info,
-                       HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                       BinaryUtils.toHexString(data: serviceKey))
+                LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
+                             logMsg: String(format: "Processing Subscribe request for non-existent ServiceManager 0x%@ ServiceManager will be created.",
+                                            BinaryUtils.toHexString(data: serviceKey)))
                 
                 self.managedServices.add(serviceManager: ServiceManager(fromServiceKey: serviceKey))
                 serviceManager = self.managedServices.getLast()
             }
-        
-            os_log("Adding instance %@ to the list of subscribers of the service 0x%@",
-                   log: OSLog.default, type: .info,
-                   HpsGenericUtils.getLogStr(fromHYPInstance: requesterInstance),
-                   BinaryUtils.toHexString(data: serviceKey))
+            
+            LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
+                         logMsg: String(format: "Adding instance %@ to the list of subscribers of the service 0x%@",
+                                       HpsGenericUtils.getLogStr(fromHYPInstance: requesterInstance),
+                                       BinaryUtils.toHexString(data: serviceKey)))
 
             serviceManager!.subscribers.add(client: Client(fromHYPInstance:requesterInstance))
         }
@@ -145,19 +144,17 @@ class HypePubSub
             
             if(serviceManager == nil) // If the service does not exist nothing is done
             {
-                os_log("%@ Processing Unsubscribe request for non-existent ServiceManager 0x%@. Nothing will be done",
-                       log: OSLog.default, type: .info,
-                       HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                       BinaryUtils.toHexString(data: serviceKey))
+                LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
+                             logMsg: String(format: "Processing Unsubscribe request for non-existent ServiceManager 0x%@. Nothing will be done",
+                                            BinaryUtils.toHexString(data: serviceKey)))
                 
                 return
             }
             
-            os_log("%@ Removing instance %@ from the list of subscribers of the service 0x%@",
-                   log: OSLog.default, type: .info,
-                   HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                   HpsGenericUtils.getLogStr(fromHYPInstance: requesterInstance),
-                   BinaryUtils.toHexString(data: serviceKey))
+            LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
+                         logMsg: String(format: "Removing instance %@ from the list of subscribers of the service 0x%@",
+                                       HpsGenericUtils.getLogStr(fromHYPInstance: requesterInstance),
+                                       BinaryUtils.toHexString(data: serviceKey)))
             
             serviceManager!.subscribers.remove(client: Client(fromHYPInstance: requesterInstance))
             
@@ -176,10 +173,9 @@ class HypePubSub
             
             if(serviceManager == nil)
             {
-                os_log("%@ Processing Publish request for non-existent ServiceManager 0x%@. Nothing will be done",
-                       log: OSLog.default, type: .info,
-                       HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                       BinaryUtils.toHexString(data: serviceKey))
+                LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
+                             logMsg: String(format: "Processing Publish request for non-existent ServiceManager 0x%@. Nothing will be done",
+                                            BinaryUtils.toHexString(data: serviceKey)))
                 
                 return
             }
@@ -193,20 +189,18 @@ class HypePubSub
              
                 if(HpsGenericUtils.areClientsEqual(network.ownClient!, client!))
                 {
-                    os_log("%@ Publishing info from service 0x%@ to Host instance",
-                           log: OSLog.default, type: .info,
-                           HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                           BinaryUtils.toHexString(data: serviceKey))
+                    LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
+                                 logMsg: String(format: "Publishing info from service 0x%@ to Host instance",
+                                                BinaryUtils.toHexString(data: serviceKey)))
 
                     self.processInfoMsg(serviceKey, msg)
                 }
                 else
                 {
-                    os_log("%@ Publishing info from service 0x%@ to %@",
-                           log: OSLog.default, type: .info,
-                           HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                           BinaryUtils.toHexString(data: serviceKey),
-                           HpsGenericUtils.getLogStr(fromHYPInstance: client!.instance))
+                    LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
+                                 logMsg: String(format: "Publishing info from service 0x%@ to %@",
+                                               BinaryUtils.toHexString(data: serviceKey),
+                                               HpsGenericUtils.getLogStr(fromHYPInstance: client!.instance)))
              
                     _ = Protocol.sendInfoMsg(serviceKey, client!.instance, msg)
                 }
@@ -219,14 +213,12 @@ class HypePubSub
         let subscription = ownSubscriptions.find(withKey: serviceKey)
         
         if(subscription == nil){
-            os_log("%@ Info received from the unsubscribed service%@: %@",
-                   log: OSLog.default, type: .info,
-                   HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                   BinaryUtils.toHexString(data: serviceKey),
-                   msg)
-
+            LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
+                         logMsg: String(format: "Info received from the unsubscribed service%@: %@",
+                                       BinaryUtils.toHexString(data: serviceKey), msg))
             return
         }
+        
         /*
         Date now = new Date()
         SimpleDateFormat sdf = new SimpleDateFormat("k'h'mm", Locale.getDefault())
@@ -240,11 +232,10 @@ class HypePubSub
         notificationID++
         */
         
-        os_log("%@ Info received from the unsubscribed service %@: %@",
-               log: OSLog.default, type: .info,
-               HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-               subscription!.serviceName,
-               msg)
+        LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
+                     logMsg: String(format: "Info received from the unsubscribed service %@: %@",
+                                   subscription!.serviceName,
+                                   msg))
         
     }
     
@@ -253,10 +244,10 @@ class HypePubSub
         SyncUtils.lock(obj: self)
         {
             var toRemove = [Data]()
-            os_log("%@ Executing updateManagedServices (%@ services managed)",
-                   log: OSLog.default, type: .info,
-                   HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                   self.managedServices.count())
+            
+            LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
+                         logMsg: String(format: "Executing updateManagedServices (%@ services managed)",
+                                        self.managedServices.count()))
         
             for i in 0..<self.managedServices.count()
             {
@@ -266,18 +257,16 @@ class HypePubSub
                 // we remove the service from the list of managed services of this Hype client.
                 let newManagerClient = network.determineManagerClientOfService(withKey: managedService!.serviceKey)
             
-                os_log("%@ Analyzing ServiceManager from service 0x%@",
-                       log: OSLog.default, type: .info,
-                       HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                       BinaryUtils.toHexString(data: managedService!.serviceKey))
+                LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
+                             logMsg: String(format: "Analyzing ServiceManager from service 0x%@",
+                                            BinaryUtils.toHexString(data: managedService!.serviceKey)))
                 
                 if( !HpsGenericUtils.areClientsEqual(newManagerClient!, network.ownClient!))
                 {
-                    os_log("%@ The service 0x%@ will be managed by %@. ServiceManager will be removed",
-                           log: OSLog.default, type: .info,
-                           HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                           BinaryUtils.toHexString(data: managedService!.serviceKey),
-                           HpsGenericUtils.getLogStr(fromClient: newManagerClient!))
+                    LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
+                                 logMsg: String(format: "The service 0x%@ will be managed by %@. ServiceManager will be removed",
+                                               BinaryUtils.toHexString(data: managedService!.serviceKey),
+                                               HpsGenericUtils.getLogStr(fromClient: newManagerClient!)))
                     
                     toRemove.append((managedService?.serviceKey)!)
                 }
@@ -293,10 +282,9 @@ class HypePubSub
     {
         SyncUtils.lock(obj: self)
         {
-             os_log("%@ Executing updateOwnSubscriptions (%@ subscriptions)",
-             log: OSLog.default, type: .info,
-             HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-             self.ownSubscriptions.count())
+            LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
+                         logMsg: String(format: "Executing updateOwnSubscriptions (%@ subscriptions)",
+                                        self.ownSubscriptions.count()))
         
             for i in 0..<self.ownSubscriptions.count()
             {
@@ -304,21 +292,17 @@ class HypePubSub
         
                 let newManagerClient = network.determineManagerClientOfService(withKey: subscription!.serviceKey)
         
-                
-                os_log("%@ Analyzing subscription ",
-                       log: OSLog.default, type: .info,
-                       HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                       HpsGenericUtils.getLogStr(fromSubscription: subscription!))
+                LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
+                             logMsg: String(format: "Analyzing subscription ",
+                                            HpsGenericUtils.getLogStr(fromSubscription: subscription!)))
         
                 // If there is a node with a closer key to the service key we change the manager
                 if( !HpsGenericUtils.areClientsEqual(newManagerClient!, subscription!.manager))
                 {
-                    
-                    os_log("%@ The manager of the subscribed service %@ has changed: %@. A new Subscribe message will be issued)",
-                           log: OSLog.default, type: .info,
-                           HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                           subscription!.serviceName,
-                           HpsGenericUtils.getLogStr(fromClient: newManagerClient!))
+                    LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
+                                 logMsg: String(format: "The manager of the subscribed service %@ has changed: %@. A new Subscribe message will be issued)",
+                                               subscription!.serviceName,
+                                               HpsGenericUtils.getLogStr(fromClient: newManagerClient!)))
                     
                     subscription!.manager = newManagerClient!
                     _ = self.issueSubscribeReq(subscription!.serviceName) // re-send the subscribe request to the new manager
@@ -331,9 +315,9 @@ class HypePubSub
     // Logging Methods
     //////////////////////////////////////////////////////////////////////////////
     
-    static func printIssueReqToHostInstanceLog(_ msgType: String, _ serviceName: String)
+    static func printIssueReqToHostInstanceLog(_ reqType: String, _ serviceName: String)
     {
-        os_log("%@ Issuing %@ for service %@", log: OSLog.default, type: .info,
-               HYPE_PUB_SUB_LOG_PREFIX, msgType, serviceName)
+        LogUtils.log(prefix: HYPE_PUB_SUB_LOG_PREFIX,
+                     logMsg: String(format: "Issuing %@ for service %@", reqType, serviceName))
     }
 }
