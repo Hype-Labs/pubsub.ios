@@ -4,7 +4,7 @@
 //
 
 import Foundation
-import os
+
 
 class HypePubSub
 {
@@ -246,7 +246,7 @@ class HypePubSub
             var toRemove = [Data]()
             
             LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                         logMsg: String(format: "Executing updateManagedServices (%@ services managed)",
+                         logMsg: String(format: "Executing updateManagedServices (%i services managed)",
                                         self.managedServices.count()))
         
             for i in 0..<self.managedServices.count()
@@ -283,7 +283,7 @@ class HypePubSub
         SyncUtils.lock(obj: self)
         {
             LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                         logMsg: String(format: "Executing updateOwnSubscriptions (%@ subscriptions)",
+                         logMsg: String(format: "Executing updateOwnSubscriptions (%i subscriptions)",
                                         self.ownSubscriptions.count()))
         
             for i in 0..<self.ownSubscriptions.count()
@@ -318,6 +318,6 @@ class HypePubSub
     static func printIssueReqToHostInstanceLog(_ reqType: String, _ serviceName: String)
     {
         LogUtils.log(prefix: HYPE_PUB_SUB_LOG_PREFIX,
-                     logMsg: String(format: "Issuing %@ for service %@", reqType, serviceName))
+                     logMsg: String(format: "Issuing %@ for service %@ to HOST instance", reqType, serviceName))
     }
 }

@@ -222,6 +222,6 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     {
         let sdkMsg = HYP.send(hpsMsg.toByteArray(), to: destInstance, trackProgress: true);
         LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
-                     logMsg: String(format: "Hype SDK sent message with ID: %@" + String(sdkMsg!.identifier)))
+                     logMsg: String(format: "Hype SDK sent message with ID: %i", sdkMsg!.identifier))
     }
 }
