@@ -1,7 +1,8 @@
 
 import UIKit
+import UserNotifications
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UNUserNotificationCenterDelegate{
     
     let hps = HypePubSub.getInstance()
     let hypeSdk = HypeSdkInterface.getInstance()
@@ -66,6 +67,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        // Configure User Notification Center
+        UNUserNotificationCenter.current().delegate = self
+            
         hypeSdk.requestHypeToStart()
     }
 
@@ -74,6 +78,9 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound])
+    }
     
     private func isHypeSdkReady() -> Bool
     {

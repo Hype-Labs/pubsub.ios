@@ -6,7 +6,6 @@
 import Foundation
 import UserNotifications
 
-
 class HypePubSub
 {
     // Members
@@ -16,6 +15,7 @@ class HypePubSub
     // Private
     private static let HYPE_PUB_SUB_LOG_PREFIX = HpsConstants.LOG_PREFIX + "<HypePubSub> "
     private let network = Network.getInstance()
+    private var notificationId = 0
     
     private static let hps = HypePubSub() // Early loading to avoid thread-safety issues
     public static func getInstance() -> HypePubSub {
@@ -212,13 +212,12 @@ class HypePubSub
         String msgWithTimeStamp = timestamp + ": " + msg
         */
         subscription!.receivedMsg.append(msg) // timeStampedMsg
-        /*
-        updateMessagesUI()
-        String notificationText = subscription.serviceName + ": " + msg
-        displayNotification(MainActivity.getContext(), HpsConstants.NOTIFICATIONS_CHANNEL, HpsConstants.NOTIFICATIONS_TITLE, notificationText, notificationID)
-        notificationID++
-        */
-
+        
+        displayNotification(title: (subscription?.serviceName)!,
+                            notificationcontent: msg,
+                            notificationId: HpsConstants.NOTIFICATIONS_TITLE + String(notificationId))
+        notificationId = notificationId + 1
+        
         LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
                      logMsg: String(format: "Info received from the subscribed service '%@': %@",
                                    subscription!.serviceName, msg))
@@ -277,7 +276,7 @@ class HypePubSub
                 let newManagerClient = network.determineClientResponsibleForService(withKey: subscription!.serviceKey)
         
                 LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                             logMsg: String(format: "Analyzing subscription ",
+                             logMsg: String(format: "Analyzing subscription %@",
                                             HpsGenericUtils.getLogStr(fromSubscription: subscription!)))
         
                 // If there is a node with a closer key to the service key we change the subscription manager
@@ -299,6 +298,28 @@ class HypePubSub
                 }
             }
         }
+    }
+    
+    //////////////////////////////////////////////////////////////////////////////
+    // UI Methods
+    //////////////////////////////////////////////////////////////////////////////
+    
+    private func displayNotification(title: String, notificationcontent: String, notificationId: String)
+    {
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = notificationcontent
+        content.sound = UNNotificationSound.default()
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: notificationId, content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
+            if let error = error {
+                LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
+                             logMsg: String(format: "Something went wrong when showing the info message notification. Error: %s", error.localizedDescription))
+            }
+        })
     }
     
     //////////////////////////////////////////////////////////////////////////////
