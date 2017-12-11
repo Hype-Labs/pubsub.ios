@@ -11,7 +11,9 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     // Members
     var isHypeReady = false
     var isHypeFail = false
+    var hasHypeStopped = false
     var hypeFailedMsg = ""
+    var hypeStoppedMsg = ""
     
     // Private
     private let HYPE_SDK_INTERFACE_LOG_PREFIX = HpsConstants.LOG_PREFIX + "<HypeSdkInterface> "
@@ -57,6 +59,10 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     
     func hypeDidStopWithError(_ error: HYPError)
     {
+        hasHypeStopped = true
+        hypeStoppedMsg = String(format: "Suggestion: %@\nDescription: %@\nReason: %@",
+                               error.suggestion, error.description, error.reason)
+        
         LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
                      logMsg: String(format: "Hype SDK stopped with error. Error description: %@", error.description))
     }
@@ -64,7 +70,6 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     func hypeDidFailStartingWithError(_ error: HYPError)
     {
         isHypeFail = true;
-
         hypeFailedMsg = String(format: "Suggestion: %@\nDescription: %@\nReason: %@",
                                     error.suggestion, error.description, error.reason)
         

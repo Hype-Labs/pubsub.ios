@@ -78,13 +78,18 @@ class ViewController: UIViewController {
     private func isHypeSdkReady() -> Bool
     {
         if(hypeSdk.isHypeFail){
-            AlertDialogUtils.showOkDialog(viewController: self, title: "Warning",
+            AlertDialogUtils.showOkDialog(viewController: self, title: "Error",
                                           msg: "Hype SDK could not be started.\n" + hypeSdk.hypeFailedMsg)
             return false
         }
         else if( !hypeSdk.isHypeReady){
             AlertDialogUtils.showOkDialog(viewController: self, title: "Warning", msg: "Hype SDK is not ready yet");
             return false;
+        }
+        else if(hypeSdk.hasHypeStopped){
+            AlertDialogUtils.showOkDialog(viewController: self, title: "Error",
+                                          msg: "Hype SDK has stopped.\n" + hypeSdk.hypeStoppedMsg)
+            return false
         }
     
         return true;
