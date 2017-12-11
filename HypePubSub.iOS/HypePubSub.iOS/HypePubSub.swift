@@ -289,7 +289,13 @@ class HypePubSub
                                                HpsGenericUtils.getLogStr(fromClient: newManagerClient!)))
                     
                     subscription!.manager = newManagerClient!
-                    _ = self.issueSubscribeReq(serviceName: subscription!.serviceName) // re-send the subscribe request to the new manager
+                    
+                    if(HpsGenericUtils.areClientsEqual(network.ownClient!, newManagerClient!)) {
+                        self.processSubscribeReq((subscription?.serviceKey)!, network.ownClient!.instance) // bypass protocol manager
+                    }
+                    else {
+                        _ = Protocol.sendSubscribeMsg((subscription?.serviceKey)!, (newManagerClient?.instance)!)
+                    }
                 }
             }
         }
