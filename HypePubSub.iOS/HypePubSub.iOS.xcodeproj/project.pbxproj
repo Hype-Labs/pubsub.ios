@@ -34,6 +34,7 @@
 		25C608F81FD5AADE004758C3 /* HpsMessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608F71FD5AADE004758C3 /* HpsMessageType.swift */; };
 		25C608FA1FD5AB34004758C3 /* HpsMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608F91FD5AB34004758C3 /* HpsMessage.swift */; };
 		25C608FC1FD5AE2F004758C3 /* BinaryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608FB1FD5AE2F004758C3 /* BinaryUtils.swift */; };
+		25E2CD7F1FDE9BD700F59A2C /* hypelabs_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 25E2CD7E1FDE9BD600F59A2C /* hypelabs_logo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,7 @@
 		25C608F71FD5AADE004758C3 /* HpsMessageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HpsMessageType.swift; sourceTree = "<group>"; };
 		25C608F91FD5AB34004758C3 /* HpsMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HpsMessage.swift; sourceTree = "<group>"; };
 		25C608FB1FD5AE2F004758C3 /* BinaryUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryUtils.swift; sourceTree = "<group>"; };
+		25E2CD7E1FDE9BD600F59A2C /* hypelabs_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hypelabs_logo.png; path = Assets.xcassets/hypelabs_logo.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +157,7 @@
 		258EA7AF1FD54A8900656ECE /* HypePubSub.iOS */ = {
 			isa = PBXGroup;
 			children = (
+				25E2CD7E1FDE9BD600F59A2C /* hypelabs_logo.png */,
 				258EA7B01FD54A8900656ECE /* AppDelegate.swift */,
 				258EA7B21FD54A8900656ECE /* ViewController.swift */,
 				258EA7B41FD54A8900656ECE /* Main.storyboard */,
@@ -319,6 +322,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25E2CD7F1FDE9BD700F59A2C /* hypelabs_logo.png in Resources */,
 				258EA7BB1FD54A8900656ECE /* LaunchScreen.storyboard in Resources */,
 				258EA7B81FD54A8900656ECE /* Assets.xcassets in Resources */,
 				258EA7B61FD54A8900656ECE /* Main.storyboard in Resources */,

@@ -15,4 +15,5 @@ class HpsConstants
     static let HASH_ALGORITHM_DIGEST_LENGTH = CC_SHA1_DIGEST_LENGTH
     static let ENCODING_STANDARD = String.Encoding.utf8
     static let LOG_PREFIX = " :: HpsApplication :: "
+    static let NOTIFICATIONS_TITLE = "HypePubSub";
 }
