@@ -9,29 +9,38 @@ public class ServiceManagersList
 {
     private var serviceManagers = [ServiceManager]()
     
-    func add(serviceManager: ServiceManager)
+    func addServiceManager(_ serviceManager: ServiceManager) -> Bool
     {
+        var wasServiceManagerAdded = false
+        
         SyncUtils.lock(obj: self)
         {
-            if(find(withKey: serviceManager.serviceKey) != nil){
-                return ; // ServiceManager already added
+            if(containsServiceManager(withKey: serviceManager.serviceKey)){
+                return ;
             }
             
             serviceManagers.append(serviceManager);
+            wasServiceManagerAdded = true
         }
+        return wasServiceManagerAdded
     }
     
-    func remove(withKey serviceKey: Data)
+    func removeServiceManager(withKey serviceKey: Data) -> Bool
     {
+        var wasServiceManagerRemoved = false
+        
         SyncUtils.lock(obj: self)
         {
             if let index = serviceManagers.index(where: {$0.serviceKey == serviceKey}) {
                 serviceManagers.remove(at: index);
+                wasServiceManagerRemoved = true
             }
         }
+        
+        return wasServiceManagerRemoved
     }
     
-    func find(withKey serviceKey: Data)-> ServiceManager?
+    func findServiceManager(withKey serviceKey: Data)-> ServiceManager?
     {
         var managedService:ServiceManager?
         managedService = nil
@@ -44,6 +53,18 @@ public class ServiceManagersList
         }
         
         return managedService
+    }
+    
+    public func containsServiceManager(withKey key: Data) -> Bool
+    {
+        var isServiceManagerFound = false
+        SyncUtils.lock(obj: self)
+        {
+            if (findServiceManager(withKey: key) != nil){
+                isServiceManagerFound = true
+            }
+        }
+        return isServiceManagerFound
     }
     
     // Methods from Array that we want to enable.

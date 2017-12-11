@@ -8,17 +8,16 @@ import Foundation
 
 class HypePubSub
 {
-    private static let HYPE_PUB_SUB_LOG_PREFIX = HpsConstants.LOG_PREFIX + "<HypePubSub> "
-    
-    private static let hps = HypePubSub() // Early loading to avoid thread-safety issues
-
+    // Members
     var ownSubscriptions: SubscriptionsList
     var managedServices: ServiceManagersList
     
+    // Private
+    private static let HYPE_PUB_SUB_LOG_PREFIX = HpsConstants.LOG_PREFIX + "<HypePubSub> "
     private let network = Network.getInstance()
     
-    public static func getInstance() -> HypePubSub
-    {
+    private static let hps = HypePubSub() // Early loading to avoid thread-safety issues
+    public static func getInstance() -> HypePubSub {
         return hps
     }
     
@@ -28,102 +27,89 @@ class HypePubSub
         self.managedServices = ServiceManagersList()
     }
     
-    func issueSubscribeReq(_ serviceName: String) -> Int
+    //////////////////////////////////////////////////////////////////////////////
+    // Request Issuing
+    //////////////////////////////////////////////////////////////////////////////
+    
+    func issueSubscribeReq(_ serviceName: String)
     {
         let serviceKey = HpsGenericUtils.hash(ofString: serviceName)
-        let managerClient = network.determineManagerClientOfService(withKey: serviceKey)
+        let managerClient = network.determineClientResponsibleForService(withKey: serviceKey)
     
-        // Add subscription to the list of own subscriptions. Only adds if it doesn't exist yet.
-        ownSubscriptions.add(subscription: Subscription(withName: serviceName, withManager: managerClient!))
-    
-        // if this client is the manager of the service we don't need to send the subscribe message to
-        // the protocol manager
-        if(HpsGenericUtils.areClientsEqual(network.ownClient!, managerClient!))
-        {
-            HypePubSub.printIssueReqToHostInstanceLog("Subscribe", serviceName)
-            self.processSubscribeReq(serviceKey, network.ownClient!.instance)
-            return 1
+        let wasSubscriptionAdded = ownSubscriptions.addSubscription(Subscription(withName: serviceName, withManager: managerClient!))
+        if(!wasSubscriptionAdded) {
+            return
         }
-        else
-        {
+        
+        if(HpsGenericUtils.areClientsEqual(network.ownClient!, managerClient!)) {
+            HypePubSub.printIssueReqToHostInstanceLog("Subscribe", serviceName)
+            self.processSubscribeReq(serviceKey, network.ownClient!.instance) // bypass protocol manager
+        }
+        else{
             _ = Protocol.sendSubscribeMsg(serviceKey, (managerClient?.instance)!)
         }
-
-        return 0
     }
     
-    func issueUnsubscribeReq(_ serviceName: String) -> Int
+    func issueUnsubscribeReq(_ serviceName: String)
     {
         let serviceKey = HpsGenericUtils.hash(ofString: serviceName)
-        let managerClient = network.determineManagerClientOfService(withKey: serviceKey)
+        let managerClient = network.determineClientResponsibleForService(withKey: serviceKey)
 
-        let serviceSubscription = ownSubscriptions.find(withKey: serviceKey)
-        if(serviceSubscription == nil){
-            return -2
+        let wasSubscriptionRemoved = ownSubscriptions.removeSubscription(withServiceName: serviceName)
+        if(!wasSubscriptionRemoved) {
+            return
         }
 
-        // Remove the subscription from the list of own subscriptions
-        ownSubscriptions.remove(subscription: serviceSubscription!)
-
-        // if this client is the manager of the service we don't need to send the unsubscribe message
-        // to the protocol manager
-        if(HpsGenericUtils.areClientsEqual(network.ownClient!, managerClient!))
-        {
+        if(HpsGenericUtils.areClientsEqual(network.ownClient!, managerClient!)) {
             HypePubSub.printIssueReqToHostInstanceLog("Unsubscribe", serviceName)
-            self.processUnsubscribeReq(serviceKey, network.ownClient!.instance)
+            self.processUnsubscribeReq(serviceKey, network.ownClient!.instance) // bypass protocol manager
         }
         else {
             _ = Protocol.sendUnsubscribeMsg(serviceKey, (managerClient?.instance)!)
         }
-
-        return 0
     }
     
-    func issuePublishReq(_ serviceName: String, _ msg: String) -> Int
+    func issuePublishReq(_ serviceName: String, _ msg: String)
     {
         let serviceKey = HpsGenericUtils.hash(ofString: serviceName)
-        let managerClient = network.determineManagerClientOfService(withKey: serviceKey)
+        let managerClient = network.determineClientResponsibleForService(withKey: serviceKey)
         
-        // if this client is the manager of the service we don't need to send the publish message
-        // to the protocol manager
-        if(HpsGenericUtils.areClientsEqual(network.ownClient!, managerClient!))
-        {
+        if(HpsGenericUtils.areClientsEqual(network.ownClient!, managerClient!)) {
             HypePubSub.printIssueReqToHostInstanceLog("Publish", serviceName)
-            self.processPublishReq(serviceKey, msg)
-            return 1
+            self.processPublishReq(serviceKey, msg) // bypass protocol manager
         }
-        else
-        {
+        else {
             _ = Protocol.sendPublishMsg(serviceKey, (managerClient?.instance)!, msg)
         }
-        
-        return 0
     }
+    
+    //////////////////////////////////////////////////////////////////////////////
+    // Request Processing
+    //////////////////////////////////////////////////////////////////////////////
     
     func processSubscribeReq(_ serviceKey: Data, _ requesterInstance: HYPInstance)
     {
         SyncUtils.lock(obj: self)
         {
-            let managerClient = network.determineManagerClientOfService(withKey: serviceKey)
+            let managerClient = network.determineClientResponsibleForService(withKey: serviceKey)
             if( !HpsGenericUtils.areClientsEqual(managerClient!, network.ownClient!))
             {
-                
                 LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
                              logMsg: String(format: "Another instance should be responsible for the service 0x%@: %@",
-                                               BinaryUtils.toHexString(data: serviceKey),
-                                               HpsGenericUtils.getLogStr(fromClient: managerClient!)))
+                                            BinaryUtils.toHexString(data: serviceKey),
+                                            HpsGenericUtils.getLogStr(fromClient: managerClient!)))
                 
                 return
             }
         
-            var serviceManager = self.managedServices.find(withKey: serviceKey)
+            var serviceManager = self.managedServices.findServiceManager(withKey: serviceKey)
             if(serviceManager == nil ) // If the service does not exist we create it.
             {
                 LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
                              logMsg: String(format: "Processing Subscribe request for non-existent ServiceManager 0x%@ ServiceManager will be created.",
                                             BinaryUtils.toHexString(data: serviceKey)))
                 
-                self.managedServices.add(serviceManager: ServiceManager(fromServiceKey: serviceKey))
+                _ = self.managedServices.addServiceManager(ServiceManager(fromServiceKey: serviceKey))
                 serviceManager = self.managedServices.getLast()
             }
             
@@ -132,7 +118,7 @@ class HypePubSub
                                        HpsGenericUtils.getLogStr(fromHYPInstance: requesterInstance),
                                        BinaryUtils.toHexString(data: serviceKey)))
 
-            serviceManager!.subscribers.add(client: Client(fromHYPInstance:requesterInstance))
+            _ = serviceManager!.subscribers.addClient(Client(fromHYPInstance:requesterInstance))
         }
     }
     
@@ -140,7 +126,7 @@ class HypePubSub
     {
         SyncUtils.lock(obj: self)
         {
-            let serviceManager = self.managedServices.find(withKey: serviceKey)
+            let serviceManager = self.managedServices.findServiceManager(withKey: serviceKey)
             
             if(serviceManager == nil) // If the service does not exist nothing is done
             {
@@ -156,11 +142,10 @@ class HypePubSub
                                        HpsGenericUtils.getLogStr(fromHYPInstance: requesterInstance),
                                        BinaryUtils.toHexString(data: serviceKey)))
             
-            serviceManager!.subscribers.remove(client: Client(fromHYPInstance: requesterInstance))
+            _ = serviceManager!.subscribers.removeClient(withHYPInstance: requesterInstance)
             
-            if(serviceManager!.subscribers.count() == 0)
-            { // Remove the service if there is no subscribers
-                self.managedServices.remove(withKey: serviceKey)
+            if(serviceManager!.subscribers.count() == 0) { // Remove the service if there is no subscribers
+                _ = self.managedServices.removeServiceManager(withKey: serviceKey)
             }
         }
     }
@@ -169,7 +154,7 @@ class HypePubSub
     {
         SyncUtils.lock(obj: self)
         {
-            let serviceManager = self.managedServices.find(withKey: serviceKey)
+            let serviceManager = self.managedServices.findServiceManager(withKey: serviceKey)
             
             if(serviceManager == nil)
             {
@@ -210,7 +195,7 @@ class HypePubSub
     
     func processInfoMsg(_ serviceKey: Data, _ msg: String)
     {
-        let subscription = ownSubscriptions.find(withKey: serviceKey)
+        let subscription = ownSubscriptions.findSubscription(withServiceKey: serviceKey)
         
         if(subscription == nil){
             LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
@@ -224,8 +209,9 @@ class HypePubSub
         SimpleDateFormat sdf = new SimpleDateFormat("k'h'mm", Locale.getDefault())
         String timestamp = sdf.format(now)
         String msgWithTimeStamp = timestamp + ": " + msg
-        
-        subscription.receivedMsg.add(0, msgWithTimeStamp)
+        */
+        subscription!.receivedMsg.append(msg) // timeStampedMsg
+        /*
         updateMessagesUI()
         String notificationText = subscription.serviceName + ": " + msg
         displayNotification(MainActivity.getContext(), HpsConstants.NOTIFICATIONS_CHANNEL, HpsConstants.NOTIFICATIONS_TITLE, notificationText, notificationID)
@@ -234,9 +220,7 @@ class HypePubSub
         
         LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
                      logMsg: String(format: "Info received from the unsubscribed service %@: %@",
-                                   subscription!.serviceName,
-                                   msg))
-        
+                                   subscription!.serviceName, msg))
     }
     
     func updateManagedServices()
@@ -255,7 +239,7 @@ class HypePubSub
             
                 // Check if a new Hype client with a closer key to this service key has appeared. If this happens
                 // we remove the service from the list of managed services of this Hype client.
-                let newManagerClient = network.determineManagerClientOfService(withKey: managedService!.serviceKey)
+                let newManagerClient = network.determineClientResponsibleForService(withKey: managedService!.serviceKey)
             
                 LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
                              logMsg: String(format: "Analyzing ServiceManager from service 0x%@",
@@ -273,7 +257,7 @@ class HypePubSub
             }
             
             for i in 0..<toRemove.count{
-                self.managedServices.remove(withKey: toRemove[i])
+                _ = self.managedServices.removeServiceManager(withKey: toRemove[i])
             }
         }
     }
@@ -289,14 +273,13 @@ class HypePubSub
             for i in 0..<self.ownSubscriptions.count()
             {
                 let subscription = ownSubscriptions.get(i)
-        
-                let newManagerClient = network.determineManagerClientOfService(withKey: subscription!.serviceKey)
+                let newManagerClient = network.determineClientResponsibleForService(withKey: subscription!.serviceKey)
         
                 LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
                              logMsg: String(format: "Analyzing subscription ",
                                             HpsGenericUtils.getLogStr(fromSubscription: subscription!)))
         
-                // If there is a node with a closer key to the service key we change the manager
+                // If there is a node with a closer key to the service key we change the subscription manager
                 if( !HpsGenericUtils.areClientsEqual(newManagerClient!, subscription!.manager))
                 {
                     LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,

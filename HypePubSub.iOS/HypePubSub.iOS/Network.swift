@@ -7,11 +7,11 @@ import Foundation
 
 class Network
 {
-    private static let network = Network() // Early loading to avoid thread-safety issues
-    
+    // Members
     var ownClient: Client?
     var networkClients: ClientsList
     
+    private static let network = Network() // Early loading to avoid thread-safety issues
     static func getInstance() -> Network
     {
         return network;
@@ -23,9 +23,9 @@ class Network
         self.networkClients = ClientsList()
     }
     
-    internal func determineManagerClientOfService(withKey serviceKey: Data) -> Client!
+    internal func determineClientResponsibleForService(withKey serviceKey: Data) -> Client!
     {
-        var managerClient = ownClient // if no clients were found in the network, the own client if the one responsible for that service
+        var managerClient = ownClient // if no clients were found in the network, the own client if the one responsible for the service
         var lowestDist = BinaryUtils.xor(data1: serviceKey, data2: ownClient!.key);
 
         SyncUtils.lock(obj: self) // Add thread safety to iteration procedure

@@ -9,29 +9,38 @@ class SubscriptionsList
 {
     var subscriptions = [Subscription]()
     
-    public func add(subscription: Subscription)
+    public func addSubscription(_ subscription: Subscription) -> Bool
     {
+        var wasSubscriptionAdded = false
+        
         SyncUtils.lock(obj: self)
         {
-            if(find(withKey: subscription.serviceKey) != nil){
+            if(containsSubscription(withServiceKey: subscription.serviceKey)){
                 return ; // subscription already added
             }
             
             subscriptions.append(subscription);
+            wasSubscriptionAdded = true
         }
+        
+        return wasSubscriptionAdded
     }
     
-    public func remove(subscription: Subscription)
+    public func removeSubscription(withServiceName name: String) -> Bool
     {
+        var wasSubscriptionRemoved = false
+        
         SyncUtils.lock(obj: self)
         {
-            if let index = subscriptions.index(where: {$0.serviceKey == subscription.serviceKey}) {
+            if let index = subscriptions.index(where: {$0.serviceName == name}) {
                 subscriptions.remove(at: index);
+                wasSubscriptionRemoved = true
             }
         }
+        return wasSubscriptionRemoved
     }
     
-    public func find(withKey serviceKey: Data) -> Subscription?
+    public func findSubscription(withServiceKey serviceKey: Data) -> Subscription?
     {
         var subscription : Subscription?
         subscription = nil
@@ -44,6 +53,18 @@ class SubscriptionsList
         }
     
         return subscription
+    }
+    
+    public func containsSubscription(withServiceKey key: Data) -> Bool
+    {
+        var isSubscriptionFound = false
+        SyncUtils.lock(obj: self)
+        {
+            if (findSubscription(withServiceKey: key) != nil){
+                isSubscriptionFound = true
+            }
+        }
+        return isSubscriptionFound
     }
     
     // Methods from Array that we want to enable.

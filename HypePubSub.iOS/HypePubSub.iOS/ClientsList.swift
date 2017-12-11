@@ -1,7 +1,3 @@
-//
-//  ClientsList.swift
-//  HypePubSub.iOS
-//
 
 import Foundation
 
@@ -10,41 +6,59 @@ class ClientsList
 {
     private var clients = [Client]()
     
-    public func add(client: Client)
+    public func addClient(_ client: Client) -> Bool
     {
+        var wasClientAdded = false
         SyncUtils.lock(obj: self)
         {
-            if(find(client: client) != nil){
-                return ; // Client already added
+            if(containsClient(withHYPInstance: client.instance)){
+                return;
             }
     
             clients.append(client);
+            wasClientAdded = true
         }
+        return wasClientAdded
     }
     
-    public func remove(client: Client)
+    public func removeClient(withHYPInstance instance: HYPInstance) -> Bool
     {
+        var wasClientRemoved = false
         SyncUtils.lock(obj: self)
         {
-            if let index = clients.index(where: {$0.key == client.key}) {
+            if let index = clients.index(where: {$0.instance.identifier == instance.identifier}) {
                 clients.remove(at: index);
+                wasClientRemoved = true
             }
         }
+        return wasClientRemoved
     }
     
-    public func find(client: Client) -> Client?
+    public func findClient(withHYPInstance instance: HYPInstance) -> Client?
     {
         var clientFound : Client?
         clientFound = nil
         
         SyncUtils.lock(obj: self)
         {
-            if let index = clients.index(where: {$0.key == client.key}) {
+            if let index = clients.index(where: {$0.instance.identifier == instance.identifier}) {
                 clientFound = clients[index]
             }
         }
         
         return clientFound
+    }
+    
+    public func containsClient(withHYPInstance instance: HYPInstance) -> Bool
+    {
+        var isClientFound = false
+        SyncUtils.lock(obj: self)
+        {
+            if (findClient(withHYPInstance: instance) != nil){
+                isClientFound = true
+            }
+        }
+        return isClientFound
     }
     
     // Methods from Array that we want to enable.

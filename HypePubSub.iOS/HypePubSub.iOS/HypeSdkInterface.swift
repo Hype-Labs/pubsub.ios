@@ -8,16 +8,12 @@ import UIKit
 
 class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessageObserver
 {
+    // Private
     private let HYPE_SDK_INTERFACE_LOG_PREFIX = HpsConstants.LOG_PREFIX + "<HypeSdkInterface> ";
     private let network:Network = Network.getInstance()
     private let hps:HypePubSub = HypePubSub.getInstance()
     
-    static private let hypeSdk = HypeSdkInterface() // Early loading to avoid thread-safety issues
-    
-    ///////////////////////////////////////////////////////////////////////////////////////////
-    // Methods
-    ///////////////////////////////////////////////////////////////////////////////////////////
-    
+    private static let hypeSdk = HypeSdkInterface() // Early loading to avoid thread-safety issues
     static func getInstance() -> HypeSdkInterface{
         return hypeSdk;
     }
@@ -144,10 +140,13 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     //  HYPMessageObserver methods
     ///////////////////////////////////////////////////////////////////////////////////////////
 
-    func hypeDidReceive(_ message: HYPMessage!, from fromInstance: HYPInstance!) {
-        
+    func hypeDidReceive(_ message: HYPMessage!, from fromInstance: HYPInstance!)
+    {
+        // Add instance in a separate thread to prevent deadlock
+        DispatchQueue.global().async {
+            _ = Protocol.receiveMsg(originInstance: fromInstance, packet: message.data);
+        }
     }
-
     
     func hypeDidFailSendingMessage(_ messageInfo: HYPMessageInfo, to toInstance: HYPInstance, error: HYPError)
     {
@@ -196,7 +195,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
         
         SyncUtils.lock(obj: network.networkClients) // Add thread safety to adding procedure
         {
-            network.networkClients.add(client: Client(fromHYPInstance: instance));
+            _ = network.networkClients.addClient(Client(fromHYPInstance: instance));
             hps.updateManagedServices();
             hps.updateOwnSubscriptions();
         }
@@ -209,7 +208,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
 
         SyncUtils.lock(obj: network.networkClients) // Add thread safety to removal procedure
         {
-            network.networkClients.remove(client: Client(fromHYPInstance: instance));
+            _ = network.networkClients.removeClient(withHYPInstance: instance);
             hps.updateOwnSubscriptions();
         }
     }
