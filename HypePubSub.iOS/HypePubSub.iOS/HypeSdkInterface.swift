@@ -11,6 +11,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     // Members
     var isHypeReady = false
     var isHypeFail = false
+    var hypeFailedMsg = ""
     
     // Private
     private let HYPE_SDK_INTERFACE_LOG_PREFIX = HpsConstants.LOG_PREFIX + "<HypeSdkInterface> "
@@ -64,6 +65,9 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     {
         isHypeFail = true;
 
+        hypeFailedMsg = String(format: "Suggestion: %@\nDescription: %@\nReason: %@",
+                                    error.suggestion, error.description, error.reason)
+        
         LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
                      logMsg: String(format: "Hype SDK start failed. Suggestion: %@", error.suggestion))
         LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
