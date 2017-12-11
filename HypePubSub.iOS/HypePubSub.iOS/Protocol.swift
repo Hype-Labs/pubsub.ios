@@ -166,7 +166,7 @@ class Protocol
     static func extractServiceKeyFromReceivedPacket(_ packet: Data) -> Data
     {
          let begin = MESSAGE_TYPE_BYTE_SIZE
-         let end = Int(HpsConstants.HASH_ALGORITHM_DIGEST_LENGTH)
+         let end = Int(HpsConstants.HASH_ALGORITHM_DIGEST_LENGTH)+1
          let serviceKeyRange: Range<Int> = begin..<end
          return packet.subdata(in: serviceKeyRange)
     }
