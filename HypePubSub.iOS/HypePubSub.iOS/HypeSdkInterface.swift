@@ -8,32 +8,36 @@ import UIKit
 
 class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessageObserver
 {
+    // Members
+    var isHypeReady = false
+    var isHypeFail = false
+    
     // Private
-    private let HYPE_SDK_INTERFACE_LOG_PREFIX = HpsConstants.LOG_PREFIX + "<HypeSdkInterface> ";
+    private let HYPE_SDK_INTERFACE_LOG_PREFIX = HpsConstants.LOG_PREFIX + "<HypeSdkInterface> "
     private let network:Network = Network.getInstance()
     private let hps:HypePubSub = HypePubSub.getInstance()
     
     private static let hypeSdk = HypeSdkInterface() // Early loading to avoid thread-safety issues
     static func getInstance() -> HypeSdkInterface{
-        return hypeSdk;
+        return hypeSdk
     }
     
     internal func requestHypeToStart()
     {
-        HYP.setUserIdentifier(0);
-        HYP.setAppIdentifier(HpsConstants.APP_IDENTIFIER);
+        HYP.setUserIdentifier(0)
+        HYP.setAppIdentifier(HpsConstants.APP_IDENTIFIER)
         HYP.setAnnouncement(UIDevice.current.name.data(using: HpsConstants.ENCODING_STANDARD))
         HYP.add(self as HYPStateObserver)
         HYP.add(self as HYPNetworkObserver)
         HYP.add(self as HYPMessageObserver)
-        HYP.start();
+        HYP.start()
 
         LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX, logMsg: "Requested Hype SDK start.")
     }
     
     internal func requestHypeToStop()
     {
-        HYP.stop();
+        HYP.stop()
         LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX, logMsg: "Requested Hype SDK stop.")
     }
     
@@ -46,7 +50,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
         LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
                      logMsg: String(format: "Hype SDK started! Host Instance: %@",
                                     HpsGenericUtils.getLogStr(fromHYPInstance: HYP.hostInstance())))
-        
+        isHypeReady = true;
         network.setOwnClient(hostInstance: HYP.hostInstance())
     }
     
@@ -58,6 +62,8 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     
     func hypeDidFailStartingWithError(_ error: HYPError)
     {
+        isHypeFail = true;
+
         LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
                      logMsg: String(format: "Hype SDK start failed. Suggestion: %@", error.suggestion))
         LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
@@ -92,7 +98,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
                          logMsg: String(format: "Hype SDK unresolved instance found: %@", instanceLogIdStr))
             LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
                          logMsg: String(format: "Resolving Hype SDK instance: %@", instanceLogIdStr))
-            HYP.resolve(instance);
+            HYP.resolve(instance)
         }
         else
         {
@@ -102,7 +108,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
             // Add the instance found in a separate thread to release the lock of the
             // Hype instance object preventing possible deadlock
             DispatchQueue.global().async {
-                self.addInstanceAlreadyResolved(instance: instance);
+                self.addInstanceAlreadyResolved(instance: instance)
             }
         }
     }
@@ -115,7 +121,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
         // Remove the instance lost in a separate thread to release the lock of the
         // Hype instance object preventing possible deadlock
         DispatchQueue.global().async {
-            self.removeInstanceLost(instance: instance);
+            self.removeInstanceLost(instance: instance)
         }
     }
     
@@ -126,7 +132,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
         
         // Add instance in a separate thread to prevent deadlock
         DispatchQueue.global().async {
-            self.addInstanceAlreadyResolved(instance: instance);
+            self.addInstanceAlreadyResolved(instance: instance)
         }
     }
     
@@ -144,7 +150,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     {
         // Add instance in a separate thread to prevent deadlock
         DispatchQueue.global().async {
-            _ = Protocol.receiveMsg(originInstance: fromInstance, packet: message.data);
+            _ = Protocol.receiveMsg(originInstance: fromInstance, packet: message.data)
         }
     }
     
@@ -195,9 +201,9 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
         
         SyncUtils.lock(obj: network.networkClients) // Add thread safety to adding procedure
         {
-            _ = network.networkClients.addClient(Client(fromHYPInstance: instance));
-            hps.updateManagedServices();
-            hps.updateOwnSubscriptions();
+            _ = network.networkClients.addClient(Client(fromHYPInstance: instance))
+            hps.updateManagedServices()
+            hps.updateOwnSubscriptions()
         }
     }
     
@@ -208,8 +214,8 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
 
         SyncUtils.lock(obj: network.networkClients) // Add thread safety to removal procedure
         {
-            _ = network.networkClients.removeClient(withHYPInstance: instance);
-            hps.updateOwnSubscriptions();
+            _ = network.networkClients.removeClient(withHYPInstance: instance)
+            hps.updateOwnSubscriptions()
         }
     }
     
@@ -219,7 +225,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     
     func sendMsg(_ hpsMsg: HpsMessage, _ destInstance: HYPInstance)
     {
-        let sdkMsg = HYP.send(hpsMsg.toByteArray(), to: destInstance, trackProgress: true);
+        let sdkMsg = HYP.send(hpsMsg.toByteArray(), to: destInstance, trackProgress: true)
         LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
                      logMsg: String(format: "Hype SDK sent message with ID: %i", sdkMsg!.identifier))
     }

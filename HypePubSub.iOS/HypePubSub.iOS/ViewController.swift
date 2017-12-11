@@ -4,10 +4,14 @@ import UIKit
 class ViewController: UIViewController {
     
     let hps = HypePubSub.getInstance()
-    let hpsSdk = HypeSdkInterface.getInstance()
+    let hypeSdk = HypeSdkInterface.getInstance()
     
     @IBAction func SubscribeButton(_ sender: UIButton)
     {
+        if( !isHypeSdkReady()){
+            return;
+        }
+        
         struct SubscribeServiceInputDialog: SingleInputDialog
         {
             var hps: HypePubSub
@@ -23,6 +27,9 @@ class ViewController: UIViewController {
     
     @IBAction func UnsubscribeButton(_ sender: UIButton)
     {
+        if( !isHypeSdkReady()){
+            return;
+        }
         struct UnsubscribeServiceInputDialog: SingleInputDialog
         {
             var hps: HypePubSub
@@ -38,6 +45,10 @@ class ViewController: UIViewController {
     
     @IBAction func PublishButton(_ sender: UIButton)
     {
+        if( !isHypeSdkReady()){
+            return;
+        }
+        
         struct PublishInputDialog: DoubleInputDialog
         {
             var hps: HypePubSub
@@ -55,12 +66,27 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        hpsSdk.requestHypeToStart()
+        hypeSdk.requestHypeToStart()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    private func isHypeSdkReady() -> Bool
+    {
+        if(hypeSdk.isHypeFail){
+            AlertDialogUtils.showOkDialog(viewController: self, title: "Warning", msg: "Hype SDK could not be started")
+            return false
+        }
+        else if( !hypeSdk.isHypeReady){
+            AlertDialogUtils.showOkDialog(viewController: self, title: "Warning", msg: "Hype SDK is not ready yet");
+            return false;
+        }
+    
+        return true;
     }
     
     static func processServiceName(nameInput: String) -> String

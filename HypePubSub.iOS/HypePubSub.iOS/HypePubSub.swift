@@ -218,28 +218,7 @@ class HypePubSub
         displayNotification(MainActivity.getContext(), HpsConstants.NOTIFICATIONS_CHANNEL, HpsConstants.NOTIFICATIONS_TITLE, notificationText, notificationID)
         notificationID++
         */
-        /*
-        let content = UNMutableNotificationContent()
-        content.title =  HpsConstants.NOTIFICATIONS_TITLE
-        content.body = msg
-        content.sound = UNNotificationSound.default()
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0,
-                                                        repeats: false)
-        //let trigger = UNCalendarNotificationTrigger(dateMatching: DateComponents., repeats: false)
-        
-        let request = UNNotificationRequest(identifier: "textNotification", content: content, trigger: trigger)
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        UNUserNotificationCenter.current().add(request) {(error) in
-            if let error = error {
-                print("Uh oh! We had an error: \(error)")
-            }
-        }
- */
-    
-        
-        
-        
+
         LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
                      logMsg: String(format: "Info received from the subscribed service '%@': %@",
                                    subscription!.serviceName, msg))
