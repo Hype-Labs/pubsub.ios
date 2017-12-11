@@ -31,7 +31,7 @@ class HypePubSub
     // Request Issuing
     //////////////////////////////////////////////////////////////////////////////
     
-    func issueSubscribeReq(_ serviceName: String)
+    func issueSubscribeReq(serviceName: String)
     {
         let serviceKey = HpsGenericUtils.hash(ofString: serviceName)
         let managerClient = network.determineClientResponsibleForService(withKey: serviceKey)
@@ -50,7 +50,7 @@ class HypePubSub
         }
     }
     
-    func issueUnsubscribeReq(_ serviceName: String)
+    func issueUnsubscribeReq(serviceName: String)
     {
         let serviceKey = HpsGenericUtils.hash(ofString: serviceName)
         let managerClient = network.determineClientResponsibleForService(withKey: serviceKey)
@@ -69,7 +69,7 @@ class HypePubSub
         }
     }
     
-    func issuePublishReq(_ serviceName: String, _ msg: String)
+    func issuePublishReq(serviceName: String, msg: String)
     {
         let serviceKey = HpsGenericUtils.hash(ofString: serviceName)
         let managerClient = network.determineClientResponsibleForService(withKey: serviceKey)
@@ -199,7 +199,7 @@ class HypePubSub
         
         if(subscription == nil){
             LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                         logMsg: String(format: "Info received from the unsubscribed service%@: %@",
+                         logMsg: String(format: "Info received from the unsubscribed service 0x%@: %@",
                                        BinaryUtils.toHexString(data: serviceKey), msg))
             return
         }
@@ -219,7 +219,7 @@ class HypePubSub
         */
         
         LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                     logMsg: String(format: "Info received from the unsubscribed service %@: %@",
+                     logMsg: String(format: "Info received from the subscribed service '%@': %@",
                                    subscription!.serviceName, msg))
     }
     
@@ -283,12 +283,12 @@ class HypePubSub
                 if( !HpsGenericUtils.areClientsEqual(newManagerClient!, subscription!.manager))
                 {
                     LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
-                                 logMsg: String(format: "The manager of the subscribed service %@ has changed: %@. A new Subscribe message will be issued)",
+                                 logMsg: String(format: "The manager of the subscribed service '%@' has changed: %@. A new Subscribe message will be issued)",
                                                subscription!.serviceName,
                                                HpsGenericUtils.getLogStr(fromClient: newManagerClient!)))
                     
                     subscription!.manager = newManagerClient!
-                    _ = self.issueSubscribeReq(subscription!.serviceName) // re-send the subscribe request to the new manager
+                    _ = self.issueSubscribeReq(serviceName: subscription!.serviceName) // re-send the subscribe request to the new manager
                 }
             }
         }
@@ -301,6 +301,6 @@ class HypePubSub
     static func printIssueReqToHostInstanceLog(_ reqType: String, _ serviceName: String)
     {
         LogUtils.log(prefix: HYPE_PUB_SUB_LOG_PREFIX,
-                     logMsg: String(format: "Issuing %@ for service %@ to HOST instance", reqType, serviceName))
+                     logMsg: String(format: "Issuing %@ for service '%@' to HOST instance", reqType, serviceName))
     }
 }

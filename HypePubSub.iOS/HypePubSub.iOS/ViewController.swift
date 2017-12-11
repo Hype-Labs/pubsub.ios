@@ -1,40 +1,54 @@
-//
-//  ViewController.swift
-//  HypePubSub.iOS
-//
-//  Created by Xavier Araújo on 04/12/2017.
-//  Copyright © 2017 Xavier Araújo. All rights reserved.
-//
 
 import UIKit
 
-/*
-extension subscribeServiceInputDialog: showSingleInputDialog
-{
-        on
-}
-*/
-
 class ViewController: UIViewController {
-
+    
     let hps = HypePubSub.getInstance()
     let hpsSdk = HypeSdkInterface.getInstance()
     
     @IBAction func SubscribeButton(_ sender: UIButton)
     {
-        struct SubscribeServiceInputDialog: SingleInputDialog {
-            
+        struct SubscribeServiceInputDialog: SingleInputDialog
+        {
             var hps: HypePubSub
-            
-            func onOk(str: String){
-                _ = hps.issueSubscribeReq(str)
+            func onOk(input: String){
+                _ = hps.issueSubscribeReq(serviceName: ViewController.processServiceName(nameInput: input))
             }
             func onCancel(){}
         }
         
-        let subscribeInputDialog:SubscribeServiceInputDialog = SubscribeServiceInputDialog(hps: hps)
-
+        let subscribeInputDialog = SubscribeServiceInputDialog(hps: hps)
         AlertDialogUtils.showSingleInputDialog(viewController: self, title: "Subscribe Service", msg: "" , hint: "Service", onSingleInputDialog: subscribeInputDialog)
+    }
+    
+    @IBAction func UnsubscribeButton(_ sender: UIButton)
+    {
+        struct UnsubscribeServiceInputDialog: SingleInputDialog
+        {
+            var hps: HypePubSub
+            func onOk(input: String){
+                _ = hps.issueUnsubscribeReq(serviceName: ViewController.processServiceName(nameInput: input))
+            }
+            func onCancel(){}
+        }
+        
+        let unsubscribeInputDialog = UnsubscribeServiceInputDialog(hps: hps)
+        AlertDialogUtils.showSingleInputDialog(viewController: self, title: "Unsubscribe Service", msg: "" , hint: "Service", onSingleInputDialog: unsubscribeInputDialog)
+    }
+    
+    @IBAction func PublishButton(_ sender: UIButton)
+    {
+        struct PublishInputDialog: DoubleInputDialog
+        {
+            var hps: HypePubSub
+            func onOk(input1: String, input2: String){
+                _ = hps.issuePublishReq(serviceName: ViewController.processServiceName(nameInput: input1), msg: input2)
+            }
+            func onCancel(){}
+        }
+        
+        let publishInputDialog = PublishInputDialog(hps: hps)
+        AlertDialogUtils.showDoubleInputDialog(viewController: self, title: "Publish Message", msg: "" , hint1: "Service", hint2: "Message", onDoubleInputDialog: publishInputDialog)
     }
     
     override func viewDidLoad() {
@@ -47,6 +61,11 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    static func processServiceName(nameInput: String) -> String
+    {
+        return nameInput.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }
 

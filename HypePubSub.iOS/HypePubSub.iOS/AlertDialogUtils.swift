@@ -1,7 +1,3 @@
-//
-//  AlertDialogUtils.swift
-//  HypePubSub.iOS
-//
 
 import Foundation
 import UIKit
@@ -14,7 +10,7 @@ class AlertDialogUtils
         let confirmAction = UIAlertAction(title: "Confirm", style: .default) { (_) in
             if let field = alertController.textFields?[0]
             {
-                onSingleInputDialog.onOk(str: field.text!)
+                onSingleInputDialog.onOk(input: field.text!)
             } else {
                 // user did not fill field
             }
@@ -33,10 +29,48 @@ class AlertDialogUtils
         
         viewController.present(alertController, animated: true, completion: nil)
     }
+    
+    static func showDoubleInputDialog(viewController: UIViewController,title:String,
+                                      msg: String, hint1: String, hint2: String,
+                                      onDoubleInputDialog: DoubleInputDialog) {
+        
+        let alertController = UIAlertController(title: title, message: msg, preferredStyle: .alert)
+        
+        let confirmAction = UIAlertAction(title: "Confirm", style: .default) { (_) in
+            if let field1 = alertController.textFields?[0], let field2 = alertController.textFields?[1]{
+                onDoubleInputDialog.onOk(input1: field1.text!, input2: field2.text!)
+            } else {
+                // user did not fill field
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
+            onDoubleInputDialog.onCancel()
+        }
+        
+        alertController.addTextField { (textField) in
+            textField.placeholder = hint1
+        }
+        
+        alertController.addTextField { (textField) in
+            textField.placeholder = hint2
+        }
+        
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        
+        viewController.present(alertController, animated: true, completion: nil)
+    }
 }
 
 protocol SingleInputDialog
 {
-    func onOk(str:String)
+    func onOk(input:String)
+    func onCancel()
+}
+
+protocol DoubleInputDialog
+{
+    func onOk(input1:String, input2:String)
     func onCancel()
 }
