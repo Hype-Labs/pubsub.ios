@@ -6,7 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q1B-H4-uwf">
-                                <rect key="frame" x="112.5" y="143" width="150" height="30"/>
+                                <rect key="frame" x="113" y="143" width="150" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="DMV-u1-hhW"/>
@@ -33,7 +33,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PPy-mq-VYy">
-                                <rect key="frame" x="112.5" y="181" width="150" height="30"/>
+                                <rect key="frame" x="113" y="181" width="150" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Unsubscribe">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -47,7 +47,7 @@
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6uD-0s-fzM">
-                                <rect key="frame" x="112.5" y="219" width="150" height="30"/>
+                                <rect key="frame" x="113" y="219" width="150" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Publish">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -60,19 +60,18 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6uD-0s-fzM" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="47e-Hq-hfd"/>
+                            <constraint firstItem="vfG-d8-eCn" firstAttribute="centerX" secondItem="Q1B-H4-uwf" secondAttribute="centerX" id="7lo-u4-Sav"/>
                             <constraint firstItem="6uD-0s-fzM" firstAttribute="top" secondItem="PPy-mq-VYy" secondAttribute="bottom" constant="8" id="BCe-0c-GeA"/>
-                            <constraint firstItem="Q1B-H4-uwf" firstAttribute="top" secondItem="vfG-d8-eCn" secondAttribute="bottom" constant="14" id="CPc-8r-y4G"/>
                             <constraint firstItem="Q1B-H4-uwf" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="GMI-6f-Z1J"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="vfG-d8-eCn" secondAttribute="top" constant="12" id="My7-Wd-2jz"/>
+                            <constraint firstItem="vfG-d8-eCn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="QpP-aA-1n4"/>
                             <constraint firstItem="PPy-mq-VYy" firstAttribute="width" secondItem="Q1B-H4-uwf" secondAttribute="width" id="WLN-eR-zrc"/>
                             <constraint firstItem="6uD-0s-fzM" firstAttribute="width" secondItem="Q1B-H4-uwf" secondAttribute="width" id="XYM-Cd-g1W"/>
                             <constraint firstItem="PPy-mq-VYy" firstAttribute="top" secondItem="Q1B-H4-uwf" secondAttribute="bottom" constant="8" id="bei-5E-bA7"/>
                             <constraint firstItem="PPy-mq-VYy" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="d98-Rm-iF1"/>
                             <constraint firstItem="PPy-mq-VYy" firstAttribute="height" secondItem="Q1B-H4-uwf" secondAttribute="height" id="dXF-tn-qPA"/>
-                            <constraint firstItem="vfG-d8-eCn" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="355:667" id="fNq-EQ-eJs"/>
-                            <constraint firstItem="vfG-d8-eCn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="nYr-3I-6c9"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="vfG-d8-eCn" secondAttribute="trailing" constant="10" id="qpW-47-KVm"/>
+                            <constraint firstItem="Q1B-H4-uwf" firstAttribute="top" secondItem="vfG-d8-eCn" secondAttribute="bottom" constant="14" id="daa-xt-GdY"/>
                             <constraint firstItem="6uD-0s-fzM" firstAttribute="height" secondItem="Q1B-H4-uwf" secondAttribute="height" id="veW-ov-Pa4"/>
+                            <constraint firstItem="vfG-d8-eCn" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="-12" id="yFm-gK-Xh3"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
