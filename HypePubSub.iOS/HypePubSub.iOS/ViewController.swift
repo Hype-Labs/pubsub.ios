@@ -2,10 +2,29 @@
 import UIKit
 import UserNotifications
 
-class ViewController: UIViewController, UNUserNotificationCenterDelegate{
-    
+class ViewController: UIViewController, UNUserNotificationCenterDelegate
+{
     let hps = HypePubSub.getInstance()
     let hypeSdk = HypeSdkInterface.getInstance()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        
+        // Configure User Notification Center
+        UNUserNotificationCenter.current().delegate = self
+        
+        hypeSdk.requestHypeToStart()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound])
+    }
     
     @IBAction func SubscribeButton(_ sender: UIButton)
     {
@@ -16,13 +35,21 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate{
         struct SubscribeServiceInputDialog: SingleInputDialog
         {
             var hps: HypePubSub
+            var viewController: ViewController
+            
             func onOk(input: String){
-                _ = hps.issueSubscribeReq(serviceName: ViewController.processServiceName(nameInput: input))
+                let serviceName = ViewController.processServiceName(nameInput: input)
+                if(hps.ownSubscriptions.findSubscription(withServiceKey: HpsGenericUtils.hash(ofString: serviceName)) == nil) {
+                    _ = hps.issueSubscribeReq(serviceName: serviceName)
+                }
+                else {
+                    AlertDialogUtils.showOkDialog(viewController: viewController, title: "INFO", msg: "Service already subscribed");
+                }
             }
             func onCancel(){}
         }
         
-        let subscribeInputDialog = SubscribeServiceInputDialog(hps: hps)
+        let subscribeInputDialog = SubscribeServiceInputDialog(hps: hps, viewController: self)
         AlertDialogUtils.showSingleInputDialog(viewController: self, title: "Subscribe Service", msg: "" , hint: "Service", onSingleInputDialog: subscribeInputDialog)
     }
     
@@ -61,25 +88,6 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate{
         
         let publishInputDialog = PublishInputDialog(hps: hps)
         AlertDialogUtils.showDoubleInputDialog(viewController: self, title: "Publish Message", msg: "" , hint1: "Service", hint2: "Message", onDoubleInputDialog: publishInputDialog)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        // Configure User Notification Center
-        UNUserNotificationCenter.current().delegate = self
-            
-        hypeSdk.requestHypeToStart()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert, .sound])
     }
     
     private func isHypeSdkReady() -> Bool
