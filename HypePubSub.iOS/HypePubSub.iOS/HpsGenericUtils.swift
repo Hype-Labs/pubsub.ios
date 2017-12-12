@@ -32,6 +32,9 @@ class HpsGenericUtils
     
     static func getAnnouncementStr(fromHYPInstance instance: HYPInstance) -> String
     {
+        if(instance.announcement == nil) {
+            return "---";
+        }
         return String(data: instance.announcement, encoding: HpsConstants.ENCODING_STANDARD)!
     }
     
@@ -42,7 +45,8 @@ class HpsGenericUtils
     
     static func getLogStr(fromHYPInstance instance: HYPInstance) -> String
     {
-        return String(data: instance.announcement, encoding: HpsConstants.ENCODING_STANDARD)!
+        
+        return getAnnouncementStr(fromHYPInstance: instance)
             + " (0x" + BinaryUtils.toHexString(data: instance.identifier) + ")"
     }
     
