@@ -5,6 +5,7 @@ import UserNotifications
 class ViewController: UIViewController, UNUserNotificationCenterDelegate
 {
     let hps = HypePubSub.getInstance()
+    let network = Network.getInstance()
     let hypeSdk = HypeSdkInterface.getInstance()
     
     override func viewDidLoad() {
@@ -58,17 +59,22 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate
         if( !isHypeSdkReady()){
             return;
         }
-        struct UnsubscribeServiceInputDialog: SingleInputDialog
-        {
-            var hps: HypePubSub
-            func onOk(input: String){
-                _ = hps.issueUnsubscribeReq(serviceName: ViewController.processServiceName(nameInput: input))
-            }
-            func onCancel(){}
-        }
         
-        let unsubscribeInputDialog = UnsubscribeServiceInputDialog(hps: hps)
-        AlertDialogUtils.showSingleInputDialog(viewController: self, title: "Unsubscribe Service", msg: "" , hint: "Service", onSingleInputDialog: unsubscribeInputDialog)
+        if(hps.ownSubscriptions.count() == 0){
+            AlertDialogUtils.showOkDialog(viewController: self, title: "INFO", msg: "No services subscribed");
+            return;
+        }
+
+        let alertController = UIAlertController(title: "Unsubscribe Service", message: "", preferredStyle: .actionSheet)
+        for i in 0..<HypePubSub.getInstance().ownSubscriptions.count(){
+            alertController.addAction(UIAlertAction(title: HypePubSub.getInstance().ownSubscriptions.get(i)?.serviceName,
+                                                    style: .default, handler: { (action) in
+                                                        let serviceName = HypePubSub.getInstance().ownSubscriptions.get(i)?.serviceName
+                                                        HypePubSub.getInstance().issueUnsubscribeReq(serviceName: serviceName!)
+            }))
+        }
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
     }
     
     @IBAction func PublishButton(_ sender: UIButton)
@@ -90,6 +96,18 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate
         AlertDialogUtils.showDoubleInputDialog(viewController: self, title: "Publish Message", msg: "" , hint1: "Service", hint2: "Message", onDoubleInputDialog: publishInputDialog)
     }
     
+    @IBAction func CheckId(_ sender: UIButton)
+    {
+        if(!isHypeSdkReady()){
+            return;
+        }
+        
+        AlertDialogUtils.showOkDialog(viewController: self, title: "Own Device", msg:
+            HpsGenericUtils.getAnnouncementStr(fromHYPInstance: network.ownClient!.instance) + "\n"
+                + "Id: 0x" + BinaryUtils.toHexString(data: network.ownClient!.instance.identifier) + "\n"
+                + "Key: 0x" + BinaryUtils.toHexString(data: network.ownClient!.key));
+    }
+    
     private func isHypeSdkReady() -> Bool
     {
         if(hypeSdk.isHypeFail){
@@ -97,14 +115,14 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate
                                           msg: "Hype SDK could not be started.\n" + hypeSdk.hypeFailedMsg)
             return false
         }
-        else if( !hypeSdk.isHypeReady){
-            AlertDialogUtils.showOkDialog(viewController: self, title: "Warning", msg: "Hype SDK is not ready yet");
-            return false;
-        }
         else if(hypeSdk.hasHypeStopped){
             AlertDialogUtils.showOkDialog(viewController: self, title: "Error",
                                           msg: "Hype SDK has stopped.\n" + hypeSdk.hypeStoppedMsg)
             return false
+        }
+        else if( !hypeSdk.isHypeReady){
+            AlertDialogUtils.showOkDialog(viewController: self, title: "Warning", msg: "Hype SDK is not ready yet");
+            return false;
         }
     
         return true;

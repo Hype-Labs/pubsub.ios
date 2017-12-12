@@ -72,6 +72,10 @@ class AlertDialogUtils
         
         viewController.present(alertController, animated: true, completion: nil)
     }
+    
+    static func showListViewDialog(viewController: UIViewController, title:String, msg: String)
+    {
+    }
 }
 
 protocol SingleInputDialog

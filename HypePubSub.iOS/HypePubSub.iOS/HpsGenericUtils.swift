@@ -30,6 +30,11 @@ class HpsGenericUtils
         return (client1.instance.identifier == client2.instance.identifier)
     }
     
+    static func getAnnouncementStr(fromHYPInstance instance: HYPInstance) -> String
+    {
+        return String(data: instance.announcement, encoding: HpsConstants.ENCODING_STANDARD)!
+    }
+    
     static func getLogStr(fromClient client: Client) -> String
     {
         return getLogStr(fromHYPInstance: client.instance)
