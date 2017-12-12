@@ -73,7 +73,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate
                                                         HypePubSub.getInstance().issueUnsubscribeReq(serviceName: serviceName!)
             }))
         }
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }
     
