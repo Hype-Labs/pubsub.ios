@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		258EA7B11FD54A8900656ECE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA7B01FD54A8900656ECE /* AppDelegate.swift */; };
-		258EA7B31FD54A8900656ECE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA7B21FD54A8900656ECE /* ViewController.swift */; };
+		258EA7B31FD54A8900656ECE /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA7B21FD54A8900656ECE /* MainViewController.swift */; };
 		258EA7B61FD54A8900656ECE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 258EA7B41FD54A8900656ECE /* Main.storyboard */; };
 		258EA7B81FD54A8900656ECE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 258EA7B71FD54A8900656ECE /* Assets.xcassets */; };
 		258EA7BB1FD54A8900656ECE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 258EA7B91FD54A8900656ECE /* LaunchScreen.storyboard */; };
@@ -71,7 +71,7 @@
 /* Begin PBXFileReference section */
 		258EA7AD1FD54A8900656ECE /* HypePubSub.iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HypePubSub.iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		258EA7B01FD54A8900656ECE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		258EA7B21FD54A8900656ECE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		258EA7B21FD54A8900656ECE /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		258EA7B51FD54A8900656ECE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		258EA7B71FD54A8900656ECE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		258EA7BA1FD54A8900656ECE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -159,7 +159,7 @@
 			children = (
 				25E2CD7E1FDE9BD600F59A2C /* hypelabs_logo.png */,
 				258EA7B01FD54A8900656ECE /* AppDelegate.swift */,
-				258EA7B21FD54A8900656ECE /* ViewController.swift */,
+				258EA7B21FD54A8900656ECE /* MainViewController.swift */,
 				258EA7B41FD54A8900656ECE /* Main.storyboard */,
 				258EA7B71FD54A8900656ECE /* Assets.xcassets */,
 				258EA7B91FD54A8900656ECE /* LaunchScreen.storyboard */,
@@ -357,7 +357,7 @@
 				25C608E61FD5953A004758C3 /* Network.swift in Sources */,
 				25C608EA1FD59F36004758C3 /* ServiceManager.swift in Sources */,
 				25C608F81FD5AADE004758C3 /* HpsMessageType.swift in Sources */,
-				258EA7B31FD54A8900656ECE /* ViewController.swift in Sources */,
+				258EA7B31FD54A8900656ECE /* MainViewController.swift in Sources */,
 				25C608F61FD5AA77004758C3 /* HypeSdkInterface.swift in Sources */,
 				258EA7B11FD54A8900656ECE /* AppDelegate.swift in Sources */,
 				259849F11FD969F7005CB656 /* SyncUtils.swift in Sources */,

@@ -2,7 +2,7 @@
 import UIKit
 import UserNotifications
 
-class ViewController: UIViewController, UNUserNotificationCenterDelegate
+class MainViewController: UIViewController, UNUserNotificationCenterDelegate
 {
     let hps = HypePubSub.getInstance()
     let network = Network.getInstance()
@@ -36,10 +36,10 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate
         struct SubscribeServiceInputDialog: SingleInputDialog
         {
             var hps: HypePubSub
-            var viewController: ViewController
+            var viewController: MainViewController
             
             func onOk(input: String){
-                let serviceName = ViewController.processServiceName(nameInput: input)
+                let serviceName = MainViewController.processServiceName(nameInput: input)
                 if(hps.ownSubscriptions.findSubscription(withServiceKey: HpsGenericUtils.hash(ofString: serviceName)) == nil) {
                     _ = hps.issueSubscribeReq(serviceName: serviceName)
                 }
@@ -87,7 +87,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate
         {
             var hps: HypePubSub
             func onOk(input1: String, input2: String){
-                _ = hps.issuePublishReq(serviceName: ViewController.processServiceName(nameInput: input1), msg: input2)
+                _ = hps.issuePublishReq(serviceName: MainViewController.processServiceName(nameInput: input1), msg: input2)
             }
             func onCancel(){}
         }
