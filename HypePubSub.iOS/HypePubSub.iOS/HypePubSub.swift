@@ -300,6 +300,24 @@ class HypePubSub
         }
     }
     
+    func removeSubscriptionsFromLostInstance(fromHYPInstance instance: HYPInstance)
+    {
+        LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
+                     logMsg: String(format: "Executing removeSubscriptionsFromLostInstance"))
+        
+        SyncUtils.lock(obj: self)
+        {
+            var keysOfServicesToUnsubscribe = [Data]()
+            for i in 0..<self.managedServices.count(){
+                keysOfServicesToUnsubscribe.append((managedServices.get(i)?.serviceKey)!)
+            }
+        
+            for i in 0..<keysOfServicesToUnsubscribe.count {
+                processUnsubscribeReq(keysOfServicesToUnsubscribe[i], instance);
+            }
+        }
+    }
+    
     //////////////////////////////////////////////////////////////////////////////
     // UI Methods
     //////////////////////////////////////////////////////////////////////////////

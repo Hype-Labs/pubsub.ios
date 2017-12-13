@@ -227,6 +227,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
         SyncUtils.lock(obj: network.networkClients) // Add thread safety to removal procedure
         {
             _ = network.networkClients.removeClient(withHYPInstance: instance)
+            hps.removeSubscriptionsFromLostInstance(fromHYPInstance: instance)
             hps.updateOwnSubscriptions()
             updateClientsUI()
         }
