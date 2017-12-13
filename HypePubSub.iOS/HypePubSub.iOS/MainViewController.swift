@@ -42,6 +42,7 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
                 let serviceName = MainViewController.processServiceName(nameInput: input)
                 if(hps.ownSubscriptions.findSubscription(withServiceKey: HpsGenericUtils.hash(ofString: serviceName)) == nil) {
                     _ = hps.issueSubscribeReq(serviceName: serviceName)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshSubscriptionsViewController"), object: nil, userInfo: nil)
                 }
                 else {
                     AlertDialogUtils.showOkDialog(viewController: viewController, title: "INFO", msg: "Service already subscribed");
@@ -71,6 +72,7 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
                                                     style: .default, handler: { (action) in
                                                         let serviceName = HypePubSub.getInstance().ownSubscriptions.get(i)?.serviceName
                                                         HypePubSub.getInstance().issueUnsubscribeReq(serviceName: serviceName!)
+                                                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshSubscriptionsViewController"), object: nil, userInfo: nil)
             }))
         }
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -106,6 +108,16 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
             HpsGenericUtils.getAnnouncementStr(fromHYPInstance: network.ownClient!.instance) + "\n"
                 + "Id: 0x" + BinaryUtils.toHexString(data: network.ownClient!.instance.identifier) + "\n"
                 + "Key: 0x" + BinaryUtils.toHexString(data: network.ownClient!.key));
+    }
+    
+    @IBAction func HypeDevicesButton(_ sender: UIButton)
+    {
+        
+    }
+    
+    @IBAction func SubscriptionsButton(_ sender: UIButton)
+    {
+        
     }
     
     private func isHypeSdkReady() -> Bool

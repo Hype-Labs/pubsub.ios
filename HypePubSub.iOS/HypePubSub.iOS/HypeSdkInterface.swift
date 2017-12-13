@@ -5,6 +5,8 @@
 
 import Foundation
 import UIKit
+import NotificationCenter
+
 
 class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessageObserver
 {
@@ -213,6 +215,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
             _ = network.networkClients.addClient(Client(fromHYPInstance: instance))
             hps.updateManagedServices()
             hps.updateOwnSubscriptions()
+            updateClientsUI()
         }
     }
     
@@ -225,6 +228,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
         {
             _ = network.networkClients.removeClient(withHYPInstance: instance)
             hps.updateOwnSubscriptions()
+            updateClientsUI()
         }
     }
     
@@ -237,5 +241,14 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
         let sdkMsg = HYP.send(hpsMsg.toByteArray(), to: destInstance, trackProgress: true)
         LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
                      logMsg: String(format: "Hype SDK sent message with ID: %i", sdkMsg!.identifier))
+    }
+    
+    //////////////////////////////////////////////////////////////////////////////
+    // UI methods
+    //////////////////////////////////////////////////////////////////////////////
+    
+    private func updateClientsUI()
+    {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshClientsViewController"), object: nil, userInfo: nil)
     }
 }

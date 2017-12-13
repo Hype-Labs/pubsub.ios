@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tzc-Xz-Wd2">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -12,24 +15,11 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="HypePubSub_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q1B-H4-uwf">
-                                <rect key="frame" x="225" y="143" width="150" height="30"/>
-                                <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="DMV-u1-hhW"/>
-                                </constraints>
-                                <state key="normal" title="Subscribe">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="SubscribeButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FUm-ij-YdY"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PPy-mq-VYy">
-                                <rect key="frame" x="225" y="181" width="150" height="30"/>
+                                <rect key="frame" x="85" y="225" width="204" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Unsubscribe">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -39,11 +29,11 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hypelabs_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="vfG-d8-eCn">
-                                <rect key="frame" x="10" y="8" width="579" height="121"/>
+                                <rect key="frame" x="10" y="52" width="356" height="121"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6uD-0s-fzM">
-                                <rect key="frame" x="225" y="219" width="150" height="30"/>
+                                <rect key="frame" x="85" y="263" width="204" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Publish">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -53,7 +43,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EXc-TZ-NxH">
-                                <rect key="frame" x="225" y="257" width="150" height="30"/>
+                                <rect key="frame" x="85" y="301" width="204" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Check Own ID">
                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -62,33 +52,117 @@
                                     <action selector="CheckId:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mq5-kf-ohO"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xqx-rR-s6x">
+                                <rect key="frame" x="85" y="339" width="204" height="30"/>
+                                <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Check Hype Devices">
+                                    <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="HypeDevicesButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bwD-CL-1Bl"/>
+                                    <segue destination="WfH-yO-BIf" kind="show" id="7Ia-wx-qco"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Qc-HP-GNH">
+                                <rect key="frame" x="85" y="377" width="204" height="30"/>
+                                <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Subscriptions">
+                                    <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="SubscriptionsButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="S4T-ae-CeE"/>
+                                    <segue destination="aaY-zF-UFA" kind="show" id="4lf-sj-wMH"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q1B-H4-uwf">
+                                <rect key="frame" x="85" y="187" width="204" height="30"/>
+                                <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Subscribe">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="SubscribeButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FUm-ij-YdY"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="EXc-TZ-NxH" firstAttribute="height" secondItem="6uD-0s-fzM" secondAttribute="height" id="3he-SK-nYJ"/>
-                            <constraint firstItem="6uD-0s-fzM" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="47e-Hq-hfd"/>
-                            <constraint firstItem="vfG-d8-eCn" firstAttribute="centerX" secondItem="Q1B-H4-uwf" secondAttribute="centerX" id="7lo-u4-Sav"/>
-                            <constraint firstItem="6uD-0s-fzM" firstAttribute="top" secondItem="PPy-mq-VYy" secondAttribute="bottom" constant="8" id="BCe-0c-GeA"/>
-                            <constraint firstItem="EXc-TZ-NxH" firstAttribute="width" secondItem="6uD-0s-fzM" secondAttribute="width" id="FTx-Gf-Pgq"/>
-                            <constraint firstItem="Q1B-H4-uwf" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="GMI-6f-Z1J"/>
-                            <constraint firstItem="EXc-TZ-NxH" firstAttribute="top" secondItem="6uD-0s-fzM" secondAttribute="bottom" constant="8" symbolic="YES" id="Iwx-S4-bwB"/>
-                            <constraint firstItem="vfG-d8-eCn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="QpP-aA-1n4"/>
-                            <constraint firstItem="PPy-mq-VYy" firstAttribute="width" secondItem="Q1B-H4-uwf" secondAttribute="width" id="WLN-eR-zrc"/>
-                            <constraint firstItem="6uD-0s-fzM" firstAttribute="width" secondItem="Q1B-H4-uwf" secondAttribute="width" id="XYM-Cd-g1W"/>
-                            <constraint firstItem="PPy-mq-VYy" firstAttribute="top" secondItem="Q1B-H4-uwf" secondAttribute="bottom" constant="8" id="bei-5E-bA7"/>
-                            <constraint firstItem="PPy-mq-VYy" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="d98-Rm-iF1"/>
-                            <constraint firstItem="PPy-mq-VYy" firstAttribute="height" secondItem="Q1B-H4-uwf" secondAttribute="height" id="dXF-tn-qPA"/>
-                            <constraint firstItem="Q1B-H4-uwf" firstAttribute="top" secondItem="vfG-d8-eCn" secondAttribute="bottom" constant="14" id="daa-xt-GdY"/>
-                            <constraint firstItem="EXc-TZ-NxH" firstAttribute="centerX" secondItem="6uD-0s-fzM" secondAttribute="centerX" id="nqP-ts-mgK"/>
-                            <constraint firstItem="6uD-0s-fzM" firstAttribute="height" secondItem="Q1B-H4-uwf" secondAttribute="height" id="veW-ov-Pa4"/>
-                            <constraint firstItem="vfG-d8-eCn" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="-12" id="yFm-gK-Xh3"/>
+                            <constraint firstItem="Q1B-H4-uwf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="85" id="0bQ-jx-fPS"/>
+                            <constraint firstItem="6uD-0s-fzM" firstAttribute="trailing" secondItem="EXc-TZ-NxH" secondAttribute="trailing" id="1DF-pl-zdf"/>
+                            <constraint firstItem="Xqx-rR-s6x" firstAttribute="trailing" secondItem="EXc-TZ-NxH" secondAttribute="trailing" id="4yw-Lb-wOY"/>
+                            <constraint firstItem="6uD-0s-fzM" firstAttribute="leading" secondItem="EXc-TZ-NxH" secondAttribute="leading" id="5uj-3p-Em1"/>
+                            <constraint firstItem="Q1B-H4-uwf" firstAttribute="top" secondItem="vfG-d8-eCn" secondAttribute="bottom" constant="14" id="9RZ-bw-Adk"/>
+                            <constraint firstItem="EXc-TZ-NxH" firstAttribute="top" secondItem="6uD-0s-fzM" secondAttribute="bottom" constant="8" symbolic="YES" id="A5E-SQ-gvC"/>
+                            <constraint firstItem="Q1B-H4-uwf" firstAttribute="trailing" secondItem="PPy-mq-VYy" secondAttribute="trailing" id="B5o-Fv-Heh"/>
+                            <constraint firstItem="5Qc-HP-GNH" firstAttribute="top" secondItem="Xqx-rR-s6x" secondAttribute="bottom" constant="8" symbolic="YES" id="G7R-zd-JK0"/>
+                            <constraint firstItem="PPy-mq-VYy" firstAttribute="top" secondItem="Q1B-H4-uwf" secondAttribute="bottom" constant="8" symbolic="YES" id="GLx-rI-UVj"/>
+                            <constraint firstItem="vfG-d8-eCn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="L5N-rx-g81"/>
+                            <constraint firstItem="vfG-d8-eCn" firstAttribute="centerX" secondItem="Q1B-H4-uwf" secondAttribute="centerX" constant="1" id="Ljg-4u-MwG"/>
+                            <constraint firstItem="6uD-0s-fzM" firstAttribute="trailing" secondItem="PPy-mq-VYy" secondAttribute="trailing" id="QtN-O3-uBF"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="vfG-d8-eCn" secondAttribute="top" constant="12" id="RdL-H9-ibR"/>
+                            <constraint firstItem="vfG-d8-eCn" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Yex-lU-k7p"/>
+                            <constraint firstItem="5Qc-HP-GNH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gvT-t5-z5e"/>
+                            <constraint firstItem="5Qc-HP-GNH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="85" id="m2Y-ji-TzO"/>
+                            <constraint firstItem="Xqx-rR-s6x" firstAttribute="leading" secondItem="EXc-TZ-NxH" secondAttribute="leading" id="oDl-gT-LfB"/>
+                            <constraint firstItem="6uD-0s-fzM" firstAttribute="leading" secondItem="PPy-mq-VYy" secondAttribute="leading" id="q2u-VW-VGY"/>
+                            <constraint firstItem="Q1B-H4-uwf" firstAttribute="leading" secondItem="PPy-mq-VYy" secondAttribute="leading" id="wfn-wH-z9l"/>
+                            <constraint firstItem="6uD-0s-fzM" firstAttribute="top" secondItem="PPy-mq-VYy" secondAttribute="bottom" constant="8" symbolic="YES" id="yYg-Q2-IAd"/>
+                            <constraint firstItem="Xqx-rR-s6x" firstAttribute="top" secondItem="EXc-TZ-NxH" secondAttribute="bottom" constant="8" symbolic="YES" id="zvU-IY-eEL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Jfm-aA-Rmc"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
+            <point key="canvasLocation" x="476" y="133.5832083958021"/>
+        </scene>
+        <!--Subscriptions View Controller-->
+        <scene sceneID="Kjo-R9-Rck">
+            <objects>
+                <viewController storyboardIdentifier="SubscriptionsView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aaY-zF-UFA" customClass="SubscriptionsViewController" customModule="HypePubSub_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="76e-hb-ykd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tableView>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CFF-Y1-btg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1287" y="639"/>
+        </scene>
+        <!--Clients View Controller-->
+        <scene sceneID="8wJ-Dj-Xo6">
+            <objects>
+                <viewController storyboardIdentifier="HypeDevicesView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="WfH-yO-BIf" customClass="ClientsViewController" customModule="HypePubSub_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="h5a-Rm-SnK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <sections/>
+                    </tableView>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mPZ-Hy-Nk9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1288.8" y="-55.322338830584712"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="vgU-ZH-Eiv">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tzc-Xz-Wd2" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="GTJ-1a-bOk">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="eTK-e1-Re7"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bzj-u0-SPV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-367" y="134"/>
         </scene>
     </scenes>
     <resources>

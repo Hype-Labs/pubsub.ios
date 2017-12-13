@@ -15,9 +15,11 @@
 		258EA7C61FD54A8900656ECE /* HypePubSub_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA7C51FD54A8900656ECE /* HypePubSub_iOSTests.swift */; };
 		258EA7D11FD54A8900656ECE /* HypePubSub_iOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA7D01FD54A8900656ECE /* HypePubSub_iOSUITests.swift */; };
 		258EA7E31FD54C2C00656ECE /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA7E21FD54C2C00656ECE /* Client.swift */; };
+		2591A2A41FE14784009C5F36 /* ClientsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2591A2A31FE14784009C5F36 /* ClientsViewController.swift */; };
 		259849EF1FD94DA9005CB656 /* AlertDialogUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259849EE1FD94DA9005CB656 /* AlertDialogUtils.swift */; };
 		259849F11FD969F7005CB656 /* SyncUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259849F01FD969F7005CB656 /* SyncUtils.swift */; };
 		259849F31FD9AB69005CB656 /* LogUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259849F21FD9AB69005CB656 /* LogUtils.swift */; };
+		25BC4AD91FE11D6000F8858F /* SubscriptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BC4AD81FE11D6000F8858F /* SubscriptionsViewController.swift */; };
 		25C608DD1FD56343004758C3 /* Hype.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25C608DC1FD56343004758C3 /* Hype.framework */; };
 		25C608E01FD5634F004758C3 /* Hype.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 25C608DE1FD5634F004758C3 /* Hype.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		25C608E21FD56C6C004758C3 /* HpsGenericUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C608E11FD56C6C004758C3 /* HpsGenericUtils.swift */; };
@@ -84,9 +86,11 @@
 		258EA7D21FD54A8900656ECE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		258EA7E21FD54C2C00656ECE /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
 		258EA7E41FD5512600656ECE /* HypePubSub.iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HypePubSub.iOS-Bridging-Header.h"; sourceTree = "<group>"; };
+		2591A2A31FE14784009C5F36 /* ClientsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientsViewController.swift; sourceTree = "<group>"; };
 		259849EE1FD94DA9005CB656 /* AlertDialogUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDialogUtils.swift; sourceTree = "<group>"; };
 		259849F01FD969F7005CB656 /* SyncUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncUtils.swift; sourceTree = "<group>"; };
 		259849F21FD9AB69005CB656 /* LogUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogUtils.swift; sourceTree = "<group>"; };
+		25BC4AD81FE11D6000F8858F /* SubscriptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionsViewController.swift; sourceTree = "<group>"; };
 		25C608DC1FD56343004758C3 /* Hype.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Hype.framework; path = "../../../../Downloads/platform/ios/build/Build/Products/Debug-universal/Hype.framework"; sourceTree = "<group>"; };
 		25C608DE1FD5634F004758C3 /* Hype.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Hype.framework; sourceTree = "<group>"; };
 		25C608E11FD56C6C004758C3 /* HpsGenericUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HpsGenericUtils.swift; sourceTree = "<group>"; };
@@ -157,6 +161,7 @@
 		258EA7AF1FD54A8900656ECE /* HypePubSub.iOS */ = {
 			isa = PBXGroup;
 			children = (
+				2591A2A31FE14784009C5F36 /* ClientsViewController.swift */,
 				25E2CD7E1FDE9BD600F59A2C /* hypelabs_logo.png */,
 				258EA7B01FD54A8900656ECE /* AppDelegate.swift */,
 				258EA7B21FD54A8900656ECE /* MainViewController.swift */,
@@ -183,6 +188,7 @@
 				259849EE1FD94DA9005CB656 /* AlertDialogUtils.swift */,
 				259849F01FD969F7005CB656 /* SyncUtils.swift */,
 				259849F21FD9AB69005CB656 /* LogUtils.swift */,
+				25BC4AD81FE11D6000F8858F /* SubscriptionsViewController.swift */,
 			);
 			path = HypePubSub.iOS;
 			sourceTree = "<group>";
@@ -357,6 +363,7 @@
 				25C608E61FD5953A004758C3 /* Network.swift in Sources */,
 				25C608EA1FD59F36004758C3 /* ServiceManager.swift in Sources */,
 				25C608F81FD5AADE004758C3 /* HpsMessageType.swift in Sources */,
+				2591A2A41FE14784009C5F36 /* ClientsViewController.swift in Sources */,
 				258EA7B31FD54A8900656ECE /* MainViewController.swift in Sources */,
 				25C608F61FD5AA77004758C3 /* HypeSdkInterface.swift in Sources */,
 				258EA7B11FD54A8900656ECE /* AppDelegate.swift in Sources */,
@@ -370,6 +377,7 @@
 				25C608F41FD5AA64004758C3 /* HypePubSub.swift in Sources */,
 				259849EF1FD94DA9005CB656 /* AlertDialogUtils.swift in Sources */,
 				25C608FC1FD5AE2F004758C3 /* BinaryUtils.swift in Sources */,
+				25BC4AD91FE11D6000F8858F /* SubscriptionsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
