@@ -131,6 +131,20 @@
             </objects>
             <point key="canvasLocation" x="1287" y="639"/>
         </scene>
+        <!--Messages View Controller-->
+        <scene sceneID="Vb7-NT-19t">
+            <objects>
+                <viewController storyboardIdentifier="MessagesView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="WFP-eE-nat" customClass="MessagesViewController" customModule="HypePubSub_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="fdn-zX-szJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tableView>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JXD-4z-aFU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2097" y="638"/>
+        </scene>
         <!--Clients View Controller-->
         <scene sceneID="8wJ-Dj-Xo6">
             <objects>

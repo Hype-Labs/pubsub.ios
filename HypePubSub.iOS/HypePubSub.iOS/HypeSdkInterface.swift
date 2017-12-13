@@ -249,6 +249,6 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     
     private func updateClientsUI()
     {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshClientsViewController"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: HpsConstants.NOTIFICATION_CLIENTS_VIEW_CONTROLLER), object: nil, userInfo: nil)
     }
 }

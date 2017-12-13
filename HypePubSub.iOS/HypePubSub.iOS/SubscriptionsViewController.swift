@@ -11,7 +11,7 @@ class SubscriptionsViewController: UITableViewController
         super.viewDidLoad()
         
         let nc = NotificationCenter.default // Note that default is now a property, not a method call
-        nc.addObserver(forName:Notification.Name(rawValue:"refreshSubscriptionsViewController"),
+        nc.addObserver(forName:Notification.Name(rawValue:HpsConstants.NOTIFICATION_SUBSCRIPTIONS_VIEW_CONTROLLER),
                        object:nil, queue:nil) {
                         notification in
                         self.refreshSubscriptions()
@@ -33,8 +33,18 @@ class SubscriptionsViewController: UITableViewController
     
     func refreshSubscriptions()
     {
-        self.tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let destination = storyboard.instantiateViewController(withIdentifier: "MessagesView") as! MessagesViewController
+        destination.setSubscription(HypePubSub.getInstance().ownSubscriptions.get(indexPath.row)!)
+        navigationController?.pushViewController(destination, animated: true)
+    }
+
 }
 

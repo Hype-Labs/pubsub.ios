@@ -213,10 +213,7 @@ class HypePubSub
         */
         subscription!.receivedMsg.append(msg) // timeStampedMsg
         
-        displayNotification(title: (subscription?.serviceName)!,
-                            notificationcontent: msg,
-                            notificationId: HpsConstants.NOTIFICATIONS_TITLE + String(notificationId))
-        notificationId = notificationId + 1
+        updateMessagesUI(fromServiceName: subscription!.serviceName, withMessage: msg)
         
         LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
                      logMsg: String(format: "Info received from the subscribed service '%@': %@",
@@ -330,5 +327,20 @@ class HypePubSub
     {
         LogUtils.log(prefix: HYPE_PUB_SUB_LOG_PREFIX,
                      logMsg: String(format: "Issuing %@ for service '%@' to HOST instance", reqType, serviceName))
+    }
+    
+    //////////////////////////////////////////////////////////////////////////////
+    // UI Update Methods
+    //////////////////////////////////////////////////////////////////////////////
+    
+    private func updateMessagesUI(fromServiceName serviceName: String, withMessage msg: String)
+    {
+        displayNotification(title: serviceName, notificationcontent: msg,
+                            notificationId: HpsConstants.NOTIFICATIONS_TITLE + String(notificationId))
+        notificationId = notificationId + 1
+        
+        LogUtils.log(prefix: HpsConstants.LOG_PREFIX, logMsg: "Posting notification on: " + HpsConstants.NOTIFICATION_MESSAGES_VIEW_CONTROLLER + serviceName)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: HpsConstants.NOTIFICATION_MESSAGES_VIEW_CONTROLLER + serviceName), 
+                                        object: nil, userInfo: nil)
     }
 }

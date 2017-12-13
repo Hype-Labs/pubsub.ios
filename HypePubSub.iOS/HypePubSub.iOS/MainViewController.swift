@@ -42,7 +42,9 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
                 let serviceName = MainViewController.processServiceName(nameInput: input)
                 if(hps.ownSubscriptions.findSubscription(withServiceKey: HpsGenericUtils.hash(ofString: serviceName)) == nil) {
                     _ = hps.issueSubscribeReq(serviceName: serviceName)
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshSubscriptionsViewController"), object: nil, userInfo: nil)
+                    NotificationCenter.default.post(
+                        name: NSNotification.Name(rawValue: HpsConstants.NOTIFICATION_SUBSCRIPTIONS_VIEW_CONTROLLER),
+                        object: nil, userInfo: nil)
                 }
                 else {
                     AlertDialogUtils.showOkDialog(viewController: viewController, title: "INFO", msg: "Service already subscribed");
@@ -72,7 +74,9 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
                                                     style: .default, handler: { (action) in
                                                         let serviceName = HypePubSub.getInstance().ownSubscriptions.get(i)?.serviceName
                                                         HypePubSub.getInstance().issueUnsubscribeReq(serviceName: serviceName!)
-                                                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshSubscriptionsViewController"), object: nil, userInfo: nil)
+                                                        NotificationCenter.default.post(
+                                                            name: NSNotification.Name(rawValue: HpsConstants.NOTIFICATION_SUBSCRIPTIONS_VIEW_CONTROLLER),
+                                                            object: nil, userInfo: nil)
             }))
         }
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
