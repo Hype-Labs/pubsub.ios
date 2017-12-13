@@ -205,13 +205,13 @@ class HypePubSub
             return
         }
         
-        /*
-        Date now = new Date()
-        SimpleDateFormat sdf = new SimpleDateFormat("k'h'mm", Locale.getDefault())
-        String timestamp = sdf.format(now)
-        String msgWithTimeStamp = timestamp + ": " + msg
-        */
-        subscription!.receivedMsg.append(msg) // timeStampedMsg
+        let now = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        let msgWithTimeStamp = formatter.string(from: now) + ": " + msg
+        
+        subscription!.receivedMsg.append(msgWithTimeStamp)
         
         updateMessagesUI(fromServiceName: subscription!.serviceName, withMessage: msg)
         
