@@ -111,6 +111,7 @@ class HypePubSub
                                             BinaryUtils.toHexString(data: serviceKey)))
                 
                 _ = self.managedServices.addServiceManager(ServiceManager(fromServiceKey: serviceKey))
+                updateServiceManagersUI()
                 serviceManager = self.managedServices.getLast()
             }
             
@@ -147,6 +148,7 @@ class HypePubSub
             
             if(serviceManager!.subscribers.count() == 0) { // Remove the service if there is no subscribers
                 _ = self.managedServices.removeServiceManager(withKey: serviceKey)
+                updateServiceManagersUI()
             }
         }
     }
@@ -255,6 +257,7 @@ class HypePubSub
             
             for i in 0..<toRemove.count{
                 _ = self.managedServices.removeServiceManager(withKey: toRemove[i])
+                updateServiceManagersUI()
             }
         }
     }
@@ -333,14 +336,19 @@ class HypePubSub
     // UI Update Methods
     //////////////////////////////////////////////////////////////////////////////
     
+    private func updateServiceManagersUI()
+    {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: HpsConstants.NOTIFICATION_SERVICE_MANAGERS_VIEW_CONTROLLER),
+                                        object: nil, userInfo: nil)
+    }
+    
     private func updateMessagesUI(fromServiceName serviceName: String, withMessage msg: String)
     {
         displayNotification(title: serviceName, notificationcontent: msg,
                             notificationId: HpsConstants.NOTIFICATIONS_TITLE + String(notificationId))
         notificationId = notificationId + 1
         
-        LogUtils.log(prefix: HpsConstants.LOG_PREFIX, logMsg: "Posting notification on: " + HpsConstants.NOTIFICATION_MESSAGES_VIEW_CONTROLLER + serviceName)
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: HpsConstants.NOTIFICATION_MESSAGES_VIEW_CONTROLLER + serviceName), 
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: HpsConstants.NOTIFICATION_MESSAGES_VIEW_CONTROLLER + serviceName),
                                         object: nil, userInfo: nil)
     }
 }

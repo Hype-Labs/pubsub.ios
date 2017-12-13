@@ -4,46 +4,39 @@ import UIKit
 import NotificationCenter
 
 
-class MessagesViewController: UITableViewController
+class ServiceManagersViewController: UITableViewController
 {
-    private var subscription:Subscription? = nil
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
         let nc = NotificationCenter.default // Note that default is now a property, not a method call
-        nc.addObserver(forName:Notification.Name(rawValue:HpsConstants.NOTIFICATION_MESSAGES_VIEW_CONTROLLER + (subscription?.serviceName)!),
+        nc.addObserver(forName:Notification.Name(rawValue:HpsConstants.NOTIFICATION_SERVICE_MANAGERS_VIEW_CONTROLLER),
                        object:nil, queue:nil) {
                         notification in
-                        self.refreshMessages()
+                        self.refreshServiceManagers()
         }
         
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (subscription?.receivedMsg.count)!
+        return HypePubSub.getInstance().managedServices.count()
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let msg = subscription?.receivedMsg[indexPath.row]
-        cell.textLabel?.text = msg
+        let serviceManager = HypePubSub.getInstance().managedServices.get(indexPath.row)
+        cell.textLabel?.text = BinaryUtils.toHexString(data: (serviceManager?.serviceKey)!)
         return cell
     }
     
-    func refreshMessages()
+    func refreshServiceManagers()
     {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
     }
-    
-    func setSubscription(_ subscription: Subscription)
-    {
-        self.subscription = subscription
-    }
-    
 }
 
 
