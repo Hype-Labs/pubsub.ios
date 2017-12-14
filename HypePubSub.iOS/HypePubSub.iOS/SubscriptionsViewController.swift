@@ -9,14 +9,14 @@ class SubscriptionsViewController: UITableViewController
     {
         super.viewDidLoad()
         
-        let nc = NotificationCenter.default // Note that default is now a property, not a method call
+        let nc = NotificationCenter.default
         nc.addObserver(forName:Notification.Name(rawValue:HpsConstants.NOTIFICATION_SUBSCRIPTIONS_VIEW_CONTROLLER),
                        object:nil, queue:nil) {
                         notification in
                         self.refreshSubscriptions()
         }
         
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -42,7 +42,7 @@ class SubscriptionsViewController: UITableViewController
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let destination = storyboard.instantiateViewController(withIdentifier: "MessagesView") as! MessagesViewController
         let subscription = HypePubSub.getInstance().ownSubscriptions.get(indexPath.row)!
-        destination.title = subscription.serviceName
+        destination.title = "Messages: " + subscription.serviceName
         destination.setSubscription(subscription)
         navigationController?.pushViewController(destination, animated: true)
     }

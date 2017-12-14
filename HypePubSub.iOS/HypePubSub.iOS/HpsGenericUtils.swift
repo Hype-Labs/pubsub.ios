@@ -71,4 +71,9 @@ class HpsGenericUtils
     {
         return String(format: "Key: 0x%@", BinaryUtils.toHexString(data: subscription.serviceKey))
     }
+    
+    static func getKeyString(fromServiceManager serviceManager: ServiceManager) -> String
+    {
+        return String(format: "Key: 0x%@", BinaryUtils.toHexString(data: serviceManager.serviceKey))
+    }
 }

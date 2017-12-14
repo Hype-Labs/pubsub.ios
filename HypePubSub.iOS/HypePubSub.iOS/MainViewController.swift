@@ -106,6 +106,13 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
         if(!isHypeSdkStateValid()){
             return
         }
+        
+        if(subscribedServices.count == 0){
+            AlertDialogUtils.showInfoDialog(viewController: self,
+                                            title: "INFO",
+                                            msg: "No services subscribed")
+            return
+        }
     }
     
     @IBAction func ManagedServicesButton(_ sender: UIButton) {

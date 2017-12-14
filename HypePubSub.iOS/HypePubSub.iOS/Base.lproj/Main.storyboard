@@ -167,6 +167,20 @@
             </objects>
             <point key="canvasLocation" x="1289" y="1365"/>
         </scene>
+        <!--Subscribers View Controller-->
+        <scene sceneID="sPb-dA-i6a">
+            <objects>
+                <viewController storyboardIdentifier="SubscribersView" id="eHl-Mi-9em" customClass="SubscribersViewController" customModule="HypePubSub_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="DoG-o9-A5t">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tableView>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lJU-Xh-wJg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2095" y="1362"/>
+        </scene>
         <!--Messages View Controller-->
         <scene sceneID="Vb7-NT-19t">
             <objects>

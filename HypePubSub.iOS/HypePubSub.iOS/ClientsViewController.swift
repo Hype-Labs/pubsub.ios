@@ -18,6 +18,7 @@ class ClientsViewController: UITableViewController
                         }
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.allowsSelection = false
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

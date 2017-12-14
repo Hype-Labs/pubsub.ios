@@ -3,15 +3,15 @@ import Foundation
 import UIKit
 import NotificationCenter
 
-class MessagesViewController: UITableViewController
+class SubscribersViewController: UITableViewController
 {
-    private var subscription:Subscription? = nil
+    private var serviceManager:ServiceManager? = nil
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
         let nc = NotificationCenter.default
-        nc.addObserver(forName:Notification.Name(rawValue:HpsConstants.NOTIFICATION_MESSAGES_VIEW_CONTROLLER + (subscription?.serviceName)!),
+        nc.addObserver(forName:Notification.Name(rawValue:HpsConstants.NOTIFICATION_SUBSCRIBERS_VIEW_CONTROLLER + BinaryUtils.toHexString(data: (serviceManager?.serviceKey)!)),
                        object:nil, queue:nil) {
                         notification in
                         self.refreshMessages()
@@ -22,13 +22,16 @@ class MessagesViewController: UITableViewController
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (subscription?.receivedMsg.count)!
+        return (serviceManager?.subscribers.count())!
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let msg = subscription?.receivedMsg[indexPath.row]
-        cell.textLabel?.text = msg
+        let subscriber = serviceManager?.subscribers.get(indexPath.row)
+        cell.textLabel?.text =  HpsGenericUtils.getAnnouncementStr(fromHYPInstance: (subscriber!.instance)) + "\n"
+                                                + HpsGenericUtils.getIdString(fromClient: subscriber!) + "\n"
+                                                + HpsGenericUtils.getKeyString(fromClient: subscriber!)
+
         return cell
     }
     
@@ -39,11 +42,12 @@ class MessagesViewController: UITableViewController
         }
     }
     
-    func setSubscription(_ subscription: Subscription)
+    func setServiceManager(_ serviceManager: ServiceManager)
     {
-        self.subscription = subscription
+        self.serviceManager = serviceManager
     }
     
 }
+
 
 

@@ -14,6 +14,7 @@ class HpsConstants
     static let NOTIFICATION_SUBSCRIPTIONS_VIEW_CONTROLLER = "refreshSubscriptionsViewController"
     static let NOTIFICATION_MESSAGES_VIEW_CONTROLLER = "refreshMessagesViewController-"
     static let NOTIFICATION_SERVICE_MANAGERS_VIEW_CONTROLLER = "refreshServiceManagersViewController"
+    static let NOTIFICATION_SUBSCRIBERS_VIEW_CONTROLLER = "refreshSubscribersViewController-"
     
     static let STANDARD_HYPE_SERVICES = ["hype-jobs", "hype-sports", "hype-news", "hype-weather", "hype-music", "hype-movies"]
 }

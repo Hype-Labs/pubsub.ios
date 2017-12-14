@@ -115,6 +115,7 @@ class HypePubSub
                                        BinaryUtils.toHexString(data: serviceKey)))
 
             _ = serviceManager!.subscribers.addClient(Client(fromHYPInstance:requesterInstance))
+            updateSubscribersUI(fromServiceManager: serviceManager!)
         }
     }
     
@@ -139,6 +140,7 @@ class HypePubSub
                                        BinaryUtils.toHexString(data: serviceKey)))
             
             _ = serviceManager!.subscribers.removeClient(withHYPInstance: requesterInstance)
+            updateSubscribersUI(fromServiceManager: serviceManager!)
             
             if(serviceManager!.subscribers.count() == 0) { // Remove the service if there is no subscribers
                 _ = self.managedServices.removeServiceManager(withKey: serviceKey)
@@ -363,6 +365,12 @@ class HypePubSub
     private func updateMessagesUI(fromServiceName serviceName: String)
     {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: HpsConstants.NOTIFICATION_MESSAGES_VIEW_CONTROLLER + serviceName),
+                                        object: nil, userInfo: nil)
+    }
+
+    private func updateSubscribersUI(fromServiceManager serviceManager: ServiceManager)
+    {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: HpsConstants.NOTIFICATION_SUBSCRIBERS_VIEW_CONTROLLER + BinaryUtils.toHexString(data: (serviceManager.serviceKey))),
                                         object: nil, userInfo: nil)
     }
     
