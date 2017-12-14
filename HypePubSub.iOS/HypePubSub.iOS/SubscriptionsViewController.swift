@@ -15,8 +15,6 @@ class SubscriptionsViewController: UITableViewController
                         notification in
                         self.refreshSubscriptions()
         }
-        
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -24,9 +22,10 @@ class SubscriptionsViewController: UITableViewController
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SubscriptionView", for: indexPath) as! SubscriptionTableViewCell
         let subscription = HypePubSub.getInstance().ownSubscriptions.get(indexPath.row)
-        cell.textLabel?.text = subscription?.serviceName
+        cell.serviceNameLabel?.text = subscription?.serviceName
+        cell.keyLabel?.text = HpsGenericUtils.getKeyString(fromSubscription: subscription!)
         return cell
     }
     
