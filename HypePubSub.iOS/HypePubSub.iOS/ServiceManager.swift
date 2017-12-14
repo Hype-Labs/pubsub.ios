@@ -1,10 +1,5 @@
-//
-//  ServiceManager.swift
-//  HypePubSub.iOS
-//
 
 import Foundation
-
 
 class ServiceManager
 {

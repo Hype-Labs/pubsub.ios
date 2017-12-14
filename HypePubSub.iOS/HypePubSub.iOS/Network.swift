@@ -1,7 +1,3 @@
-//
-//  Network.swift
-//  HypePubSub.iOS
-//
 
 import Foundation
 

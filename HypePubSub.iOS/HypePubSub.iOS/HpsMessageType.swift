@@ -1,10 +1,5 @@
-//
-//  HpbMessageType.swift
-//  HypePubSub.iOS
-//
 
 import Foundation
-
 
 enum HpsMessageType
 {

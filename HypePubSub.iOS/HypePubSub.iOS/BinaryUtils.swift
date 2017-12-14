@@ -29,23 +29,23 @@ class BinaryUtils
         
         for i in 0..<data1.count
         {
-            let val1: UInt8 = UInt8 (data1[i]);
+            let val1: UInt8 = UInt8 (data1[i])
             let val2: UInt8 = UInt8 (data2[i])
             
             if(val1 == val2){
-                continue;
+                continue
             }
                 
             // The array which has the largest most significant byte is the higher one
             if(val1 > val2) {
-                return 1;
+                return 1
             }
             else {
-                return 2;
+                return 2
             }
         }
     
-        return  0;
+        return  0
     }
     
     public static func toHexString(data: Data) -> String

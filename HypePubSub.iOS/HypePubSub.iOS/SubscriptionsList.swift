@@ -1,7 +1,3 @@
-//
-//  SubscriptionsList.swift
-//  HypePubSub.iOS
-//
 
 import Foundation
 

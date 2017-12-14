@@ -3,7 +3,6 @@ import Foundation
 import UIKit
 import NotificationCenter
 
-
 class MessagesViewController: UITableViewController
 {
     private var subscription:Subscription? = nil

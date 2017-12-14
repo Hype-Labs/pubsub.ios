@@ -1,7 +1,3 @@
-//
-//  HpbGenericUtils.swift
-//  HypePubSub.iOS
-//
 
 import Foundation
 

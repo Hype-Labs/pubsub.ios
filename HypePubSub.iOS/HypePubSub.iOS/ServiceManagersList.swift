@@ -1,7 +1,3 @@
-//
-//  ServiceManagersList.swift
-//  HypePubSub.iOS
-//
 
 import Foundation
 

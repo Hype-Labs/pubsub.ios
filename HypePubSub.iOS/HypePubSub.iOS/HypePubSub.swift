@@ -2,7 +2,6 @@
 import Foundation
 import UserNotifications
 
-
 class HypePubSub
 {
     // Members
@@ -308,7 +307,7 @@ class HypePubSub
             }
         
             for i in 0..<keysOfServicesToUnsubscribe.count {
-                processUnsubscribeReq(keysOfServicesToUnsubscribe[i], instance);
+                processUnsubscribeReq(keysOfServicesToUnsubscribe[i], instance)
             }
         }
     }

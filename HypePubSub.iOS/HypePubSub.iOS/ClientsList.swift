@@ -1,7 +1,6 @@
 
 import Foundation
 
-
 class ClientsList
 {
     private var clients = [Client]()

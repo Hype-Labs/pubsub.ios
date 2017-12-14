@@ -1,10 +1,5 @@
-//
-//  Subscription.swift
-//  HypePubSub.iOS
-//
 
 import Foundation
-
 
 class Subscription
 {

@@ -1,14 +1,6 @@
-//
-//  AppDelegate.swift
-//  HypePubSub.iOS
-//
-//  Created by Xavier Araújo on 04/12/2017.
-//  Copyright © 2017 Xavier Araújo. All rights reserved.
-//
 
 import UIKit
 import UserNotifications
-
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate

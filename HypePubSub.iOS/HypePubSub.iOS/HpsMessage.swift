@@ -1,10 +1,5 @@
-//
-//  HpbMessage.swift
-//  HypePubSub.iOS
-//
 
 import Foundation
-
 
 class HpsMessage
 {
@@ -16,7 +11,7 @@ class HpsMessage
     {
         self.type = type
         self.serviceKey = serviceKey
-        self.info = info;
+        self.info = info
     }
     
     public init(_ type: HpsMessageType, _ serviceKey: Data)
@@ -42,9 +37,9 @@ class HpsMessage
     public func toLogString() -> String
     {
         var logString: String = type.toString() + " message for service 0x"
-            + BinaryUtils.toHexString(data: serviceKey) + ".";
+            + BinaryUtils.toHexString(data: serviceKey) + "."
         if(info != nil) {
-            logString += " Info: " + info! + ".";
+            logString += " Info: " + info! + "."
         }
         
         return logString
@@ -52,17 +47,17 @@ class HpsMessage
     
     public func getType() -> HpsMessageType
     {
-        return type;
+        return type
     }
     
     public func getServiceKey() -> Data
     {
-        return serviceKey;
+        return serviceKey
     }
     
     public func getInfo() -> String?
     {
-        return info;
+        return info
     }
 
 }

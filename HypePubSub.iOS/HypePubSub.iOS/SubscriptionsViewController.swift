@@ -3,7 +3,6 @@ import Foundation
 import UIKit
 import NotificationCenter
 
-
 class SubscriptionsViewController: UITableViewController
 {
     override func viewDidLoad()

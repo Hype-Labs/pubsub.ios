@@ -40,7 +40,7 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
     @IBAction func SubscribeButton(_ sender: UIButton)
     {
         if( !isHypeSdkStateValid()){
-            return;
+            return
         }
         
         displayServicesNamesList(serviceNames: unsubscribedServices,
@@ -53,7 +53,14 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
     @IBAction func UnsubscribeButton(_ sender: UIButton)
     {
         if( !isHypeSdkStateValid()){
-            return;
+            return
+        }
+        
+        if(subscribedServices.count == 0){
+            AlertDialogUtils.showInfoDialog(viewController: self,
+                                            title: "INFO",
+                                            msg: "No services subscribed")
+            return
         }
         
         displayServicesNamesList(serviceNames: subscribedServices,
@@ -66,7 +73,7 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
     @IBAction func PublishButton(_ sender: UIButton)
     {
         if( !isHypeSdkStateValid()){
-            return;
+            return
         }
         
         displayServicesNamesList(serviceNames: availableServices,
@@ -79,7 +86,7 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
     @IBAction func CheckId(_ sender: UIButton)
     {
         if(!isHypeSdkStateValid()){
-            return;
+            return
         }
         
         AlertDialogUtils.showInfoDialog(viewController: self,
@@ -91,19 +98,19 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
     
     @IBAction func HypeDevicesButton(_ sender: UIButton) {
         if(!isHypeSdkStateValid()){
-            return;
+            return
         }
     }
     
     @IBAction func SubscriptionsButton(_ sender: UIButton) {
         if(!isHypeSdkStateValid()){
-            return;
+            return
         }
     }
     
     @IBAction func ManagedServicesButton(_ sender: UIButton) {
         if(!isHypeSdkStateValid()){
-            return;
+            return
         }
     }
     
@@ -150,7 +157,7 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
         {
             AlertDialogUtils.showInfoDialog(viewController: self,
                                             title: "INFO",
-                                            msg: "Service already subscribed");
+                                            msg: "Service already subscribed")
         }
         else {
             let wasSubscribed = hps.issueSubscribeReq(serviceName: serviceName)
@@ -241,11 +248,11 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
         {
             AlertDialogUtils.showInfoDialog(viewController: self,
                                           title: "Info",
-                                          msg: "Hype SDK is starting");
-            return false;
+                                          msg: "Hype SDK is starting")
+            return false
         }
     
-        return true;
+        return true
     }
     
     static func processUserInput(_ input: String) -> String
