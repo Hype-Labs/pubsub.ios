@@ -42,7 +42,9 @@ class SubscriptionsViewController: UITableViewController
     {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let destination = storyboard.instantiateViewController(withIdentifier: "MessagesView") as! MessagesViewController
-        destination.setSubscription(HypePubSub.getInstance().ownSubscriptions.get(indexPath.row)!)
+        let subscription = HypePubSub.getInstance().ownSubscriptions.get(indexPath.row)!
+        destination.title = subscription.serviceName
+        destination.setSubscription(subscription)
         navigationController?.pushViewController(destination, animated: true)
     }
 
