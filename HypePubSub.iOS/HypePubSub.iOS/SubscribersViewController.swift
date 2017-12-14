@@ -17,7 +17,6 @@ class SubscribersViewController: UITableViewController
                         self.refreshMessages()
         }
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.allowsSelection = false
     }
     
@@ -25,13 +24,13 @@ class SubscribersViewController: UITableViewController
         return (serviceManager?.subscribers.count())!
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ClientCell", for: indexPath) as! ClientTableViewCell
         let subscriber = serviceManager?.subscribers.get(indexPath.row)
-        cell.textLabel?.text =  HpsGenericUtils.getAnnouncementStr(fromHYPInstance: (subscriber!.instance)) + "\n"
-                                                + HpsGenericUtils.getIdString(fromClient: subscriber!) + "\n"
-                                                + HpsGenericUtils.getKeyString(fromClient: subscriber!)
-
+        cell.announcementLabel?.text = HpsGenericUtils.getAnnouncementStr(fromHYPInstance: (subscriber!.instance))
+        cell.idLabel?.text = HpsGenericUtils.getIdString(fromClient: subscriber!)
+        cell.keyLabel?.text = HpsGenericUtils.getKeyString(fromClient: subscriber!)
         return cell
     }
     

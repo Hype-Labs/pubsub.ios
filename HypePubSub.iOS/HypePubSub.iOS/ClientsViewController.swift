@@ -17,7 +17,6 @@ class ClientsViewController: UITableViewController
                             self.refreshClients()
                         }
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.allowsSelection = false
     }
     
@@ -27,11 +26,11 @@ class ClientsViewController: UITableViewController
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ClientCell", for: indexPath) as! ClientTableViewCell
         let client = Network.getInstance().networkClients.get(indexPath.row)
-        cell.textLabel?.text = HpsGenericUtils.getAnnouncementStr(fromHYPInstance: (client!.instance)) + "\n"
-                                + HpsGenericUtils.getIdString(fromClient: client!) + "\n"
-                                + HpsGenericUtils.getKeyString(fromClient: client!)
+        cell.announcementLabel?.text = HpsGenericUtils.getAnnouncementStr(fromHYPInstance: (client!.instance))
+        cell.idLabel?.text = HpsGenericUtils.getIdString(fromClient: client!)
+        cell.keyLabel?.text = HpsGenericUtils.getKeyString(fromClient: client!)
         return cell
     }
     
