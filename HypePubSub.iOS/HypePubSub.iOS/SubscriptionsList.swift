@@ -67,6 +67,11 @@ class SubscriptionsList
         return isSubscriptionFound
     }
     
+    public func containsSubscription(withServiceName name: String) -> Bool
+    {
+        return containsSubscription(withServiceKey: HpsGenericUtils.hash(ofString: name))
+    }
+    
     // Methods from Array that we want to enable.
     
     public func count() -> Int

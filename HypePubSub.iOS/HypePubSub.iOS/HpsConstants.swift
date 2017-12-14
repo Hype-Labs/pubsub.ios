@@ -1,10 +1,3 @@
-//
-//  Constants.swift
-//  HypePubSub.iOS
-//
-//  Created by Xavier Araújo on 04/12/2017.
-//  Copyright © 2017 Xavier Araújo. All rights reserved.
-//
 
 import Foundation
 
@@ -21,4 +14,6 @@ class HpsConstants
     static let NOTIFICATION_SUBSCRIPTIONS_VIEW_CONTROLLER = "refreshSubscriptionsViewController"
     static let NOTIFICATION_MESSAGES_VIEW_CONTROLLER = "refreshMessagesViewController-"
     static let NOTIFICATION_SERVICE_MANAGERS_VIEW_CONTROLLER = "refreshServiceManagersViewController"
+    
+    static let STANDARD_HYPE_SERVICES = ["hype-jobs", "hype-sports", "hype-news", "hype-weather", "hype-music", "hype-movies"]
 }

@@ -1,16 +1,13 @@
-//
-//  HypePubSub.swift
-//  HypePubSub.iOS
-//
 
 import Foundation
 import UserNotifications
 
+
 class HypePubSub
 {
     // Members
-    var ownSubscriptions: SubscriptionsList
-    var managedServices: ServiceManagersList
+    var ownSubscriptions = SubscriptionsList()
+    var managedServices = ServiceManagersList()
     
     // Private
     private static let HYPE_PUB_SUB_LOG_PREFIX = HpsConstants.LOG_PREFIX + "<HypePubSub> "
@@ -22,25 +19,20 @@ class HypePubSub
         return hps
     }
     
-    init()
-    {
-        self.ownSubscriptions = SubscriptionsList()
-        self.managedServices = ServiceManagersList()
-    }
-    
     //////////////////////////////////////////////////////////////////////////////
     // Request Issuing
     //////////////////////////////////////////////////////////////////////////////
     
-    func issueSubscribeReq(serviceName: String)
+    func issueSubscribeReq(serviceName: String) -> Bool
     {
         let serviceKey = HpsGenericUtils.hash(ofString: serviceName)
         let managerClient = network.determineClientResponsibleForService(withKey: serviceKey)
     
         let wasSubscriptionAdded = ownSubscriptions.addSubscription(Subscription(withName: serviceName, withManager: managerClient!))
         if(!wasSubscriptionAdded) {
-            return
+            return false
         }
+        updateSubscriptionsUI()
         
         if(HpsGenericUtils.areClientsEqual(network.ownClient!, managerClient!)) {
             HypePubSub.printIssueReqToHostInstanceLog("Subscribe", serviceName)
@@ -49,17 +41,19 @@ class HypePubSub
         else{
             _ = Protocol.sendSubscribeMsg(serviceKey, (managerClient?.instance)!)
         }
+        return true
     }
     
-    func issueUnsubscribeReq(serviceName: String)
+    func issueUnsubscribeReq(serviceName: String) -> Bool
     {
         let serviceKey = HpsGenericUtils.hash(ofString: serviceName)
         let managerClient = network.determineClientResponsibleForService(withKey: serviceKey)
 
         let wasSubscriptionRemoved = ownSubscriptions.removeSubscription(withServiceName: serviceName)
         if(!wasSubscriptionRemoved) {
-            return
+            return false
         }
+        updateSubscriptionsUI()
 
         if(HpsGenericUtils.areClientsEqual(network.ownClient!, managerClient!)) {
             HypePubSub.printIssueReqToHostInstanceLog("Unsubscribe", serviceName)
@@ -68,6 +62,7 @@ class HypePubSub
         else {
             _ = Protocol.sendUnsubscribeMsg(serviceKey, (managerClient?.instance)!)
         }
+        return true
     }
     
     func issuePublishReq(serviceName: String, msg: String)
@@ -214,8 +209,8 @@ class HypePubSub
         let msgWithTimeStamp = formatter.string(from: now) + ": " + msg
         
         subscription!.receivedMsg.append(msgWithTimeStamp)
-        
-        updateMessagesUI(fromServiceName: subscription!.serviceName, withMessage: msg)
+        displayNotification(title: subscription!.serviceName, msg: msg)
+        updateMessagesUI(fromServiceName: subscription!.serviceName)
         
         LogUtils.log(prefix: HypePubSub.HYPE_PUB_SUB_LOG_PREFIX,
                      logMsg: String(format: "Info received from the subscribed service '%@': %@",
@@ -354,19 +349,30 @@ class HypePubSub
     // UI Update Methods
     //////////////////////////////////////////////////////////////////////////////
     
+    private func updateSubscriptionsUI()
+    {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: HpsConstants.NOTIFICATION_SUBSCRIPTIONS_VIEW_CONTROLLER),
+                                        object: nil, userInfo: nil)
+    }
+    
     private func updateServiceManagersUI()
     {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: HpsConstants.NOTIFICATION_SERVICE_MANAGERS_VIEW_CONTROLLER),
                                         object: nil, userInfo: nil)
     }
     
-    private func updateMessagesUI(fromServiceName serviceName: String, withMessage msg: String)
+    private func updateMessagesUI(fromServiceName serviceName: String)
     {
-        displayNotification(title: serviceName, notificationcontent: msg,
-                            notificationId: HpsConstants.NOTIFICATIONS_TITLE + String(notificationId))
-        notificationId = notificationId + 1
-        
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: HpsConstants.NOTIFICATION_MESSAGES_VIEW_CONTROLLER + serviceName),
                                         object: nil, userInfo: nil)
+    }
+    
+    private func displayNotification(title: String, msg: String)
+    {
+        displayNotification(title: title,
+                            notificationcontent: msg,
+                            notificationId: HpsConstants.NOTIFICATIONS_TITLE + String(notificationId))
+        
+        notificationId = notificationId + 1
     }
 }

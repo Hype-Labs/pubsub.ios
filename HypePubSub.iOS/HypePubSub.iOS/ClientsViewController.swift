@@ -9,26 +9,28 @@ class ClientsViewController: UITableViewController
     {
         super.viewDidLoad()
     
-        let nc = NotificationCenter.default // Note that default is now a property, not a method call
-        nc.addObserver(forName:Notification.Name(rawValue:"refreshClientsViewController"),
+        // Add observer to know when the UI for the client list should be updated
+        let nc = NotificationCenter.default
+        nc.addObserver(forName:Notification.Name(rawValue:HpsConstants.NOTIFICATION_CLIENTS_VIEW_CONTROLLER),
                        object:nil, queue:nil) {
                         notification in
-                        self.refreshClients()
-        }
+                            self.refreshClients()
+                        }
         
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Network.getInstance().networkClients.count()
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let client = Network.getInstance().networkClients.get(indexPath.row)
-        cell.textLabel?.text = HpsGenericUtils.getAnnouncementStr(fromHYPInstance: (client!.instance))
-                                + "\nID: " + BinaryUtils.toHexString(data: client!.instance.identifier)
-                                + "\nKey: " + BinaryUtils.toHexString(data: client!.key)
+        cell.textLabel?.text = HpsGenericUtils.getAnnouncementStr(fromHYPInstance: (client!.instance)) + "\n"
+                                + HpsGenericUtils.getIdString(fromClient: client!) + "\n"
+                                + HpsGenericUtils.getKeyString(fromClient: client!)
         return cell
     }
     

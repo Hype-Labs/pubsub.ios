@@ -5,12 +5,10 @@ import UIKit
 class AlertDialogUtils
 {
     
-    static func showOkDialog(viewController: UIViewController,title: String, msg: String) {
+    static func showInfoDialog(viewController: UIViewController,title: String, msg: String)
+    {
         let alertController = UIAlertController(title: title, message: msg, preferredStyle: .alert)
-
-        let okAction = UIAlertAction(title: "Ok", style: .default) { (_) in
-        }
-        
+        let okAction = UIAlertAction(title: "Ok", style: .default) { (_) in}
         alertController.addAction(okAction)
         viewController.present(alertController, animated: true, completion: nil)
     }

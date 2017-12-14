@@ -11,10 +11,10 @@ import UserNotifications
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
+class AppDelegate: UIResponder, UIApplicationDelegate
+{
+    private static let APP_DELEGATE_LOG_PREFIX = HpsConstants.LOG_PREFIX + "<AppDelegate> "
     var window: UIWindow?
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -22,10 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let center = UNUserNotificationCenter.current()
         let options: UNAuthorizationOptions = [.alert, .sound];
         
-        center.requestAuthorization(options: options) {
+        center.requestAuthorization(options: options)
+        {
             (granted, error) in
             if !granted {
-                LogUtils.log(prefix: HpsConstants.LOG_PREFIX,
+                LogUtils.log(prefix: AppDelegate.APP_DELEGATE_LOG_PREFIX,
                                       logMsg: String(format: "Something went when requesting authorization to display notifications"))
             }
         }

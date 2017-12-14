@@ -63,7 +63,7 @@
                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="HypeDevicesButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bwD-CL-1Bl"/>
+                                    <action selector="HypeDevicesButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ehr-go-I8q"/>
                                     <segue destination="WfH-yO-BIf" kind="show" id="7Ia-wx-qco"/>
                                 </connections>
                             </button>
@@ -75,7 +75,7 @@
                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="SubscriptionsButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="S4T-ae-CeE"/>
+                                    <action selector="SubscriptionsButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="njO-ih-Xqy"/>
                                     <segue destination="aaY-zF-UFA" kind="show" id="4lf-sj-wMH"/>
                                 </connections>
                             </button>
@@ -98,6 +98,7 @@
                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
+                                    <action selector="ManagedServicesButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NaW-rc-jUe"/>
                                     <segue destination="0js-6y-iAa" kind="show" id="UcX-Pt-zHq"/>
                                 </connections>
                             </button>

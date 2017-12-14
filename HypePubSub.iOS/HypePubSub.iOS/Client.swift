@@ -1,10 +1,5 @@
-//
-//  Client.swift
-//  HypePubSub.iOS
-//
 
 import Foundation
-
 
 class Client
 {

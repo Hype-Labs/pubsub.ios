@@ -11,8 +11,8 @@ import NotificationCenter
 class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessageObserver
 {
     // Members
-    var isHypeReady = false
-    var isHypeFail = false
+    var hasHypeStarted = false
+    var hasHypeFailed = false
     var hasHypeStopped = false
     var hypeFailedMsg = ""
     var hypeStoppedMsg = ""
@@ -55,7 +55,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
         LogUtils.log(prefix: HYPE_SDK_INTERFACE_LOG_PREFIX,
                      logMsg: String(format: "Hype SDK started! Host Instance: %@",
                                     HpsGenericUtils.getLogStr(fromHYPInstance: HYP.hostInstance())))
-        isHypeReady = true;
+        hasHypeStarted = true;
         network.setOwnClient(hostInstance: HYP.hostInstance())
     }
     
@@ -71,7 +71,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     
     func hypeDidFailStartingWithError(_ error: HYPError)
     {
-        isHypeFail = true;
+        hasHypeFailed = true;
         hypeFailedMsg = String(format: "Suggestion: %@\nDescription: %@\nReason: %@",
                                     error.suggestion, error.description, error.reason)
         
