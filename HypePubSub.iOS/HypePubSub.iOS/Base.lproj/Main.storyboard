@@ -139,10 +139,10 @@
             </objects>
             <point key="canvasLocation" x="476" y="133.5832083958021"/>
         </scene>
-        <!--Subscriptions View Controller-->
+        <!--Subscriptions-->
         <scene sceneID="Kjo-R9-Rck">
             <objects>
-                <viewController storyboardIdentifier="SubscriptionsView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aaY-zF-UFA" customClass="SubscriptionsViewController" customModule="HypePubSub_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SubscriptionsView" title="Subscriptions" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aaY-zF-UFA" customClass="SubscriptionsViewController" customModule="HypePubSub_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="76e-hb-ykd">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -153,10 +153,10 @@
             </objects>
             <point key="canvasLocation" x="1287" y="639"/>
         </scene>
-        <!--Service Managers View Controller-->
+        <!--Managed Services-->
         <scene sceneID="bqV-St-6dZ">
             <objects>
-                <viewController storyboardIdentifier="ServiceManagersView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="0js-6y-iAa" customClass="ServiceManagersViewController" customModule="HypePubSub_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ServiceManagersView" title="Managed Services" useStoryboardIdentifierAsRestorationIdentifier="YES" id="0js-6y-iAa" customClass="ServiceManagersViewController" customModule="HypePubSub_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="WOE-hk-ogL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -181,10 +181,10 @@
             </objects>
             <point key="canvasLocation" x="2097" y="638"/>
         </scene>
-        <!--Clients View Controller-->
+        <!--Hype Clients-->
         <scene sceneID="8wJ-Dj-Xo6">
             <objects>
-                <viewController storyboardIdentifier="HypeDevicesView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="WfH-yO-BIf" customClass="ClientsViewController" customModule="HypePubSub_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HypeDevicesView" title="Hype Clients" useStoryboardIdentifierAsRestorationIdentifier="YES" id="WfH-yO-BIf" customClass="ClientsViewController" customModule="HypePubSub_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="h5a-Rm-SnK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
