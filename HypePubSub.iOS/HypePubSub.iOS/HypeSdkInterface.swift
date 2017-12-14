@@ -29,7 +29,6 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     
     internal func requestHypeToStart()
     {
-        HYP.setUserIdentifier(0)
         HYP.setAppIdentifier(HpsConstants.APP_IDENTIFIER)
         HYP.setAnnouncement(UIDevice.current.name.data(using: HpsConstants.ENCODING_STANDARD))
         HYP.add(self as HYPStateObserver)
