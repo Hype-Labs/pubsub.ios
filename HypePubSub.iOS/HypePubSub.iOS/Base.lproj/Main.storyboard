@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PPy-mq-VYy">
-                                <rect key="frame" x="85" y="223" width="204" height="28"/>
+                                <rect key="frame" x="30" y="223" width="315" height="28"/>
                                 <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="Unsubscribe">
@@ -34,7 +34,7 @@
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6uD-0s-fzM">
-                                <rect key="frame" x="85" y="259" width="204" height="28"/>
+                                <rect key="frame" x="30" y="259" width="315" height="28"/>
                                 <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="Publish">
@@ -45,7 +45,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EXc-TZ-NxH">
-                                <rect key="frame" x="85" y="295" width="204" height="28"/>
+                                <rect key="frame" x="30" y="295" width="315" height="28"/>
                                 <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="Check Own ID">
@@ -56,7 +56,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xqx-rR-s6x">
-                                <rect key="frame" x="85" y="331" width="204" height="28"/>
+                                <rect key="frame" x="30" y="331" width="315" height="28"/>
                                 <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="Check Hype Devices">
@@ -67,20 +67,8 @@
                                     <segue destination="WfH-yO-BIf" kind="show" id="7Ia-wx-qco"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Qc-HP-GNH">
-                                <rect key="frame" x="85" y="367" width="204" height="28"/>
-                                <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <state key="normal" title="Subscriptions">
-                                    <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="SubscriptionsButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="njO-ih-Xqy"/>
-                                    <segue destination="aaY-zF-UFA" kind="show" id="4lf-sj-wMH"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q1B-H4-uwf">
-                                <rect key="frame" x="85" y="187" width="204" height="28"/>
+                                <rect key="frame" x="30" y="187" width="315" height="28"/>
                                 <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="Subscribe">
@@ -91,7 +79,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GlX-ue-Ypx">
-                                <rect key="frame" x="85" y="403" width="204" height="28"/>
+                                <rect key="frame" x="30" y="403" width="315" height="28"/>
                                 <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="Check Managed Services">
@@ -102,11 +90,23 @@
                                     <segue destination="0js-6y-iAa" kind="show" id="UcX-Pt-zHq"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Qc-HP-GNH">
+                                <rect key="frame" x="30" y="367" width="315" height="28"/>
+                                <color key="backgroundColor" red="0.0" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <state key="normal" title="Subscriptions">
+                                    <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="SubscriptionsButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="njO-ih-Xqy"/>
+                                    <segue destination="aaY-zF-UFA" kind="show" id="4lf-sj-wMH"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="GlX-ue-Ypx" firstAttribute="width" secondItem="Q1B-H4-uwf" secondAttribute="width" id="031-8C-S3L"/>
-                            <constraint firstItem="Q1B-H4-uwf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="85" id="0bQ-jx-fPS"/>
+                            <constraint firstItem="Q1B-H4-uwf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="0bQ-jx-fPS"/>
                             <constraint firstItem="GlX-ue-Ypx" firstAttribute="height" secondItem="Q1B-H4-uwf" secondAttribute="height" id="0qT-8J-xwe"/>
                             <constraint firstItem="6uD-0s-fzM" firstAttribute="trailing" secondItem="EXc-TZ-NxH" secondAttribute="trailing" id="1DF-pl-zdf"/>
                             <constraint firstItem="Xqx-rR-s6x" firstAttribute="trailing" secondItem="EXc-TZ-NxH" secondAttribute="trailing" id="4yw-Lb-wOY"/>
@@ -124,7 +124,7 @@
                             <constraint firstItem="vfG-d8-eCn" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Yex-lU-k7p"/>
                             <constraint firstItem="5Qc-HP-GNH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gvT-t5-z5e"/>
                             <constraint firstItem="GlX-ue-Ypx" firstAttribute="centerX" secondItem="5Qc-HP-GNH" secondAttribute="centerX" id="lPK-2h-8Lw"/>
-                            <constraint firstItem="5Qc-HP-GNH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="85" id="m2Y-ji-TzO"/>
+                            <constraint firstItem="5Qc-HP-GNH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="m2Y-ji-TzO"/>
                             <constraint firstItem="Xqx-rR-s6x" firstAttribute="leading" secondItem="EXc-TZ-NxH" secondAttribute="leading" id="oDl-gT-LfB"/>
                             <constraint firstItem="6uD-0s-fzM" firstAttribute="leading" secondItem="PPy-mq-VYy" secondAttribute="leading" id="q2u-VW-VGY"/>
                             <constraint firstItem="Q1B-H4-uwf" firstAttribute="leading" secondItem="PPy-mq-VYy" secondAttribute="leading" id="wfn-wH-z9l"/>
