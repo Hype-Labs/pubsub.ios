@@ -218,6 +218,7 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
             func onOk(input: String) {
                 let serviceName = MainViewController.processUserInput(input)
                 if !mainViewController.availableServices.contains(serviceName) { mainViewController.availableServices.append(serviceName) }
+                if !mainViewController.unsubscribedServices.contains(serviceName) { mainViewController.unsubscribedServices.append(serviceName) }
                 onNewService(input)
             }
             func onCancel(){}
