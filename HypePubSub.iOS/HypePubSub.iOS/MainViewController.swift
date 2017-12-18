@@ -40,56 +40,58 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
     @IBAction func SubscribeButton(_ sender: UIButton)
     {
         if( !isHypeSdkStateValid()){
+            showHypeNotReadyDialog()
             return
         }
         
         displayServicesNamesList(serviceNames: unsubscribedServices,
                                   listTitle: "Subscribe",
                                   listMsg: "Select a service to subscribe",
-                                  processUserSubscribeAction,
+                                  subscribeServiceAction,
                                   isNewServiceSelectionAllowed: true)
     }
     
     @IBAction func UnsubscribeButton(_ sender: UIButton)
     {
         if( !isHypeSdkStateValid()){
+            showHypeNotReadyDialog()
             return
         }
-        
-        if(subscribedServices.count == 0){
-            AlertDialogUtils.showInfoDialog(viewController: self,
-                                            title: "INFO",
-                                            msg: "No services subscribed")
+
+        if( isNoServiceSubscribed()){
+            showNoServicesSubscribedDialog()
             return
         }
         
         displayServicesNamesList(serviceNames: subscribedServices,
                                   listTitle: "Unsubscribe",
                                   listMsg: "Select a service to unsubscribe",
-                                  processUserUnsubscribeAction,
+                                  unsubscribeServiceAction,
                                   isNewServiceSelectionAllowed: false)
     }
     
     @IBAction func PublishButton(_ sender: UIButton)
     {
         if( !isHypeSdkStateValid()){
+            showHypeNotReadyDialog()
             return
         }
         
         displayServicesNamesList(serviceNames: availableServices,
                                     listTitle: "Publish",
                                     listMsg: "Select a service in which to publish",
-                                    processUserPublishAction,
+                                    publishServiceAction,
                                     isNewServiceSelectionAllowed: true)
     }
     
     @IBAction func CheckId(_ sender: UIButton)
     {
         if(!isHypeSdkStateValid()){
+            showHypeNotReadyDialog()
             return
         }
         
-        AlertDialogUtils.showInfoDialog(viewController: self,
+        AlertControllerUtils.showInfoAlertController(viewController: self,
                                         title: "Own Device",
                                         msg: HpsGenericUtils.getAnnouncementStr(fromHYPInstance: network.ownClient!.instance) + "\n"
                                             + HpsGenericUtils.getIdString(fromClient: network.ownClient!) + "\n"
@@ -98,25 +100,26 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
     
     @IBAction func HypeDevicesButton(_ sender: UIButton) {
         if(!isHypeSdkStateValid()){
+            showHypeNotReadyDialog()
             return
         }
     }
     
     @IBAction func SubscriptionsButton(_ sender: UIButton) {
         if(!isHypeSdkStateValid()){
+            showHypeNotReadyDialog()
             return
         }
         
-        if(subscribedServices.count == 0){
-            AlertDialogUtils.showInfoDialog(viewController: self,
-                                            title: "INFO",
-                                            msg: "No services subscribed")
+        if( isNoServiceSubscribed()){
+            showNoServicesSubscribedDialog()
             return
         }
     }
     
     @IBAction func ManagedServicesButton(_ sender: UIButton) {
         if(!isHypeSdkStateValid()){
+            showHypeNotReadyDialog()
             return
         }
     }
@@ -147,7 +150,7 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
             alertController.addAction(UIAlertAction(title: "New Service",
                                                     style: .destructive,
                                                     handler: { (action) in
-                                                        self.processUserNewServiceSelection(onServiceSelection)
+                                                        self.processNewServiceSelection(onServiceSelection)
                                                     }))
         }
         
@@ -156,42 +159,39 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
         self.present(alertController, animated: true, completion: nil)
     }
     
-    func processUserSubscribeAction(userInput: String)
+    func subscribeServiceAction(userInput: String)
     {
-        let serviceName = MainViewController.processUserInput(userInput)
+        let serviceName = MainViewController.processUserServiceNameInput(userInput)
         
         if(hps.ownSubscriptions.containsSubscription(withServiceName: serviceName))
         {
-            AlertDialogUtils.showInfoDialog(viewController: self,
-                                            title: "INFO",
-                                            msg: "Service already subscribed")
+            AlertControllerUtils.showInfoAlertController(viewController: self,
+                                            title: "INFO", msg: "Service already subscribed")
         }
         else {
             let wasSubscribed = hps.issueSubscribeReq(serviceName: serviceName)
-            
             if(wasSubscribed) {
-                if !subscribedServices.contains(serviceName) { subscribedServices.append(serviceName) }
-                unsubscribedServices = unsubscribedServices.filter{$0 != serviceName}
+                addSubscribedService(serviceName)
+                removeUnsubscribedService(serviceName)
             }
         }
     }
     
-    func processUserUnsubscribeAction(userInput: String)
+    func unsubscribeServiceAction(userInput: String)
     {
-        let serviceName = MainViewController.processUserInput(userInput)
+        let serviceName = MainViewController.processUserServiceNameInput(userInput)
         let wasUnsubscribed = hps.issueUnsubscribeReq(serviceName: serviceName)
-        
         if(wasUnsubscribed) {
-            if !unsubscribedServices.contains(serviceName) { unsubscribedServices.append(serviceName) }
-            subscribedServices = subscribedServices.filter{$0 != serviceName}
+            addUnsubscribedService(serviceName)
+            removeSubscribedService(serviceName)
         }
     }
     
-    func processUserPublishAction(userInput: String)
+    func publishServiceAction(userInput: String)
     {
-        let serviceName = MainViewController.processUserInput(userInput)
+        let serviceName = MainViewController.processUserServiceNameInput(userInput)
         
-        struct MsgInput: SingleInputDialog
+        struct MsgInput: SingleInputAlertController
         {
             var serviceName: String
             func onOk(input: String)
@@ -202,34 +202,34 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
         }
         
         let msgInputDialog = MsgInput(serviceName: serviceName)
-        AlertDialogUtils.showSingleInputDialog(viewController: self,
+        AlertControllerUtils.showSingleInputAlertController(viewController: self,
                                                title: "Publish",
                                                msg: "Insert message to publish in the service: " + serviceName,
                                                hint: "message",
-                                               onSingleInputDialog: msgInputDialog)
+                                               onSingleInputAlertController: msgInputDialog)
     }
     
-    func processUserNewServiceSelection(_ onNewService: @escaping (_ serviceName: String)->())
+    func processNewServiceSelection(_ onNewService: @escaping (_ serviceName: String)->())
     {
-        struct ServiceNameInput: SingleInputDialog
+        struct ServiceNameInput: SingleInputAlertController
         {
             var mainViewController: MainViewController
             var onNewService: (_ serviceName: String)->()
             func onOk(input: String) {
-                let serviceName = MainViewController.processUserInput(input)
-                if !mainViewController.availableServices.contains(serviceName) { mainViewController.availableServices.append(serviceName) }
-                if !mainViewController.unsubscribedServices.contains(serviceName) { mainViewController.unsubscribedServices.append(serviceName) }
+                let serviceName = MainViewController.processUserServiceNameInput(input)
+                mainViewController.addAvailableService(serviceName)
+                mainViewController.addUnsubscribedService(serviceName)
                 onNewService(input)
             }
             func onCancel(){}
         }
         
         let newServiceInputDialog = ServiceNameInput(mainViewController: self, onNewService: onNewService)
-        AlertDialogUtils.showSingleInputDialog(viewController: self,
+        AlertControllerUtils.showSingleInputAlertController(viewController: self,
                                                title: "New Service",
                                                msg: "Specify new service" ,
                                                hint: "service",
-                                               onSingleInputDialog: newServiceInputDialog)
+                                               onSingleInputAlertController: newServiceInputDialog)
     }
     
     //////////////////////////////////////////////////////////////////////////////
@@ -238,32 +238,86 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
     
     private func isHypeSdkStateValid() -> Bool
     {
+        if(!hypeSdk.hasHypeFailed && !hypeSdk.hasHypeStopped && hypeSdk.hasHypeStarted)
+        {
+            return true
+        }
+        
+        return false
+    }
+    
+    private func showHypeNotReadyDialog()
+    {
         if(hypeSdk.hasHypeFailed)
         {
-            AlertDialogUtils.showInfoDialog(viewController: self,
+            AlertControllerUtils.showInfoAlertController(viewController: self,
                                           title: "Error",
                                           msg: "Hype SDK could not be started.\n" + hypeSdk.hypeFailedMsg)
-            return false
         }
-        if(hypeSdk.hasHypeStopped)
+        else if(hypeSdk.hasHypeStopped)
         {
-            AlertDialogUtils.showInfoDialog(viewController: self,
+            AlertControllerUtils.showInfoAlertController(viewController: self,
                                           title: "Error",
                                           msg: "Hype SDK has stopped.\n" + hypeSdk.hypeStoppedMsg)
-            return false
         }
         if( !hypeSdk.hasHypeStarted)
         {
-            AlertDialogUtils.showInfoDialog(viewController: self,
+            AlertControllerUtils.showInfoAlertController(viewController: self,
                                           title: "Info",
                                           msg: "Hype SDK is starting")
-            return false
         }
-    
-        return true
     }
     
-    static func processUserInput(_ input: String) -> String
+    private func isNoServiceSubscribed() -> Bool
+    {
+        return (subscribedServices.count == 0);
+    }
+    
+    private func showNoServicesSubscribedDialog()
+    {
+        AlertControllerUtils.showInfoAlertController(viewController: self,
+                                        title: "Info",
+                                        msg: "No services subscribed")
+    
+    }
+    
+    func addAvailableService(_ serviceName: String)
+    {
+        if !availableServices.contains(serviceName) {
+            availableServices.append(serviceName)
+        }
+    }
+    
+    func removeAvailableService(_ serviceName: String)
+    {
+        availableServices = availableServices.filter{$0 != serviceName}
+    }
+    
+    func addSubscribedService(_ serviceName: String)
+    {
+        if !subscribedServices.contains(serviceName) {
+            subscribedServices.append(serviceName)
+        }
+    }
+    
+    func removeSubscribedService(_ serviceName: String)
+    {
+        subscribedServices = subscribedServices.filter{$0 != serviceName}
+    }
+    
+    func addUnsubscribedService(_ serviceName: String)
+    {
+        if !unsubscribedServices.contains(serviceName) {
+            unsubscribedServices.append(serviceName)
+        }
+    }
+    
+    func removeUnsubscribedService(_ serviceName: String)
+    {
+        unsubscribedServices = unsubscribedServices.filter{$0 != serviceName}
+    }
+    
+    static func processUserServiceNameInput(_ input: String) -> String
     {
         return input.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
     }

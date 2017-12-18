@@ -27,6 +27,7 @@ class ServiceManagersViewController: UITableViewController
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let serviceManager = HypePubSub.getInstance().managedServices.get(indexPath.row)
         cell.textLabel?.text = HpsGenericUtils.getKeyString(fromServiceManager: serviceManager!)
+        cell.textLabel?.adjustsFontSizeToFitWidth = true
         return cell
     }
     
