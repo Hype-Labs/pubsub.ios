@@ -209,7 +209,7 @@ class HypePubSub
         formatter.timeZone = TimeZone(secondsFromGMT: 0)
         let msgWithTimeStamp = formatter.string(from: now) + ": " + msg
         
-        subscription!.receivedMsg.append(msgWithTimeStamp)
+        subscription!.receivedMsg.insert(msgWithTimeStamp, at: 0)
         displayNotification(title: subscription!.serviceName, msg: msg)
         updateMessagesUI(fromServiceName: subscription!.serviceName)
         
