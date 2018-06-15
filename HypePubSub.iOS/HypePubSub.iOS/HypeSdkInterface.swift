@@ -89,6 +89,11 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
                      logMsg: String(format: "Hype SDK state has changed to %i", HYP.state().rawValue))
     }
     
+    func hypeDidRequestAccessToken(withUserIdentifier userIdentifier: UInt) -> String!
+    {
+        return "3f07c41b53c9e753ca8d610b4147e3"
+    }
+    
     ///////////////////////////////////////////////////////////////////////////////////////////
     //  HYPNetworkObserver methods
     ///////////////////////////////////////////////////////////////////////////////////////////
