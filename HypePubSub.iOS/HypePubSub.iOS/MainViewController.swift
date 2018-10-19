@@ -138,6 +138,10 @@ class MainViewController: UIViewController, UNUserNotificationCenterDelegate
         
         for i in 0..<serviceNames.count
         {
+            //let imageView = UIImageView(frame: CGRect(x: 220, y: 10, width:40, height:40))
+            //imageView.image = UIImage(#imageLiteral(resourceName: "hypelabs_logo.png"))
+
+            
             alertController.addAction(UIAlertAction(title: serviceNames[i],
                                                     style: .default,
                                                     handler: { (action) in
