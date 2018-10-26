@@ -7,8 +7,6 @@ The Hype SDK has been designed by [Hype Labs](http://hypelabs.io/?r=10). It is c
 
 You can [start using Hype](http://hypelabs.io/?r=10) today.
 
-<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-
 ## Project
 
 This project is a decentralized peer-to-peer publisher-subscriber system powered by the HypeSDK, for the iOS platform. Due to its decentralized nature this system is more robust than traditional publisher-subscriber systems that usually requires a centralized broker to serve as intermediary between publishers and subscribers. You can find out a detailed description of the system in this [article](https://medium.com/@hypelabs.io). You can also see a demonstration video of the system [here](https://www.youtube.com/watch?v=2fMwe3q1NYc&t=2s).
