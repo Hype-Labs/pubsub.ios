@@ -17,7 +17,7 @@ This project is a decentralized peer-to-peer publisher-subscriber system powered
 This demo does not work out of the box. The following are the necessary steps to configure it:
 
  1. [Download](https://hypelabs.io/downloads/?r=9) the SDK binary for iOS
- 2. Extract it, and drag it to the project root folder
+ 2. Extract it, and drag it to the *HypePubSub.iOS* named folder inside the project root folder
  3. Access the [apps](https://hypelabs.io/apps/?r=9) page and create a new app
  4. Name the app and press "Create new app"
  5. Go to the app settings
