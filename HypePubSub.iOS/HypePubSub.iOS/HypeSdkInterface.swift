@@ -91,7 +91,7 @@ class HypeSdkInterface: NSObject, HYPStateObserver, HYPNetworkObserver, HYPMessa
     
     func hypeDidRequestAccessToken(withUserIdentifier userIdentifier: UInt) -> String!
     {
-        return "3f07c41b53c9e753ca8d610b4147e3"
+        return HpsConstants.ACCESS_TOKEN
     }
     
     ///////////////////////////////////////////////////////////////////////////////////////////
