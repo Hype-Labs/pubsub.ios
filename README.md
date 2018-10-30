@@ -38,8 +38,8 @@ Click [here](https://www.youtube.com/watch?v=2fMwe3q1NYc) to see  a demonstratio
 
 Besides iOS, this project is available for the following platforms:
 
-[Android](https://github.com/Hype-Labs/pubsub.android) <br>
-[Linux](https://github.com/Hype-Labs/pubsub.linux) (still in progress)
+- [Android](https://github.com/Hype-Labs/pubsub.android) <br>
+- [Linux](https://github.com/Hype-Labs/pubsub.linux)
 
 ## License
 
