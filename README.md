@@ -30,6 +30,10 @@ This demo does not work out of the box. The following are the necessary steps to
 
 You should be ready to go! If you run into trouble, feel free to reach out to our [community](https://hypelabs.io/community/?r=9) or browse our other [support](https://hypelabs.io/support/?r=9) options. Also keep in mind our project templates on the [apps](https://hypelabs.io/apps/?r=9) page for demos working out of the box.
 
+## Demonstration
+
+Click [here](https://www.youtube.com/watch?v=2fMwe3q1NYc) to see  a demonstration video.
+
 ## Other platforms
 
 Besides iOS, this project is available for the following platforms:
